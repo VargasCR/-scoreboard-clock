@@ -38,8 +38,8 @@
                 value="<?php echo s($registro->horaSalida); ?>"
             />
         </div>
-        <input type="submit" value="GUARGAR">
-        <a type="submit" href="/2885991af6301511c3ec390fec3fbceb?id=<?php echo $_GET['uid'] ?>">Volver</a>
+        <input class="button" type="submit" value="Guardar">
+        <a class="button" type="submit" href="/2885991af6301511c3ec390fec3fbceb?id=<?php echo $_GET['uid'] ?>">Volver</a>
     </form>
 </div>
 
