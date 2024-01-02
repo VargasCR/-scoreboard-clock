@@ -66,7 +66,7 @@ if ($file_lines === false) {
 
     <form class="form" method="POST" action="/login">
         <div class="slot">
-            <label for="email">Número de Cédula</label>
+            <label for="dni">Número de Cédula</label>
             <input
                 type="number"
                 id="dni"
