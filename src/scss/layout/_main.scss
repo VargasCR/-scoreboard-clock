@@ -1,0 +1,244 @@
+@use 'base/variable' as v;
+@use 'base/mixins' as m;
+.footer {
+    padding: 0;
+    background-color: v.$darkgray;
+    .container-footer {
+        padding-top: calc( v.$space / 2 );
+
+    }
+    
+    .navegation {   
+        visibility: visible;
+        opacity: 1;
+        height: auto;
+    }
+    .copyright {
+        color: v.$white !important;
+        text-align: center;
+        margin-bottom: 0;
+    }
+}
+.no-webp .home {
+    background-image: url(../img/home-0.jpg);
+
+}
+.webp .home {
+    background-image: url(../img/home-0.webp);
+
+}
+
+.header {
+    padding: 0rem 0 0rem 0;
+    &.home{
+        background-position: center center;
+        background-size: cover;
+        @include m.tablet {
+            min-height: 70rem;
+        }
+        .content-header {
+            @include m.tablet {
+                min-height: 70rem;
+            }
+        }
+    }
+}
+.content-header{
+    //display: flex;
+    //flex-direction: column;
+    //justify-content: space-between;
+    width: 100%;
+    
+    h1 {
+        text-align: left;
+        color: v.$white;
+        font-weight: v.$bold;
+        line-height: 2;
+        max-width: 60rem;
+    }
+    
+}
+
+.header-information {
+    text-align: center;
+    margin: 40% 0;
+    @include m.tablet {
+        margin: 22% 0;
+    }
+}
+.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    @include m.tablet {
+        margin: 0 3rem 0 0;
+        align-items: flex-end;
+    }
+    .btn-dark-mode {
+        width: 3rem;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+        &:hover {
+            cursor: pointer;
+        }
+        filter: invert(100%);
+        @include m.tablet {
+            margin-top: 0;
+        }
+    }
+}
+.bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+    margin: 0.5rem 0;
+    min-height: 10rem;
+    width: 100%;
+    .header-main-img {
+        margin: 0;
+    }
+    @include m.tablet {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .header-main-img {
+            margin: 0 0 0 3rem;
+        }
+    }
+    img {
+        width: 6rem;
+    }
+    border-bottom: 1px inset #ffffff31;
+}
+.show-nav {
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+}
+.show-search {
+    display: flex !important;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      height: 100%;
+}
+
+.navegation {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    transition: opacity 0.3s linear, visibility 0.3s ease-in-out, height .5s linear;
+    
+    @include m.tablet {
+        display: flex;
+        align-items: center;
+        visibility: visible;
+        opacity: 1;
+    }
+    a {
+        color: #fff !important;
+        text-decoration: none;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 1rem;
+        @include m.tablet {
+            margin-right: 2rem;
+            margin-bottom: 0;
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+    }
+}
+.mobile-menu {
+    @include m.tablet {
+        display: none;
+    }
+    img {
+        width: 3rem;
+    }
+}
+.shown {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+}
+
+
+
+
+.public-service-container {
+    //display: flex;
+    //justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0.5rem;
+    @include m.tablet {
+        width: 33.33%;
+    }
+}
+
+.public-service {
+   
+    @include m.tablet {
+        //display: flex;
+        align-items: center;
+
+    }
+    width: 100%;
+    min-height: 32rem !important;
+    //background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+  }
+  
+  .public-service-image-container {
+  
+    text-align: center;
+  }
+  
+  .public-service-image-container img {
+      width: 100%;
+      @include m.tablet {
+          
+
+    }
+    height: auto;
+  }
+  
+  .public-service-info {
+    width: 100%;
+    
+    margin-left: 0rem;
+    @include m.tablet {
+        //margin-left: 1rem;
+    }
+  }
+  
+  .public-service-info h4 {
+    margin-bottom: 1rem;
+  }
+  
+  .public-service-info p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 8px 0;
+  }
+  .rating-text {
+    margin: 0 !important;
+    line-height: 1 !important;
+    font-size: 12px !important;
+}
+  .public-tags-location {
+    font-size: 12px;
+    color: #666;
+  }
+  

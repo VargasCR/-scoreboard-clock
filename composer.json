@@ -1,0 +1,23 @@
+{
+    "name": "vargas/atlantic-app",
+    "description": "Project PHP8, MVC, SQL, SASS, GULP",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "./",
+            "Controllers\\":"./controllers",
+            "Model\\":"./Models",
+            "Classes\\" : "./classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "Javier Vargas Ch"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.7",
+        "intervention/image": "^2.7",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

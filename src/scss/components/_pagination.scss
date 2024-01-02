@@ -1,0 +1,30 @@
+@use 'base/variable' as v;
+@use 'base/mixins' as m;
+ .pagination {
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    
+    #arrowBoxL, #arrowBoxR {
+      padding: 8px 16px;
+    }
+      a {
+        color: rgb(255, 255, 255);
+        float: left;
+        padding: 8px 16px;
+        //text-decoration: none;
+        transition: background-color .3s;
+        font-size: 700;
+        /* Style the active/current link */
+        &.active {
+          background-color: v.$green;
+          color: white;
+        }
+        
+        /* Add a grey background color on mouse-over */
+        &:hover:not(.active) {background-color: #ddd;} 
+      }
+
+ }
+ 
+  

@@ -1,0 +1,130 @@
+@use 'base/variable' as v;
+@use 'base/mixins' as m;
+
+
+    /* Estilos para la imagen de perfil */
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+      }
+     
+      /* Estilos para la sección de información personal */
+      .personal-info {
+        margin-top: 20px;
+      }
+      
+      .personal-info h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+      
+      .personal-info p {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+      
+      /* Estilos para la sección de productos publicados */
+      .product-section {
+        h3 {
+          color: v.$darkgray;
+        }
+        @include m.desktop{
+          @include m.grid(1, 1rem);
+          
+        }
+      }
+      .admin {
+        .product-section {
+          margin-top: 0px;
+  
+        }
+      }
+      
+      
+      .product-section h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      
+      .product {
+      /*  border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 20px; */
+      }
+      
+      .product h3 {
+        font-size: 20px;
+        margin-bottom: 5px;
+      }
+      
+      .product p {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      
+      /* Estilos para los botones */
+      .button {
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        margin-right: 10px;
+      }
+      
+      .button:hover {
+        background-color: #3e8e41;
+      }
+      .account-view {
+        display: block;
+        @include m.tablet() {
+          @include m.grid(2, 2rem);
+          display: flex;
+          
+
+        };
+
+  }
+
+  
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}

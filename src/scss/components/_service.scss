@@ -1,0 +1,34 @@
+@use 'base/variable' as v;
+@use 'base/mixins' as m;
+
+.services-box {
+    margin-top: .5rem;
+    //align-items: center;
+    justify-content: center;
+    display: block;
+    transition: opacity 0.15s ease-in-out;
+    @include m.tablet {
+        display: flex;
+        
+    }
+}
+.fadeOut {
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .fadeIn {
+            animation: fadeIn 0.15s ease-in-out;
+        }
+        .suggestedActivity {
+            background-color: transparent;
+            border: none;
+            display: inline-block;
+            width: 100%;
+        }

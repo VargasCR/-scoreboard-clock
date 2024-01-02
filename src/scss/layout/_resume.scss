@@ -1,0 +1,22 @@
+@use 'base/variable' as v;
+
+.list-resume {
+    p {
+        margin-bottom: 1rem;
+    }
+    span {
+        color: v.$blue;
+        font-weight: v.$bold;
+        font-size: 2.4rem;
+    }
+}
+
+.container-service {
+    &:first-of-type{
+        margin-top: 1rem;
+        border-top: 1px solid v.$gray;
+    }
+    //padding: 1rem 0;
+    border-bottom: 1px solid v.$gray;
+
+}

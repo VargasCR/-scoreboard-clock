@@ -1,0 +1,147 @@
+@use 'base/variable' as v;
+@use 'base/mixins' as m;
+
+.infoElemContainer {
+    display: flex;
+    justify-content: space-between;
+    .infoElemDesc,.infoElemAbout,.infoElemWhat {
+        width: 33.33%;
+        
+    }
+    .infoElemAbout,.infoElemWhat {
+        text-align: center;
+
+    }
+}
+
+.infoElemContainer {
+    display: flex;
+}
+.list-services {
+    display: grid;
+    gap: 2rem;
+    @include m.tablet {
+        @include m.grid(2, 2rem);
+    }
+    .service {
+        background-color: v.$white;
+        padding: 3rem;
+        border-radius: 1rem;
+        transition-property: transform;
+        transition-duration: 300ms;
+        text-align: center;
+
+        &.selected {
+            background-color: v.$blue;
+            p {
+                color: v.$white;
+            }
+        }
+        &:hover {
+            transform: scale(1.05);
+        }
+        p {
+            color: v.$black;
+            margin: 0 0 calc(v.$space / 4) 0;
+        }
+        .price-service {
+            color: v.$blue;
+            font-weight: v.$bold;
+            font-size: 3rem;
+            margin: 0;
+        }
+    }
+    
+}
+
+#pagination {
+    margin: 1rem 0 1rem 0;
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+    @include m.tablet {
+        width: 50rem;
+    }
+}
+
+.buttonfind {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0 !important;
+    width: auto !important;
+    color: v.$white !important;
+  }
+
+#description {
+  padding: 1.22rem !important;
+  border-radius: 30rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  margin: 0;
+}
+
+.form-add {
+    textarea {
+        border-radius: 1rem !important;
+    }
+}
+
+.input-tag {
+    //margin: 1rem 0 0 0;
+}
+
+.rating-star {
+    max-width: 2rem !important;
+}
+
+.rating-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.service-price {
+    margin: 0.5rem 0;
+    color: #498410;
+    font-size: 2.7rem;
+}
+.btn-product-2 {
+    border-radius: 0 30px 30px 0;
+}
+
+.btn-product {
+    width: 50%;
+   // background-color: transparent;
+    background-color: darken(v.$green, 10%);
+    border: 1px solid darken(v.$green, 20%);
+    padding: 1.5rem;
+    text-align: center;
+    font-weight: 700;
+    color: v.$white !important;
+    @include m.tablet {
+        padding: 1rem;
+    }
+    &:hover {
+        background-color: darken(v.$green, 20%);
+        font-size: 18px;
+        cursor: pointer;
+       // background-color: v.$green;
+       // color: v.$darkgray !important;
+    }
+}
+.btn-product-1 {
+    border-radius: 30px 0 0 30px;
+}
+.service-button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    
+}
+.service-button-container-center {
+    margin: 2rem 0 !important;
+    width: auto;
+}

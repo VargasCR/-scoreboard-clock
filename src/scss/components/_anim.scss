@@ -1,0 +1,32 @@
+/* Define la animación */
+@keyframes ocultar {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes mostrar {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  
+  /* Aplica la animación al elemento */
+  .anim-search-hidden {
+    animation-name: desvanecer;
+    animation-duration: 5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  .anim-search-show {
+    animation-name: mostrar;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }

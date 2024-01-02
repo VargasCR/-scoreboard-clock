@@ -1,0 +1,56 @@
+
+@use 'base/variable' as v;
+@use 'base/mixins' as m;
+  .search-container {
+    margin: 1.5rem 0;
+    
+    .slot {
+      margin: 0 !important;
+    }
+    // display: none;
+    @include m.tablet {  
+      margin: 0.5rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      height: 100%;
+    }
+    .button {
+      padding: 0.6rem 2rem;
+      margin: 1.7rem 0 0 0;
+      width: 200px;
+      @include m.desktop {
+        width: auto;
+      }
+    }
+  }
+  
+  .search-container label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+  
+  .search-container select,
+  .search-container input[type="text"] {
+    font-size: 1rem;
+    
+    width: 200px;
+    
+    
+  }
+  
+  .search-container form button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .search-container form button:hover {
+    background-color: #3e8e41;
+  }
+  

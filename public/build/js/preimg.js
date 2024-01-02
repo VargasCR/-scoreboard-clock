@@ -1,0 +1,1 @@
+function previewImage(e,t){const i=e.target;$imgPreview=document.querySelector(t),i.files.length&&(file=i.files[0],i.files.length,objectURL=URL.createObjectURL(file),$imgPreview.src=objectURL)}
