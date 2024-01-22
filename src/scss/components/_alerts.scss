@@ -1,11 +1,11 @@
 @use 'base/variable' as v;
 
 .alert {
-    padding: calc(v.$space / 4);
+    padding: 0.5rem !important; 
     color: v.$white;
     width: 100%;
     display: block;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     text-align: center;
     font-weight: v.$bold;
     text-transform: uppercase;

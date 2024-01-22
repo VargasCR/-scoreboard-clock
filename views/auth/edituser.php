@@ -1,6 +1,6 @@
 <div style="width:50%;">
-    <h1 class="name-page">EDITAR EMPLEADO</h1>
-    <p class="description-page">Llena el siguiente Formulario para Editar</p>
+    <h1 class="name-page" style="color:black;">EDITAR EMPLEADO</h1>
+    <p class="description-page" style="color:black;">Llena el siguiente Formulario para Editar</p>
 
     <?php 
         include_once __DIR__ . "/../templates/alerts.php";

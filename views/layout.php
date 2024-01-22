@@ -1,27 +1,141 @@
 
 <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Tienda Atlantic</title>
-            <link rel="stylesheet" href="/build/css/app.css">
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        </head>
-        <body>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <title>Atlantic Tienda Costa Rica</title>
+    <link href="/build/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <?php if($pageIndex == 7) {
+      echo '<link rel="stylesheet" href="/build/css/app.css">';
+      }?>
+    
+
+    <?php if($pageIndex != 15) {echo '
+        <link rel="stylesheet" href="/build/css/templatemo-sixteen.css">
+        <link rel="stylesheet" href="/build/css/owl.css">';} ?>
+    
+    
+    <?php if($pageIndex == 6) {echo '<link rel="stylesheet" href="/build/css/style.css">';}?>
+    
+    
+    
+
+  </head>
+
+  <body>
+    
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>  
+    <!-- ***** Preloader End ***** -->
+    
+    <!-- Header -->
+    <?php
+if($pageIndex != 15) {
+    echo '<header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="/"><img class="img-principal-btn" src="/build/img/atlantic-ico.png" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <img src="/build/img/barras-dark.svg" alt="" width="25px">
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item ' . ($pageIndex == 0 ? 'active' : '') . '">
+                <a class="nav-link" href="/">Principal
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li> 
+              <li class="nav-item ' . ($pageIndex == 1 ? 'active' : '') . '">
+                <a class="nav-link" href="/products">Productos</a>
+              </li>
+              <li class="nav-item ' . ($pageIndex == 2 ? 'active' : '') . '">
+                <a class="nav-link" href="/products-aurum">Aurum</a>
+              </li>
+              <li class="nav-item ' . ($pageIndex == 3 ? 'active' : '') . '">
+                <a class="nav-link" href="/about">Nosotros</a>
+              </li>
+              <li class="nav-item ' . ($pageIndex == 4 ? 'active' : '') . '">
+                <a class="nav-link" href="/reviews">Reseñas</a>
+              </li>
+              <li class="nav-item ' . ($pageIndex == 5 ? 'active' : '') . '">
+                <a class="nav-link" href="/contact">Contactar</a>
+              </li>
+              '. ($pageIndex == 6 ? '
+              <li class="nav-item active">
+                <a class="nav-link" href="/cart">Carrito</a>
+              </li>' : '').'
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>';
+}
+?>
+
+    
             
-            
-            
-            <main style="height:100vh;display:flex;align-items: center;justify-content: center;">
+            <main style="height:100vh;align-items: center;justify-content: center;">
                 <?php echo $content ?? ''; ?>
             </main>
-                
+
+            
+
                 <script src="/build/js/modernizr.js"></script>
                <!-- <script src="/build/js/app.js"></script> -->
-                <script src="<?php echo $alertlink; ?>"></script>
-                <script src="<?php echo $archive; ?>"></script>
-                <script><?php echo $function ?? ''; ?></script>
+                
+
+<?php if(true) {
+  echo "
+  <script src='/build/jquery/jquery.min.js'></script>
+  <script src='/build/bootstrap/js/bootstrap.min.js'></script>
+  <script src='/build/js/email.js'></script>
+  <script src='/build/js/smtp.js'></script>
+  <script src='/build/js/custom.js'></script>
+  <script src='/build/js/products.js'></script>
+  <script src='/build/js/owl.js'></script>
+  <script src='/build/js/slick.js'></script>
+  <script src='/build/js/isotope.js'></script>
+  <script src='/build/js/accordions.js'></script>
+  <script src='/build/js/cart.js'></script>"; 
+}?>
+
+                
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.all.min.js"></script>
+
+
+
+
+            <script src="<?php echo $alertlink; ?>"></script>
+            <script src="<?php echo $archive; ?>"></script>
+            <script><?php echo $function ?? ''; ?></script>
+
+                
+            <script language = "text/Javascript"> 
+              cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+              function clearField(t){                   //declaring the array outside of the
+              if(! cleared[t.id]){                      // function makes it static and global
+                  cleared[t.id] = 1;  // you could use true and false, but that's more typing
+                  t.value='';         // with more chance of typos
+                  t.style.color='#fff';
+                  }
+              }
+            </script>
         </body>
+
     </html>
     

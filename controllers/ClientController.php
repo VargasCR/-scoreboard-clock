@@ -1,0 +1,119 @@
+<?php
+namespace Controllers;
+
+use Model\Categoria;
+use Model\Categoriaa;
+use Model\User;
+use Model\Suscriptor;
+use MVC\Router;
+
+
+class ClientController {
+
+    public static function index(Router $router) {
+        $functions = "encontrarProductosEnCarrito();createProduct();";
+        $pageIndex = 0;
+        $isClient = true;
+        
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        
+        $router->render('client/index', [
+            'function' => $functions,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+    public static function products(Router $router) {
+        $functions = "buscar('0');";
+        $pageIndex = 1;
+        $isClient = true;
+        $categorias = Categoria::all();
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+       // debuguear($categorias);
+        $router->render('client/products', [
+            'function' => $functions,
+            'categorias' => $categorias,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+    public static function productsaurum(Router $router) {
+        $functions = "buscar('0');buscarProductosCart();";
+        $pageIndex = 2;
+        $isClient = true;
+        $categorias = Categoriaa::all();
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        
+        $router->render('client/products-aurum', [
+            'function' => $functions,
+            'categorias' => $categorias,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+    public static function about(Router $router) {
+        $functions = "encontrarProductosEnCarrito();";
+        $pageIndex = 3;
+        $isClient = true;
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        
+        $router->render('client/about', [
+            'function' => $functions,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+    public static function reviews(Router $router) {
+        $functions = "encontrarProductosEnCarrito();";
+        $pageIndex = 4;
+        $isClient = true;
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        
+        $router->render('client/reviews', [
+            'function' => $functions,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+    public static function contact(Router $router) {
+        $functions = "encontrarProductosEnCarrito();";
+        $pageIndex = 5;
+        $isClient = true;
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        
+        $router->render('client/contact', [
+            'function' => $functions,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+    public static function cart(Router $router) {
+        $functions = "buscarProductosCart();";
+        $pageIndex = 6;
+        $isClient = true;
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        
+        $router->render('client/cart', [
+            'function' => $functions,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+
+    
+    
+}

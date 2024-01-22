@@ -1,3 +1,4 @@
+<div>
 <div style="width:50%;">
     <h1 class="name-page">AGREGAR EMPLEADO</h1>
     <p class="description-page">Llena el siguiente Formulario para Agregar</p>
@@ -79,3 +80,5 @@
 
     
 </div>
+</div>
+

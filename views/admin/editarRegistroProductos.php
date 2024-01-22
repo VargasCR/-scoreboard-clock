@@ -1,0 +1,219 @@
+<div class="form-container-admin">
+<div class="form-container-admin-1">
+    <h1 class="name-page" style="color:black;">AGREGAR PRODUCTO</h1>
+    <p class="description-page" style="color:black;">Llena el siguiente Formulario para Agregar</p>
+
+    <?php 
+        include_once __DIR__ . "/../templates/alerts.php";
+    ?>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <form class="form" method='POST' enctype="multipart/form-data">
+        <input type="hidden" id="productID" value="<?php echo $producto->id; ?>">
+        <div class="slot">
+            <label for="titulo">Título</label>
+            <input
+                type="text"
+                id="titulo"
+                name="titulo"
+                placeholder="Título del producto"
+                value="<?php echo $producto->titulo; ?>"
+            />
+        </div>
+
+        <div class="slot">
+            <label for="precio">Precio</label>
+            <input
+                type="number"
+                id="precio"
+                name="precio"
+                placeholder="Precio del producto"
+                value="<?php echo $producto->precio; ?>"
+                step="1"
+            />
+        </div>
+
+        <div class="slot">
+    <label for="category">Categoría</label>
+    <select id="category" name="category">
+        <?php foreach ($categorias as $categoria): ?>
+            <?php if ($categoria->id == '0'): ?>
+                <option value="-1" <?php echo ($producto->category == -1) ? 'selected' : ''; ?>>-- Seleccionar --</option>
+            <?php else: ?>
+                <option value="<?php echo $categoria->id; ?>" <?php echo ($producto->category == $categoria->id) ? 'selected' : ''; ?>>
+                    <?php echo $categoria->nombre; ?>
+                </option>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+
+        <div class="slot">
+            <label for="desc">Descripción (JSON)</label>
+            <textarea
+                type="text"
+                id="desc"
+                name="desc"
+                placeholder=''
+                value=""
+            ><?php echo $producto->desc; ?></textarea>
+        </div>
+
+        <div class="slot">
+            <label for="shortDesc">Descripción Corta</label>
+            <input
+                type="text"
+                id="shortDesc"
+                name="shortDesc"
+                placeholder="Descripción corta del producto"
+                value="<?php echo $producto->shortDesc; ?>"
+            />
+        </div>
+
+        <img width="100px" src="/images/<?php echo $producto->imagen ?>" alt="">
+        <div class="slot">
+            <label for="imagen">Imagen Principal</label>
+            <input
+                type="file"
+                id="imagen"
+                name="imagen"
+            />
+
+        </div>
+
+        
+
+
+        <div class="slot">
+            <label for="codigo">Código</label>
+            <input
+                type="text"
+                id="codigo"
+                name="codigo"
+                placeholder="Código del producto"
+                value="<?php echo $producto->codigo; ?>"
+            />
+        </div>
+
+        <div class="slot">
+            <label for="cantidad">Cantidad</label>
+            <input
+                type="number"
+                id="cantidad"
+                name="cantidad"
+                placeholder="Cantidad del producto"
+                value="<?php echo $producto->cantidad; ?>"
+            />
+        </div>
+
+        <div class="slot">
+            <label for="tallas">Tallas</label>
+            <input
+                type="text"
+                id="tallas"
+                name="tallas"
+                placeholder="Tallas del producto"
+                value="<?php echo $producto->tallas; ?>"
+            />
+        </div>
+
+        <input type="hidden" id="cantColores" value="<?php echo count($producto->colores); ?>">
+        <input type="hidden" id="imagenesEliminar" name="imagenesEliminar" value="">
+        <div class="slot">
+            <label for="colores">Colores (JSON)<button onclick="agregarColor(event)" style="background-color:transparent;border:none;">+</button></label>
+            <div id="colores-contenedor">
+
+
+            <?php 
+                if (!empty($producto->colores)) {
+                        // Si hay registros, mostrar los colores existentes
+                        foreach ($producto->colores as $indice => $color) {
+                            $nombreColor = isset($color['color']) ? $color['color'] : '';
+                            $rgb = isset($color['rgb']) ? $color['rgb'] : '';
+                            $imagen = isset($color['imagen']) ? $color['imagen'] : '';
+
+                            echo '<div id="c-' . $indice . '" class="slot" style="background-color: #eaeaea;padding:1rem;margin: 1rem 0 0 0;">';
+                            echo '<div style="width: 100%; text-align: right;"><button onclick="eliminarEditSlot(' . $indice . ',event)" style="margin: 0.5rem 0px 0px;">X</button></div>';
+                            echo '<label for="tallas">Nombre del color</label>';
+                            echo '<input disabled type="text" id="color" placeholder="Color del producto" value="' . $nombreColor . '" style="margin: 0.5rem 0 0 0;"/>';
+                            echo '<label for="tallas">Color en formato rgb</label>';
+                            echo '<input disabled type="text" id="rgb" placeholder="RGB del producto" value="' . $rgb . '" style="margin: 0.5rem 0 0 0;"/>';
+                            echo '<label for="tallas">Imagen del producto</label>';
+                            echo '<img id="img-'.$indice.'" value="'.$imagen.'" style="width:50%;display: block;margin: 1rem 0;" src="/images/'.$imagen.'" alt="">';
+                            echo '</div>';
+                        }
+                    } else {
+                        // Si no hay registros, crear un nuevo color
+                        echo '<div id="c-0" class="slot" style="background-color: #eaeaea;padding:1rem;margin: 1rem 0 0 0;">';
+                        echo '<div style="width: 100%; text-align: right;"><button onclick="eliminarEditSlot(0,event)" style="margin: 0.5rem 0px 0px;">X</button></div>';
+                        echo '<label for="tallas">Nombre del color</label>';
+                        echo '<input type="text" id="color" name="color[]" placeholder="Color del producto" value="" style="margin: 0.5rem 0 0 0;"/>';
+                        echo '<label for="tallas">Color en formato rgb</label>';
+                        echo '<input type="text" id="rgb" name="rgb[]" placeholder="RGB del producto" value="" style="margin: 0.5rem 0 0 0;"/>';
+                        echo '<label for="tallas">Imagen del producto</label>';
+                        echo '<input type="file" id="imagenColor" name="imagenColor[]" />';
+                        echo '</div>';
+                    }
+                ?>
+            </div>
+                    
+        
+
+        <div class="slot" style="display: flex;align-items:center;">
+        <label for="new" style="flex: 0 0 6.5rem;">¿Producto Nuevo?</label>
+        <input
+            type="checkbox"
+            value="0"
+            style="flex:none;width: auto !important;"
+            onchange="handleCheckboxChange(this,'new')"
+            <?php echo $producto->new == 1 ? 'checked' : ''; ?>
+            />
+            <input type="hidden" value="<?php echo $producto->new; ?>" id="new" name="new">
+        </div>
+        
+        
+        <div class="slot" style="display: flex;align-items:center;">
+            <label for="aurum" style="flex: 0 0 6.5rem;">¿Producto Aurum?</label>
+            <input
+                type="checkbox"
+                value="0"
+                style="flex:none;width: auto !important;"
+                onchange="handleCheckboxChange(this,'aurum')"
+                <?php echo $producto->aurum == 1 ? 'checked' : ''; ?>
+            />
+            <input type="hidden" value="<?php echo $producto->aurum; ?>" id="aurum" name="aurum">
+        </div>
+
+
+        
+
+        <input type="submit" value="Guardar" class="button" style="width: 100%;">
+
+    </form>
+
+    <a class="button" style="color:white !important;width:100%;margin:0;" href="/286e18ee6617beaf7cfd0cb74b4b7824">Volver</a>
+    <br>
+</div>
+</div>
+
+
+<script>
+    encontrarTotalColores();
+    //conteoDeColores = document.querySelector('#cantColores').value;
+    
+   
+    function handleCheckboxChange(checkbox,ref) {
+        // Accede al estado actual del checkbox
+        var isChecked = checkbox.checked;
+        // Realiza acciones basadas en el estado del checkbox
+        if (isChecked) {
+            // Checkbox marcado
+            document.querySelector('#'+ref).value = 1;
+            //alert("Checkbox marcado");
+        } else {
+            document.querySelector('#'+ref).value = 0;
+
+        }
+    }
+</script>

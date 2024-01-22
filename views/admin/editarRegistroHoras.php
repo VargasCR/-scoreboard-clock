@@ -1,7 +1,9 @@
 <!--Fecha Entrada	Fecha Salida	Hora Entrada	Hora Salida -->
+<br>
 
-<div>
-    <form method="POST">
+<h2 style="color: black;">Editar Registro de Horas</h2>
+<div class="form-admin-edit-container" style="">
+    <form method="POST" class="form-admin-edit">
         <div class="slot">
             <label for="fechaEntrada">Fecha de Entrada</label>
             <input
