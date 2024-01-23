@@ -12,19 +12,46 @@
                 <h4>¿Buscas los mejores productos??</h4>
                 <p>Bienvenido a nuestra tienda, donde la moda y la calidad se encuentran. Somos una tienda tanto física como virtual, y ofrecemos envíos a todo el país para que puedas disfrutar de nuestras increíbles selecciones sin importar dónde te encuentres.</p>
                 <p style="margin-bottom: 2rem;">Explora nuestra amplia gama de productos que incluyen ropa para hombres, mujeres y niños, bisutería elegante y una variada colección de zapatos para mujeres, hombres y niños.</p>
-              
-             
-             
-              
-
             </div>
+            
           </div>
             <div class="col-md-6" style="margin: 0 0 1rem 0;">
               <div class="right-image">
-                <img src="/build/img/feature-image.jpg" style="width: 100%;" alt="">
+                <img src="/build/img/aboutimg.png" style="width: 100%;" alt="">
               </div>
             </div>
         </div>
+        <div class="misionvision" style="">
+              <div>
+                <h4 style="margin-bottom: 1rem;">Misión:</h4>
+                <p style="margin-bottom: 2rem;">Nuestra misión es proporcionar a nuestros 
+                clientes una experiencia de compra excepcional al ofrecer productos de 
+                moda que combinan estilo y calidad insuperables. Nos esforzamos por ser 
+                un referente en la industria, comprometiéndonos a superar las expectativas 
+                de nuestros clientes mediante la entrega de artículos cuidadosamente 
+                seleccionados que reflejen la última tendencia y cumplan con los más altos 
+                estándares de calidad. Aspiramos a ser reconocidos no solo como una tienda, 
+                sino como un destino incomparable para quienes buscan destacar su estilo 
+                personal con productos que perduran en el tiempo.</p>
+              </div>
+              
+              <div>
+                <h4 style="margin-bottom: 1rem;">Visión:</h4>
+                <p style="margin-bottom: 2rem;">Nos visualizamos como el principal referente 
+                en la industria de la moda, siendo reconocidos por la excelencia en cada 
+                aspecto de nuestro negocio. Buscamos transformarnos en el destino preferido 
+                de aquellos que valoran la combinación perfecta entre elegancia y calidad. 
+                Nos esforzamos por ser líderes en innovación, ofreciendo constantemente 
+                nuevas y emocionantes colecciones que reflejen las últimas tendencias. 
+                En nuestra visión, queremos ir más allá de ser una simple tienda para 
+                convertirnos en un símbolo de estilo y distinción, donde cada cliente 
+                experimenta un servicio impecable y encuentra productos que no solo siguen 
+                la moda, sino que también la lideran.</p>
+              </div>
+              
+            </div>
+
+
         <div class="about-container-desc" style="margin-top: 1.5rem;">
             <div class="cardinf" style="width: 100%;">
               <div class="cardinf-inner">
@@ -127,18 +154,18 @@
         
         <div style="width: 100%;display:flex;align-items: center;justify-content: center;margin:1rem 0">
           <div class="cardsocial">
-                <a href="#" class="socialContainer containerOne">
+                <a href="https://www.instagram.com/tiendaatlantic/" class="socialContainer containerOne">
                   <img src="/build/img/ig-ico.png" style="width: 25px;" alt="">
                 </a>
                 
-                <a href="#" class="socialContainer containerTwo">
+                <a href="https://www.facebook.com/atlantictienda/" class="socialContainer containerTwo">
                     <img src="/build/img/fb-ico.png" style="width: 25px;" alt="">
                     
-                  <a href="#" class="socialContainer containerThree">
+                  <a href="https://www.tiktok.com/@atlantictienda" class="socialContainer containerThree">
                   <img src="/build/img/tiktok-ico.png" style="width: 25px;" alt="">
                 </a>
                 
-                <a href="#" class="socialContainer containerFour">
+                <a href="https://wa.me/50684126742" class="socialContainer containerFour">
                     <img src="/build/img/whatsapp-ico.png" style="width: 25px;" alt="">
                   </a>
                 </div>   
@@ -231,7 +258,7 @@
 
         
             <div class="whatsapp-float iluminationbutton">
-              <a href="https://wa.me/TUNUMERODEWHATSAPP" target="_blank" title="Chatea con nosotros en WhatsApp">
+              <a href="https://wa.me/50684126742" target="_blank" title="Chatea con nosotros en WhatsApp">
                 <img src="/build/img/whatsapp-icon.png" alt="WhatsApp Icon">
               </a>
             </div>

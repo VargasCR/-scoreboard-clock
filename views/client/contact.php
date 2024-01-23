@@ -60,18 +60,18 @@
         
         <div style="width: 100%;display:flex;align-items: center;justify-content: center;margin:1rem 0">
           <div class="cardsocial">
-                <a href="#" class="socialContainer containerOne">
+                <a href="https://www.instagram.com/tiendaatlantic/" class="socialContainer containerOne">
                   <img src="/build/img/ig-ico.png" style="width: 25px;" alt="">
                 </a>
                 
-                <a href="#" class="socialContainer containerTwo">
+                <a href="https://www.facebook.com/atlantictienda/" class="socialContainer containerTwo">
                     <img src="/build/img/fb-ico.png" style="width: 25px;" alt="">
                     
-                  <a href="#" class="socialContainer containerThree">
+                  <a href="https://www.tiktok.com/@atlantictienda" class="socialContainer containerThree">
                   <img src="/build/img/tiktok-ico.png" style="width: 25px;" alt="">
                 </a>
                 
-                <a href="#" class="socialContainer containerFour">
+                <a href="https://wa.me/50684126742" class="socialContainer containerFour">
                     <img src="/build/img/whatsapp-ico.png" style="width: 25px;" alt="">
                   </a>
                 </div>   
@@ -166,7 +166,7 @@
 
         
             <div class="whatsapp-float iluminationbutton">
-              <a href="https://wa.me/TUNUMERODEWHATSAPP" target="_blank" title="Chatea con nosotros en WhatsApp">
+              <a href="https://wa.me/50684126742" target="_blank" title="Chatea con nosotros en WhatsApp">
                 <img src="/build/img/whatsapp-icon.png" alt="WhatsApp Icon">
               </a>
             </div>

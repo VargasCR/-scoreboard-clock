@@ -61,49 +61,7 @@
                 </div>
               </div>
               <style>
-                .form-control {
-  position: relative;
-  margin: 20px 0 40px;
-  width: 190px;
-}
-
-.form-control input {
-  background-color: transparent;
-  border: 0;
-  border-bottom: 2px #fff solid;
-  display: block;
-  width: 100%;
-  padding: 15px 0;
-  font-size: 18px;
-  color: #fff;
-}
-
-.form-control input:focus,
-.form-control input:valid {
-  outline: 0;
-  border-bottom-color: lightblue;
-}
-
-.form-control label {
-  position: absolute;
-  top: 15px;
-  left: 0;
-  pointer-events: none;
-}
-
-.form-control label span {
-  display: inline-block;
-  font-size: 18px;
-  min-width: 5px;
-  color: #fff;
-  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.form-control input:focus+label span,
-.form-control input:valid+label span {
-  color: lightblue;
-  transform: translateY(-30px);
-}
+                
               </style>
               <div style="padding:1rem;" id="shopping-cart-resumen-info" class="hidden">
                 <div style="padding: 1rem;">
@@ -209,18 +167,18 @@
         
         <div style="width: 100%;display:flex;align-items: center;justify-content: center;margin:1rem 0">
           <div class="cardsocial">
-                <a href="#" class="socialContainer containerOne">
+                <a href="https://www.instagram.com/tiendaatlantic/" class="socialContainer containerOne">
                   <img src="/build/img/ig-ico.png" style="width: 25px;" alt="">
                 </a>
                 
-                <a href="#" class="socialContainer containerTwo">
+                <a href="https://www.facebook.com/atlantictienda/" class="socialContainer containerTwo">
                     <img src="/build/img/fb-ico.png" style="width: 25px;" alt="">
                     
-                  <a href="#" class="socialContainer containerThree">
+                  <a href="https://www.tiktok.com/@atlantictienda" class="socialContainer containerThree">
                   <img src="/build/img/tiktok-ico.png" style="width: 25px;" alt="">
                 </a>
                 
-                <a href="#" class="socialContainer containerFour">
+                <a href="https://wa.me/50684126742" class="socialContainer containerFour">
                     <img src="/build/img/whatsapp-ico.png" style="width: 25px;" alt="">
                   </a>
                 </div>   

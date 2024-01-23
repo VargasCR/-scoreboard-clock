@@ -1,12 +1,28 @@
-function findMessageContact(event) {
+async function findMessageContact(event) {
     event.preventDefault();
     const nombre = document.querySelector('#name').value;
     const correo = document.querySelector('#email').value;
     const mensaje = document.querySelector('#message').value;
-    ////console.log(nombre);
-    ////console.log(correo);
-    ////console.log(mensaje);
-    sendEmail(mensaje,'tiendaatlantic1@gmail.com','atlanticatienda33@gmail.com','Mensaje de Contacto');
+    if(nombre != '' && correo != '' && mensaje != '') {
+        await sendEmail(mensaje,'tiendaatlantic1@gmail.com','atlanticatienda33@gmail.com','Mensaje de Contacto');
+        document.querySelector('#name').value = '';
+        document.querySelector('#email').value = '';
+        document.querySelector('#message').value = '';
+    } else {
+        Swal.fire({
+            position: "center",
+            icon: 'error',
+            title: 'Complete el formulario',
+            showConfirmButton: true,
+            timer: 2500,
+            customStyle: {
+              title: {
+                fontSize: '17px'
+              }
+            }
+          });
+        
+    }
 }
 
 

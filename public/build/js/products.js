@@ -163,7 +163,6 @@ async function showFloatingWindow(cod) {
         };
         tallaContainer.appendChild(button);
     });
-    
 }
 
 function agregarLabelYInput(contenedor, labelText, inputName) {
@@ -571,10 +570,6 @@ async function buscarTodos() {
         cantidadDePaginas = cantidadDeProductos / 4;
         productosSeleccionados = productsAurum.slice(indexDesde, indexHasta);
     }
-    
-
-
-
     if(cantidadDePaginas <= 1){
         document.querySelector('#navegation-products').classList.add('hidden');
     } else if(cantidadDePaginas <= 2 && cantidadDePaginas > 1) {
@@ -702,9 +697,16 @@ function limpiarProductosCarrito() {
 }
 
 function cambiarCategoria(w,t) {
-    
+    btnSelected = 'btn-nav-0';
+    let btnCount = 1;
+    document.querySelectorAll('.btn-nav-number').forEach(element => {
+        element.innerText = btnCount;
+        btnCount++;
+    });
     buscandoCategoria = w;
     paginaActual = 1;
+    cantidadDeProductos = 0;
+    cantidadDePaginas = 0;
     document.querySelector('#select-text').textContent = `${t}`;
     document.querySelector('#select-simbol').innerHTML= `&#9660;`;
     document.querySelectorAll('.btn-nav').forEach(element => {
@@ -732,6 +734,7 @@ try {
 } catch (error) {
 
 }
+
 
 function toggleOptions(t) {
     isOpen = !isOpen;
@@ -904,6 +907,7 @@ async function siguientePagina() {
 
         switch (btnSelected) {
             case 'btn-nav-0':
+                
                 document.querySelector('#btn-nav-1').classList.add('btn-nav-active');
                 btnSelected = 'btn-nav-1';
                 break;

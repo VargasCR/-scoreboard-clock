@@ -294,13 +294,13 @@ class AdminController {
         $producto = Producto::find($parametro);
         $function = 'encontrarTotalColores()';
         
-        //debuguear($producto);
         
-
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //$newPrdoucto->sync($_POST);
             $newPrdouct = new Producto($_POST);
-            $alerts = $newPrdouct->validateOldProduct($_POST,$_FILES['imagenColor']['tmp_name'],$_FILES['imagen']['tmp_name']);
+            //$alerts = $newPrdouct->validateOldProduct($_POST,$_FILES['imagenColor']['tmp_name'],$_FILES['imagen']['tmp_name']);
+            
             $newPrdouct->id = $parametro;
             $producto = Producto::find($parametro);
             $alerts = [];
@@ -423,11 +423,13 @@ class AdminController {
             }
             
             //  debuguear($newPrdouct);
-            $alerts = $newPrdouct->validateNewProduct();
+            //$alerts = $newPrdouct->validateNewProduct();
+
             //debuguear($_POST['imagenesEliminar']);
             if(empty($alerts)) {
                 $producto->sync($newPrdouct);
                 //debuguear($producto);
+                
                 $producto->save();
                 header('Location: /d94a5da526ad85f8e50ca84d4be1defd?b80bb7740288fda1f201890375a60c8f='.$parametro);
                // debuguear($producto);            

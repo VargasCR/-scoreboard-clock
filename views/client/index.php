@@ -99,9 +99,12 @@
           <div class="col-md-6">
             <div class="left-content" style="margin: 0 0 1rem 0;">
                 <h4>¿Buscas los mejores productos??</h4>
-                <p>Bienvenido a nuestra tienda, donde la moda y la calidad se encuentran. Somos una tienda tanto física como virtual, y ofrecemos envíos a todo el país para que puedas disfrutar de nuestras increíbles selecciones sin importar dónde te encuentres.</p>
-                <p style="margin-bottom: 2rem;">Explora nuestra amplia gama de productos que incluyen ropa para hombres, mujeres y niños, bisutería elegante y una variada colección de zapatos para mujeres, hombres y niños.</p>
-              
+                <p>¡Te damos la bienvenida a nuestra distinguida tienda, donde la elegancia y la calidad convergen! Somos un establecimiento que trasciende las fronteras físicas gracias a nuestra presencia virtual, brindando la posibilidad de envíos a lo largo y ancho del país para que puedas deleitarte con nuestras fascinantes opciones estés donde estés.</p>
+                <p style="margin-bottom: 2rem;">Nuestra misión es proporcionar a nuestros clientes una experiencia de compra única, ofreciendo productos de moda con estándares de calidad excepcionales. Nos esforzamos por ser un referente en la industria, donde la excelencia y la sofisticación se fusionan para satisfacer los gustos más exigentes.</p>
+                
+                
+
+                
              
               <a href="/about" class="cta" >
                 <span class="textButton">Ver Más</span>
@@ -116,7 +119,7 @@
           </div>
             <div class="col-md-6" style="margin: 0 0 1rem 0;">
               <div class="right-image">
-                <img src="/build/img/feature-image.jpg" style="width: 100%;" alt="">
+                <img src="/build/img/aboutimg.png" style="width: 100%;" alt="">
               </div>
             </div>
         </div>
@@ -260,18 +263,18 @@
         
         <div style="width: 100%;display:flex;align-items: center;justify-content: center;margin:1rem 0">
           <div class="cardsocial">
-                <a href="#" class="socialContainer containerOne">
+                <a href="https://www.instagram.com/tiendaatlantic/" class="socialContainer containerOne">
                   <img src="/build/img/ig-ico.png" style="width: 25px;" alt="">
                 </a>
                 
-                <a href="#" class="socialContainer containerTwo">
+                <a href="https://www.facebook.com/atlantictienda/" class="socialContainer containerTwo">
                     <img src="/build/img/fb-ico.png" style="width: 25px;" alt="">
                     
-                  <a href="#" class="socialContainer containerThree">
+                  <a href="https://www.tiktok.com/@atlantictienda" class="socialContainer containerThree">
                   <img src="/build/img/tiktok-ico.png" style="width: 25px;" alt="">
                 </a>
                 
-                <a href="#" class="socialContainer containerFour">
+                <a href="https://wa.me/50684126742" class="socialContainer containerFour">
                     <img src="/build/img/whatsapp-ico.png" style="width: 25px;" alt="">
                   </a>
                 </div>   
@@ -363,7 +366,7 @@
 
         
             <div class="whatsapp-float iluminationbutton">
-              <a href="https://wa.me/TUNUMERODEWHATSAPP" target="_blank" title="Chatea con nosotros en WhatsApp">
+              <a href="https://wa.me/50684126742" target="_blank" title="Chatea con nosotros en WhatsApp">
                 <img src="/build/img/whatsapp-icon.png" alt="WhatsApp Icon">
               </a>
             </div>
@@ -375,7 +378,7 @@
             </style>
             
 
-    <div id="myModal" onclick="closeOnOutsideClick(event)" class="modal" style="padding:1rem;z-index: 9999999;overflow-y: auto;justify-content: center;align-items: center;padding: 1rem;">
+    <div id="myModal" onclick="closeOnOutsideClick(event)" class="modal" style="padding:1rem;z-index: 9999999;overflow-y: auto;justify-content: center;padding: 1rem;">
       <div class="modal-content">
         <button onclick="closeFloatingWindow()" class="deleteButton">
           <span class="close" id="closeModalBtn">&times;</span>
