@@ -3,15 +3,35 @@
 <html lang="en">
 
   <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','index');</script>
+    <!-- End Google Tag Manager -->
+
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Atlantic Tienda Costa Rica - Encuentra productos de calidad para tu hogar y estilo de vida</title>
+    <meta name="description" content="Explora la amplia selección de productos en Atlantic Tienda Costa Rica. Desde artículos para el hogar hasta accesorios de moda, descubre opciones que se adaptan a tu estilo de vida. ¡Compra con confianza y disfruta de la calidad que ofrecemos para mejorar tu experiencia diaria!">
 
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="VargasDEV">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    
+    
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KSJ9CFF5');</script>
+<!-- End Google Tag Manager -->
 
-    <title>Atlantic Tienda Costa Rica</title>
+
+
     <link href="/build/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <?php if($pageIndex == 7) {
@@ -32,7 +52,12 @@
   </head>
 
   <body>
-    
+
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KSJ9CFF5"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
         <div class="jumper">
