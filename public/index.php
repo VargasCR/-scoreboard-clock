@@ -7,10 +7,15 @@ use Controllers\AdminController;
 use Controllers\LoginController;
 use Controllers\APIController;
 use Controllers\ClientController;
+use Controllers\SitemapController;
 use MVC\Router;
 
 //require_once 'Router.php';
 $router = new Router();
+
+
+$router->get('/sitemap', [SitemapController::class,'index']);
+
 
 $router->get('/', [ClientController::class,'index']);
 $router->get('/products', [ClientController::class,'products']);
@@ -95,6 +100,8 @@ $router->get('/b6f3f62dfe05b410e3f7f72e0d5db63a', [AdminController::class,'editE
 $router->post('/b6f3f62dfe05b410e3f7f72e0d5db63a', [AdminController::class,'editEmployee']);
 
 $router->get('/confirm', [LoginController::class,'confirm']);
+
+
 
 $router->post('/api/new-suscribe', [APIController::class,'addNewSuscribe']);
 $router->post('/api/delete-suscribe', [APIController::class,'deleteSuscriptor']);

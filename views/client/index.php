@@ -15,7 +15,7 @@
             <img class="imgheader" src="/build/img/pidetusteniscon.png" alt="" style="">
             <img class="imgheader" src="/build/img/atlanticTienda.png" alt="" style="margin-top:1.5rem;">
            
-            <a style="margin:1rem 0 0 0;" class="seemore"><span style="font-weight: 300;">VER MAS</span></a>
+            <a style="margin:1rem 0 0 0;" class="seemore" href="/products"><span style="font-weight: 300;">VER MAS</span></a>
           
           </div>
 

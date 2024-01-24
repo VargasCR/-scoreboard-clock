@@ -1337,6 +1337,10 @@ function encontrarResumen() {
     }
 
     taxFinal = (parseInt(envioCosto) + subtotalTotalDeitems) * 0.13;
+    //console.log((parseInt(envioCosto) + subtotalTotalDeitems) * 0.13);
+    //console.log(45000 * 0.13);
+    //console.log(subtotalTotalDeitems*0.14);
+   // alert('');
     document.querySelector('#impuestos-productos-resumen').textContent = '₡'+taxFinal.toFixed(2);
     totalFinal = subtotalTotalDeitems+parseInt(envioCosto)+taxFinal;
     document.querySelector('#total-productos-resumen').textContent = '₡'+totalFinal.toFixed(2);
@@ -1367,6 +1371,7 @@ async function enviarInfoCliente() {
         envioCosto = document.querySelector('#provinciaEnvio').value;
     }
     taxFinal = (parseInt(envioCosto) + subtotalTotalDeitems) * 0.13;
+    
     const impuestos = taxFinal.toFixed(2);
     totalFinal = subtotalTotalDeitems+parseInt(envioCosto)+taxFinal;
     const totalfinalString = totalFinal.toFixed(2);
