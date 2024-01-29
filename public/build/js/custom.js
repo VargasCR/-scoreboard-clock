@@ -228,7 +228,7 @@ function mostrarAlerta(clase,titulo,icon,r=false) {
               text: "",
               icon: "success",
             });
-            ////console.log('retorno')
+            //////console.log('retorno')
             return true;
           } else {
             return false;

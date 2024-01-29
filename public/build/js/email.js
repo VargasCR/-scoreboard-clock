@@ -67,7 +67,7 @@ async function sendSuscribeEmail() {
                 body: data
             });
         const solved = await result.json();
-        //console.log(solved);
+        ////console.log(solved);
         //return;
         if(solved == true) {
                 Swal.fire({
@@ -87,7 +87,7 @@ async function sendSuscribeEmail() {
         } else {
             mostrarAlerta(0, 'Por favor, ingrese un correo electrónico válido.','error');
         }
-        console.log(solved);
+        //console.log(solved);
     } else {
         mostrarAlerta(0, 'Por favor, ingrese un correo electrónico.','error');
     }

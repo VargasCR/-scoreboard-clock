@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 <input type="hidden" value="2" id="page-category">
 
     <input type="hidden" value="3" id="selecter-used">
@@ -42,7 +44,7 @@
               <h2>Envíanos un mensaje</h2>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="mapContainer">
             <div id="map">
               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1006278.8791800056!2d-84.664919453505!3d9.869078186986995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0995e17dc92f5%3A0xdd8f5f66d85b7e14!2sATLANTIC%20TIENDA%20COSTA%20RICA!5e0!3m2!1ses!2scr!4v1703100585124!5m2!1ses!2scr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
@@ -120,7 +122,7 @@
             </div>
         </div>
 
-        <div id="myModal" onclick="closeOnOutsideClick(event)" class="modal" style="padding:1rem;z-index: 9999999;overflow-y: auto;justify-content: center;">
+        <div id="myModal" onclick="closeOnOutsideClick(event)" class="modal" style="padding:0rem;z-index: 9999999;overflow-y: auto;justify-content: center;">
       <div class="modal-content">
         <button onclick="closeFloatingWindow()" class="deleteButton">
           <span class="close" id="closeModalBtn">&times;</span>
@@ -128,7 +130,20 @@
         </button>
 
         <div style="" class="showingProductContainer">
-          <img id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
+
+
+        <div id="contenedorImagen">
+          <div id="contenedorBotones">
+          <button class="botonArrow" onclick="cambiarImagenShowing(event,0)"><span class='material-symbols-outlined'>chevron_left</span></button>
+            <button class="botonArrow" onclick="cambiarImagenShowing(event,1)"><span class='material-symbols-outlined'>chevron_right</span></button>
+          </div>
+          <!-- Tu elemento de imagen aquí -->
+            <img id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
+            
+          </div>
+
+
+
           <div style="padding: 1rem;width: 100%;">
             <h4 style="margin: 0 0 1rem 0;">
               Descripción
@@ -164,6 +179,7 @@
             <input type="hidden" id="color-id" value="-1">
             <input type="hidden" id="product-id" value="-1">
             <input type="hidden" id="image-id" value="-1">
+            <input type="hidden" id="imgs-url" value="">
         </div>
     </div>
 

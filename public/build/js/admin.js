@@ -52,7 +52,7 @@ function confirmService(e) {
 function declineService(e) {
     //alert(e);
     confirmed_admin_index[e] = -1;
-    //console.log(confirmed_admin_index)
+    ////console.log(confirmed_admin_index)
     document.getElementById('fs-'+e).style.borderColor = 'red';
     document.getElementById('ls-'+e).style.color = 'red';
 
@@ -73,7 +73,7 @@ function changePublicPreviewSlide(x,y) {
             showing_admin_img_index[y] = 0;
             
             const url = '/images/'+admin_index_pictures[y][showing_admin_img_index[y]].url;
-            //console.log(url);
+            ////console.log(url);
             document.getElementById('imgPreview' +y).setAttribute('src',url);
             document.getElementById('imgWebp' +y).setAttribute('srcset',url);
             document.getElementById('imgJPG' +y).setAttribute('srcset',url);
@@ -85,7 +85,7 @@ function changePublicPreviewSlide(x,y) {
         showing_admin_img_index[y] = admin_index_pictures[y].length-1;
             
         const url = '/images/'+admin_index_pictures[y][showing_admin_img_index[y]].url;
-        //console.log(url);
+        ////console.log(url);
         document.getElementById('imgPreview' +y).setAttribute('src',url);
         document.getElementById('imgWebp' +y).setAttribute('srcset',url);
         document.getElementById('imgJPG' +y).setAttribute('srcset',url);
@@ -112,7 +112,7 @@ async function findVerifiedServices() {
             body: data
         });
         const services = await myservicesresult.json();
-        //console.log(services);
+        ////console.log(services);
         if(services.services === null || services.services.length <= 0) {
             const productSection = document.getElementById("product-section");
             let html = `<h3>No hay servicios</h3>`;
@@ -139,7 +139,7 @@ function showVerifiedServices(services,servicesPictures,servicesTags) {
         const serviceid = service.id;
         
         let imgurl = '';
-        //console.log(servicesPictures);
+        ////console.log(servicesPictures);
         try {
           
 
@@ -157,7 +157,7 @@ function showVerifiedServices(services,servicesPictures,servicesTags) {
     }
     }
 
-    //console.log(imgurl);
+    ////console.log(imgurl);
 
             
         } catch (error) {
@@ -267,7 +267,7 @@ async function getLocation() {
         admin_plan = locations['plan'];
         admin_category = locations['category'];
         
-       // //console.log(admin_provincias);
+       // ////console.log(admin_provincias);
     } catch (error) {
         
     }

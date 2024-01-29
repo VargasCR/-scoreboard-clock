@@ -1,13 +1,13 @@
+
 <div class="form-container-admin">
 <div class="form-container-admin-1">
-    <h1 class="name-page" style="color:black;">AGREGAR PRODUCTO</h1>
+    <h1 class="name-page" style="color:black;">EDITAR PRODUCTO</h1>
     <p class="description-page" style="color:black;">Llena el siguiente Formulario para Agregar</p>
 
     <?php 
         include_once __DIR__ . "/../templates/alerts.php";
     ?>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
     <form class="form" method='POST' enctype="multipart/form-data">
         <input type="hidden" id="productID" value="<?php echo $producto->id; ?>">
         <div class="slot">
@@ -71,17 +71,28 @@
             />
         </div>
 
-        <img width="100px" src="/images/<?php echo $producto->imagen ?>" alt="">
-        <div class="slot">
-            <label for="imagen">Imagen Principal</label>
+        <?php 
+            $imagenes = json_decode($producto->imagen, true);
+
+            foreach ($imagenes as $indice => $item) { ?>
+                <div id="cp-<?php echo $indice; ?>" class="slot" style="text-align: center; background-color: #eaeaea; padding: 1rem; margin: 1rem 0 0 0;">
+                    <div style='width: 100%; text-align: right;'>
+                        <button type="button" onclick="eliminarPrincipalEditSlot('<?php echo 'cp-'.$indice; ?>', '<?php echo $item; ?>', event)" style="margin: 0.5rem 0px 0px;">X</button>
+                    </div>
+                    <img width="100px" src="/images/<?php echo $item; ?>" alt="">
+                </div>
+            <?php } ?>
+
+        <div class='slot'>
+            <label for='imagen'>Imagen Principal</label>
             <input
-                type="file"
-                id="imagen"
-                name="imagen"
+                type='file'
+                id='imagen'
+                name='imagen[]'
+                accept="image/*"
+            multiple
             />
-
         </div>
-
         
 
 
@@ -118,8 +129,10 @@
             />
         </div>
 
-        <input type="hidden" id="cantColores" value="<?php echo count($producto->colores); ?>">
+        <input type="hidden" id="cantColores" value="<?php echo count($producto->colores)-1; ?>">
         <input type="hidden" id="imagenesEliminar" name="imagenesEliminar" value="">
+        <input type="hidden" id="IndexColoresEliminar" name="IndexColoresEliminar" value="">
+        <input type="hidden" id="colorFileCount" value="0" name="colorFileCount">
         <div class="slot">
             <label for="colores">Colores (JSON)<button onclick="agregarColor(event)" style="background-color:transparent;border:none;">+</button></label>
             <div id="colores-contenedor">
@@ -129,31 +142,78 @@
                 if (!empty($producto->colores)) {
                         // Si hay registros, mostrar los colores existentes
                         foreach ($producto->colores as $indice => $color) {
+                            
                             $nombreColor = isset($color['color']) ? $color['color'] : '';
                             $rgb = isset($color['rgb']) ? $color['rgb'] : '';
                             $imagen = isset($color['imagen']) ? $color['imagen'] : '';
+                            ?>
+                                <div id="c-<?php echo $indice; ?>" class="slot" style="background-color: #eaeaea;padding:1rem;margin: 1rem 0 0 0;">
+                                <div style="width: 100%; text-align: right;">
+                                <?php 
+                                // Decodificar la cadena JSON a un array de PHP
+                                $arrayPHP = json_decode(json_encode($imagen));
 
-                            echo '<div id="c-' . $indice . '" class="slot" style="background-color: #eaeaea;padding:1rem;margin: 1rem 0 0 0;">';
-                            echo '<div style="width: 100%; text-align: right;"><button onclick="eliminarEditSlot(' . $indice . ',event)" style="margin: 0.5rem 0px 0px;">X</button></div>';
-                            echo '<label for="tallas">Nombre del color</label>';
-                            echo '<input disabled type="text" id="color" placeholder="Color del producto" value="' . $nombreColor . '" style="margin: 0.5rem 0 0 0;"/>';
-                            echo '<label for="tallas">Color en formato rgb</label>';
-                            echo '<input disabled type="text" id="rgb" placeholder="RGB del producto" value="' . $rgb . '" style="margin: 0.5rem 0 0 0;"/>';
-                            echo '<label for="tallas">Imagen del producto</label>';
-                            echo '<img id="img-'.$indice.'" value="'.$imagen.'" style="width:50%;display: block;margin: 1rem 0;" src="/images/'.$imagen.'" alt="">';
-                            echo '</div>';
-                        }
+                                // Convertir el array a una cadena de texto usando implode
+                                $cadenaTexto = implode(', ', $arrayPHP);
+                               // echo $cadenaTexto;
+                                ?>
+                                    <button onclick="eliminarEditSlot('c-<?php echo $indice; ?>',event,'<?php echo $cadenaTexto;?>',<?php echo $indice; ?>)" style="margin: 0.5rem 0px 0px;">X</button>
+                                </div>
+                                <label for="tallas">Nombre del color</label>
+                                <input disabled type="text" id="color" placeholder="Color del producto" value="<?php echo $nombreColor; ?>" style="margin: 0.5rem 0 0 0;"/>
+                                <label for="tallas">Color en formato rgb</label>
+                                <input disabled type="text" id="rgb" placeholder="RGB del producto" value="<?php echo $rgb; ?>" style="margin: 0.5rem 0 0 0;"/>
+                                <label for="tallas">Imagen del producto</label>
+                            
+                            <?php
+
+                            //$imagenes = json_decode($imagen, true);
+                            
+                    foreach ($imagen as $indice => $item) { ?>
+                        <div id='cpc-<?php echo $indice; ?>' class='slot' style='display: flex;
+                                                        justify-content: center; background-color: #eaeaea; padding: 1rem; margin: 1rem 0 0 0;'>
+                           <!-- <div style='width: 100%; text-align: right;'>
+                                <button type='button' onclick='eliminarPrincipalEditSlot("cpc-<?php echo $indice;?>","<?php echo $item;?>", event)' style='margin: 0.5rem 0px 0px;'>X</button>
+                            </div> -->
+                            <img width='100px' src='/images/<?php echo $item;?>' alt='' style='width:50%;display: block;margin: 1rem 0;'>
+                        </div>
+                    <?php } ?>                            
+                            </div>
+                       <?php }
                     } else {
                         // Si no hay registros, crear un nuevo color
-                        echo '<div id="c-0" class="slot" style="background-color: #eaeaea;padding:1rem;margin: 1rem 0 0 0;">';
-                        echo '<div style="width: 100%; text-align: right;"><button onclick="eliminarEditSlot(0,event)" style="margin: 0.5rem 0px 0px;">X</button></div>';
-                        echo '<label for="tallas">Nombre del color</label>';
-                        echo '<input type="text" id="color" name="color[]" placeholder="Color del producto" value="" style="margin: 0.5rem 0 0 0;"/>';
-                        echo '<label for="tallas">Color en formato rgb</label>';
-                        echo '<input type="text" id="rgb" name="rgb[]" placeholder="RGB del producto" value="" style="margin: 0.5rem 0 0 0;"/>';
-                        echo '<label for="tallas">Imagen del producto</label>';
-                        echo '<input type="file" id="imagenColor" name="imagenColor[]" />';
-                        echo '</div>';
+                        echo '<div id="c-0" class="slot" style="background-color: #eaeaea;padding:1rem;margin: 1rem 0 0 0;">
+                        <div style="width: 100%; text-align: right;"><button onclick="eliminarSlot(0,event)" style="margin: 0.5rem 0px 0px;">X</button></div>
+                            <label for="tallas">Nombre del color</label>
+                            <input
+                                type="text"
+                                id="color"
+                                name="color[]"
+                                placeholder="Color del producto"
+                                value=""
+                                style="margin: 0.5rem 0 0 0;"
+                            />
+                            <label for="tallas">Color en formato rgb</label>
+                            <input
+                                type="text"
+                                id="rgb"
+                                name="rgb[]"
+                                placeholder="RGB del producto"
+                                value=""
+                                style="margin: 0.5rem 0 0 0;"
+                            />
+                            <label for="tallas">Imagen del producto</label>
+                            <input
+                                type="file"
+                                class="imagenColor"
+                                name="imagenColor_0[]"
+                                accept="image/*"
+                                multiple
+                                
+                            />
+                        </div>
+                    </div>';
+                        
                     }
                 ?>
             </div>
@@ -196,6 +256,7 @@
     <br>
 </div>
 </div>
+
 
 
 <script>

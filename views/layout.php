@@ -23,6 +23,8 @@
   </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://tiendaatlanticcr.com/">
+	  <meta name="keywords" content="Atlantic Tienda Costa Rica, productos para el hogar, accesorios de moda, decoración, electrodomésticos, estilo de vida, compras en línea, calidad, ofertas especiales">
     
     <title>Atlantic Tienda Costa Rica - Encuentra productos de calidad para tu hogar y estilo de vida</title>
     <meta name="description" content="Explora la amplia selección de productos en Atlantic Tienda Costa Rica. Desde artículos para el hogar hasta accesorios de moda, descubre opciones que se adaptan a tu estilo de vida. ¡Compra con confianza y disfruta de la calidad que ofrecemos para mejorar tu experiencia diaria!">

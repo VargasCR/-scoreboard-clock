@@ -199,11 +199,12 @@ class AdminController {
         $categoria = new Categoria();
         $categorias = $categoria->all();
 
-       // debuguear($pagina);
+       // debuguear($productos);
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         }
+        //debuguear($productos);
         $router->render('admin/productos', [
             'pageIndex' => $pageIndex,
             'isClient' => $isClient,
@@ -224,7 +225,8 @@ class AdminController {
         $categorias = $categoria->all();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $alerts = $producto->validateProduct($_POST,$_FILES['imagenColor']['tmp_name'],$_FILES['imagen']['tmp_name']);
+            //debuguear($_FILES['imagen']['tmp_name']);
+        //$alerts = $producto->validateProduct($_POST,$_FILES['imagenColor']['tmp_name'],$_FILES['imagen']['tmp_name']);
             //debuguear($_POST);
             if(empty($alerts)) {
                 $producto->sync($_POST);
@@ -233,10 +235,28 @@ class AdminController {
                 if (!is_dir(IMAGE_FOLDER)) {
                     mkdir(IMAGE_FOLDER);
                 }
-                $image_name = md5( uniqid( rand(), true ) ) . '.jpg';
-                $imagen = Image::make ($_FILES['imagen']['tmp_name'])->fit(400,540);
-                $producto->setImage($image_name);
-                $imagen->save(IMAGE_FOLDER.$image_name);
+                $imagenesJSON = [];
+                //debuguear('$');
+                foreach ($_FILES['imagen']['tmp_name'] as $key => $tmp_name) {
+                    $image_name = md5( uniqid( rand(), true ) ) . '.jpg';
+                    $imagen = Image::make ($tmp_name)->fit(600,740);
+                   // debuguear($image_name);
+                    //debuguear(0);
+
+                    if ($imagen->save(IMAGE_FOLDER . $image_name)) {
+                        // Asignar el nombre de la imagen al producto o almacenar en un array si es necesario
+                        // Almacenar información relevante en el array $imagenesJSON
+                        $imagenesJSON[] = $image_name;
+                        //  $producto->addImage($image_name);--------
+                    } else {
+                        // Manejar el caso en el que no se pudo guardar la imagen
+                        $alerts[] = 'Error al guardar la imagen ' . $key;
+                    }
+                }
+                $imagenes = json_encode($imagenesJSON);
+                $producto->setImage($imagenes);
+                
+                //debuguear($producto);
                 $tallasArray = explode(',', $_POST['tallas']);
                 $tallasJson = json_encode($tallasArray);
                 $producto->tallas = $tallasJson;
@@ -244,31 +264,53 @@ class AdminController {
                 $imagenesJSON = [];
                 $nombre = '';
                 $rgb = '';
-                foreach ($_FILES['imagenColor']['tmp_name'] as $key => $tmp_name) {
-                    $image_name = md5(uniqid(rand(), true)) . '.jpg';
+               // debuguear('$');
 
-                    $imagen = Image::make($tmp_name)->fit(400, 540);
-                    $nombre = $_POST['color'][$countImages];
-                    $rgb = $_POST['rgb'][$countImages];
-                    
-                    $countImages++;
-                    // Guardar la imagen
-                    if ($imagen->save(IMAGE_FOLDER . $image_name)) {
-                        // Asignar el nombre de la imagen al producto o almacenar en un array si es necesario
-                        // Almacenar información relevante en el array $imagenesJSON
-                        $imagenesJSON[] = [
-                            'rgb' => $rgb,
-                            'color' => $nombre,
-                            'imagen' => $image_name
-                        ];
-                        //  $producto->addImage($image_name);--------
-                    } else {
-                        // Manejar el caso en el que no se pudo guardar la imagen
-                        $alerts[] = 'Error al guardar la imagen ' . $key;
-                    }
-                }
-                
-                $ColoresjsonResult = json_encode($imagenesJSON);
+
+
+
+                $colorFileCountValue = $_POST['colorFileCount'];
+
+// Convierte la cadena en un array utilizando explode
+$colorFileCountArray = explode(',', $colorFileCountValue);
+//debuguear($_POST);
+// Realiza un bucle foreach en el array
+foreach ($colorFileCountArray as $value => $key) {
+    // $value ahora contiene cada número del array
+    // Realiza las operaciones necesarias aquí
+    $imagenJSON = [];
+    foreach ($_FILES['imagenColor_'.$value]['tmp_name'] as $key => $tmp_name) {
+        $image_name = md5(uniqid(rand(), true)) . '.jpg';
+
+        $imagen = Image::make($tmp_name)->fit(400, 540);
+        
+        // Guardar la imagen
+        if ($imagen->save(IMAGE_FOLDER . $image_name)) {
+            // Asignar el nombre de la imagen al producto o almacenar en un array si es necesario
+            // Almacenar información relevante en el array $imagenesJSON
+            $imagenJSON[] = $image_name;
+            
+            //  $producto->addImage($image_name);--------
+        } else {
+            // Manejar el caso en el que no se pudo guardar la imagen
+            $alerts[] = 'Error al guardar la imagen ' . $key;
+        }
+    }
+    $nombre = $_POST['color'][$countImages];
+        $rgb = $_POST['rgb'][$countImages];
+        $countImages++;
+    //debuguear($nombre);
+    $imagenesJSON[] = [
+        'rgb' => $rgb,
+        'color' => $nombre,
+        'imagen' => $imagenJSON
+    ];
+    $imagenesColores[] = $imagenesJSON;
+    
+}
+
+$ColoresjsonResult = json_encode($imagenesJSON);
+//debuguear($ColoresjsonResult);
                 $producto->colores = $ColoresjsonResult;
 
                 $producto->save();
@@ -284,6 +326,8 @@ class AdminController {
 
         ]);
     }
+
+
 
     public static function editarProducto( Router $router ) {
         $users = null; // Initialize $users
@@ -304,36 +348,45 @@ class AdminController {
             $newPrdouct->id = $parametro;
             $producto = Producto::find($parametro);
             $alerts = [];
+
             $newPrdouct->desc = $newPrdouct->convertirTextAJSON($_POST['desc']);
-            //$descJsonRestored = $producto->restaurarAJSON($descJson);
-            
            
             if (!is_dir(IMAGE_FOLDER)) {
                 mkdir(IMAGE_FOLDER);
             }
             
-            $image_name = md5( uniqid( rand(), true ) ) . '.jpg';
-            //debuguear($_FILES['image']['tmp_name']);
-            if(!empty($_FILES['imagen']['tmp_name'])) {
-                if ($_FILES['imagen']['tmp_name']) {
-                    $imagen = Image::make ($_FILES['imagen']['tmp_name'])->fit(400,540);
-                    //AQUI SE TIENE QUE ELIMINAR LA IMAGEN VIEJA
-                    $producto->deleteImage($producto->imagen);
-                    $newPrdouct->imagen = $image_name;
-                    //debuguear($producto);
-                }
-                
-                if(empty($alerts)) {
-                    if ($_FILES['imagen']['tmp_name']) {
-                        $imagen->save(IMAGE_FOLDER.$image_name);
+            
+          //  debuguear(!empty(array_filter($_FILES['imagen']['tmp_name'])));
+             // debuguear(!empty(array_filter($_FILES['imagen']['tmp_name'])));
+            if (!empty(array_filter($_FILES['imagen']['tmp_name']))) {
+                //debuguear($_FILES['imagen']['tmp_name']);
+                $imagenesJSON = [];
+                $imagenesJSON = json_decode($producto->imagen, true);
+                foreach ($_FILES['imagen']['tmp_name'] as $key => $tmp_name) {
+                    if($tmp_name != '') {
+                        $image_name = md5( uniqid( rand(), true ) ) . '.jpg';
+                        $imagen = Image::make ($tmp_name)->fit(600,740);
+                        
+                        if ($imagen->save(IMAGE_FOLDER . $image_name)) {
+                            // Asignar el nombre de la imagen al producto o almacenar en un array si es necesario
+                            // Almacenar información relevante en el array $imagenesJSON
+                            $imagenesJSON[] = $image_name;
+                            //  $producto->addImage($image_name);--------
+                        } else {
+                            // Manejar el caso en el que no se pudo guardar la imagen
+                            $alerts[] = 'Error al guardar la imagen ' . $key;
+                        }
                     }
                 }
+                
+                
+               // debuguear($imagenesJSON);
+                $imagenes = json_encode($imagenesJSON);
+                $newPrdouct->imagen = $imagenes;
             } else {
                 $newPrdouct->imagen = $producto->imagen;
             }
-            
-
-            
+           // debuguear($newPrdouct);
             $tallasArray = explode(',', $_POST['tallas']);
             
             $tallasJson = json_encode($tallasArray);
@@ -341,103 +394,127 @@ class AdminController {
             
             
             $countImages = 0;
+            $countImagesColor = 0;
             $imagenesJSON = [];
             $nombre = '';
             $rgb = '';
-            // Verificar si se cargaron archivos de imagen
-            //debuguear(empty($_FILES['imagenColor']['tmp_name']));
-            //debuguear(array_filter($_FILES['imagenColor']['tmp_name']));
-            if (!empty($_FILES['imagenColor']['tmp_name'])) {
-                
-                // Iterar sobre cada archivo de imagen
-                foreach ($_FILES['imagenColor']['tmp_name'] as $key => $tmp_name) {
-                    
-                    // Generar un nombre único para la imagen
-                    
-                    $image_name = md5(uniqid(rand(), true)) . '.jpg';
 
-                    // Intentar cargar la imagen
-                    $imagen = Image::make($tmp_name)->fit(400, 540);
-                    $nombre = $_POST['color'][$countImages];
-                    $rgb = $_POST['rgb'][$countImages];
-
-                    //debuguear($_POST['rgb']);
-                    //debuguear($_POST['rgb'][$countImages]);
-                    $countImages++;
-                    // Guardar la imagen
-                    if ($imagen->save(IMAGE_FOLDER . $image_name)) {
-                        // Asignar el nombre de la imagen al producto o almacenar en un array si es necesario
-                        // Almacenar información relevante en el array $imagenesJSON
-                        $imagenesJSON[] = [
-                            'rgb' => $rgb,
-                            'color' => $nombre,
-                            'imagen' => $image_name
-                        ];
+            
+            $imagenesJSON = json_decode($producto->colores, true);
+            $arrayPHP = explode(',', $_POST['colorFileCount']);
+            //debuguear($arrayPHP);
+            foreach ($arrayPHP as $value) {
+                $imagenJSON = [];
+                $encontrado = false;
+                //echo $value;
+                $nombre = null;
+                $rgb = null;
+                foreach ($_FILES['imagenColor_'.$value]['tmp_name'] as $key => $tmp_name) {
+                   
+                    if(file_exists($tmp_name)) {
                         
-                        //  $producto->addImage($image_name);--------
-                    } else {
-                        // Manejar el caso en el que no se pudo guardar la imagen
-                        $alerts[] = 'Error al guardar la imagen ' . $key;
+                        $image_name = md5(uniqid(rand(), true)) . '.jpg';
+                        // Intentar cargar la imagen
+                        $imagen = Image::make($tmp_name)->fit(400, 540);
+                        $encontrado = true;
+                        // Guardar la imagen
+                        if ($imagen->save(IMAGE_FOLDER . $image_name)) {
+                            $imagenJSON[] = $image_name;
+                        } else {
+                            // Manejar el caso en el que no se pudo guardar la imagen
+                            $alerts[] = 'Error al guardar la imagen ' . $key;
+                        }
+                        
+                        if($_POST['color'][$countImages] != null) {
+                            $nombre = $_POST['color'][$countImages];
+                            $rgb = $_POST['rgb'][$countImages];
+                        }
+                        $countImages++;
+                        //$imagenesTempJSON[] = $imagenJSON;     
+                        //debuguear($imagenJSON);
+                         //debuguear($imagenJSON);
+                       /* if($_POST['color'][$countImages] != null) {
+                            //debuguear($imagenJSON);
+                            $imagenesTempJSON[] = [
+                                'imagen' => $imagenJSON
+                            ];     
+                        }*/
                     }
+                    
+                    
+                    //$imagenesColores[] = $imagenesJSON;
                 }
-            } else {
+                if($nombre != null) {
+                    $imagenesJSON[] = [
+                        'rgb' => $rgb,
+                        'color' => $nombre,
+                        'imagen' => $imagenJSON
+                    ];
+                }
+                $countImagesColor++;
                 
             }
+            //debuguear(array_filter($imagenesJSON));
+            
+            // Iterar sobre cada archivo de imagen
+            
             $ColoresjsonResult = json_encode($imagenesJSON);
+            //debuguear($imagenesJSON);
             $newPrdouct->colores = $ColoresjsonResult;
             
             
-            
-            
-            
-            $coloresArray = json_decode($producto->colores, true); // Convertir a array
-            $nuevosColoresArray = json_decode($ColoresjsonResult, true); // Convertir a array
-            
-            // Combinar los arrays
-            $coloresCombinados = array_merge($coloresArray, $nuevosColoresArray);
-            
-            // Convertir el array combinado de nuevo a JSON y asignarlo a $newProduct->colores
-            $newPrdouct->colores = json_encode($coloresCombinados);
-            //debuguear($ColoresjsonResult);
-            //debuguear($newPrdouct->colores);
-            if (!empty($_POST['imagenesEliminar'])) {
-                $imagenesEliminarArray = explode(",", $_POST['imagenesEliminar']);
-            
-                // Decodificar el JSON en un array
-                $coloresArray = json_decode($newPrdouct->colores, true);
-            
-                // Iterar sobre los elementos del array
-                foreach ($coloresArray as $indice => $color) {
-                    // Verificar si la imagen del color actual está en el array de imágenes a eliminar
-                    if (in_array($color['imagen'], $imagenesEliminarArray)) {
-                        // Eliminar la imagen utilizando tu lógica (por ejemplo, la función deleteImage)
-                        // Eliminar el color del array
-                        unset($coloresArray[$indice]);
-                        $producto->deleteImage($color['imagen']);
-            
+                if (!empty($_POST['imagenesEliminar'])) {
+                    
+                    $imagenesEliminarArray = json_decode($_POST['imagenesEliminar']);
+                    $coloresIndex = explode(',', $_POST['IndexColoresEliminar']);
+                    if($imagenesEliminarArray == null) {
+                        //$imagenesEliminarArray = $_POST['imagenesEliminar'];
+                        $imagenesEliminarArray = explode(',',$_POST['imagenesEliminar']);
+                    }
+                    
+                    //debuguear($imagenesEliminarArray);
+                    foreach ($coloresIndex as $indice) {     
+                        $colors = json_decode($newPrdouct->colores);
+                        unset($colors[$indice]);
+                    }
+                    
+                    
+                    $newPrdouct->colores = json_encode(array_values($colors));
+                    
+                   
+                    
+                    
+                }
+                if (!empty($imagenesEliminarArray)) {
+                    $imgArray = json_decode($newPrdouct->imagen);
+                    foreach ($imagenesEliminarArray as $indice => $color) {
+                        foreach ($imgArray as $k => $v) {
+                            if($color == $v) {
+                                unset($imgArray[$k]);
+                            }
+                        }
+                    }
+                    $newPrdouct->imagen = json_encode(array_values($imgArray));
+                    
+
+                    foreach ($imagenesEliminarArray as $indice => $color) {
+                        $producto->deleteImage($color);
                     }
                 }
-            
-                // Codificar de nuevo el array en formato JSON y actualizar la variable $producto->colores
-                $newPrdouct->colores = json_encode(array_values($coloresArray));
+               // debuguear($newPrdouct);
+                if(empty($alerts)) {
+                    //$producto->imagen = $producto->imagen;
+                    $producto->sync($newPrdouct);
+                    //debuguear($producto->colores);
+                    //debuguear($producto);
+                    //
+                    //debuguear($producto);
+                   // debuguear($newPrdouct);
+                    $producto->save();
+                    header('Location: /d94a5da526ad85f8e50ca84d4be1defd?b80bb7740288fda1f201890375a60c8f='.$parametro);           
+                }
             }
-            
-            //  debuguear($newPrdouct);
-            //$alerts = $newPrdouct->validateNewProduct();
-
-            //debuguear($_POST['imagenesEliminar']);
-            if(empty($alerts)) {
-                $producto->sync($newPrdouct);
-                //debuguear($producto);
-                
-                $producto->save();
-                header('Location: /d94a5da526ad85f8e50ca84d4be1defd?b80bb7740288fda1f201890375a60c8f='.$parametro);
-               // debuguear($producto);            
-            }
-        }
         
-
-
        // debuguear($producto->colores);
         $categoria = new Categoria();
         $categorias = $categoria->all();
@@ -452,8 +529,6 @@ class AdminController {
         //debuguear($textoNormal);
         $tallasNormal = $producto->restaurarAJSON($producto->tallas);
 
-
-
         $textoNormal = '';
         $ultimoIndice = count($tallasNormal) - 1;
 
@@ -461,10 +536,10 @@ class AdminController {
             // Verifica si es el último elemento antes de agregar la coma
             $textoNormal .= $linea . ($indice === $ultimoIndice ? '' : ",");
         }
-
         $producto->tallas = $textoNormal;
         $colores = json_decode($producto->colores, true);
         $producto->colores = $colores;
+        //debuguear($producto->colores);
         $router->render('admin/editarRegistroProductos', [
             'producto' => $producto,
             'alerts' => $alerts,

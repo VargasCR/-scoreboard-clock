@@ -75,7 +75,9 @@
         <input
             type="file"
             id="imagen"
-            name="imagen"
+            name="imagen[]"
+            accept="image/*"
+            multiple
         />
     </div>
 
@@ -142,12 +144,16 @@
                     <label for="tallas">Imagen del producto</label>
                     <input
                         type="file"
-                        id="imagenColor"
-                        name="imagenColor[]"
+                        class="imagenColor"
+                        name="imagenColor_0[]"
+                        accept="image/*"
+                        multiple
+                        
                     />
                 </div>
             </div>
         </div>
+        <input type="hidden" id="colorFileCount" value="0" name="colorFileCount">
                 
     
 

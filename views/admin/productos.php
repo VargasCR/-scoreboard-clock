@@ -25,7 +25,7 @@
     <tbody>
         <?php foreach ($productos as $producto) { ?>
             <tr style="padding: 1rem; border: #6c757d solid 1px;">
-                <td><p class="tableInfoField">Imagen: </p><img width="100px" src="/images/<?= $producto->imagen ?>" alt="Imagen del producto"></td>
+                <td><p class="tableInfoField">Imagen: </p><img width="100px" src="/images/<?= json_decode($producto->imagen)[0] ?>" alt="Imagen del producto"></td>
                 <td><p class="tableInfoField">ID: </p><?= $producto->id ?></td>
                 <td><p class="tableInfoField">Título: </p><?= $producto->titulo ?></td>
                 <td><p class="tableInfoField">Precio: </p><?= $producto->precio ?></td>
@@ -40,7 +40,7 @@
                 ?></td>
                 <td><p class="tableInfoField">Código: </p><?= $producto->codigo ?></td>
                 <td>
-                    <a href="/ver_producto?id=<?= $producto->id ?>" value=''>Ver Detalles</a>
+                    <!--<a href="/ver_producto?id=<?= $producto->id ?>" value=''>Ver Detalles</a>-->
                     <a href="/d94a5da526ad85f8e50ca84d4be1defd?b80bb7740288fda1f201890375a60c8f=<?= $producto->id ?>" style="margin: 0 0 0 0.5rem;">Editar</a>
                     <button style="background-color: transparent; border: none" onclick="borrarProducto(<?= $producto->id ?>)">Borrar</button>
                 </td>
