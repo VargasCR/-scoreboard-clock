@@ -2,7 +2,7 @@
 <div class="form-container-admin">
 <div class="form-container-admin-1">
     <h1 class="name-page" style="color:black;">EDITAR PRODUCTO</h1>
-    <p class="description-page" style="color:black;">Llena el siguiente Formulario para Agregar</p>
+    <p class="description-page" style="color:black;">Llena el siguiente Formulario para Editar</p>
 
     <?php 
         include_once __DIR__ . "/../templates/alerts.php";

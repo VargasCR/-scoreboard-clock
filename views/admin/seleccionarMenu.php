@@ -2,7 +2,7 @@
 <style>
     .button {
         padding: 0.4rem;
-        background-color: #98c33a;
+        background-color: #474747;
         display: block;
         color: white;
         width: 100% !important;

@@ -472,11 +472,11 @@ $ColoresjsonResult = json_encode($imagenesJSON);
                         $imagenesEliminarArray = explode(',',$_POST['imagenesEliminar']);
                     }
                     
-                    //debuguear($imagenesEliminarArray);
+                    $colors = json_decode($newPrdouct->colores);
                     foreach ($coloresIndex as $indice) {     
-                        $colors = json_decode($newPrdouct->colores);
                         unset($colors[$indice]);
                     }
+                    //debuguear(json_encode(array_values($colors)));
                     
                     
                     $newPrdouct->colores = json_encode(array_values($colors));
@@ -487,6 +487,7 @@ $ColoresjsonResult = json_encode($imagenesJSON);
                 }
                 if (!empty($imagenesEliminarArray)) {
                     $imgArray = json_decode($newPrdouct->imagen);
+                    //debuguear($imagenesEliminarArray);
                     foreach ($imagenesEliminarArray as $indice => $color) {
                         foreach ($imgArray as $k => $v) {
                             if($color == $v) {
@@ -494,6 +495,7 @@ $ColoresjsonResult = json_encode($imagenesJSON);
                             }
                         }
                     }
+                   // debuguear(json_encode(array_values($imgArray)));
                     $newPrdouct->imagen = json_encode(array_values($imgArray));
                     
 

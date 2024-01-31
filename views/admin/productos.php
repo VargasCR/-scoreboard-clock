@@ -55,7 +55,7 @@
     <div style="display: flex;">
         <?php 
             if($pagina > 1) { ?>
-                <a style="padding: 1rem 1.5rem;border-radius:2.5rem;background-color:#98c33a;color:white;" href="/286e18ee6617beaf7cfd0cb74b4b7824?page=<?php echo intval($pagina)-1; ?>"><</a>
+                <a style="padding: 1rem 1.5rem;border-radius:2.5rem;background-color:#474747;color:white;" href="/286e18ee6617beaf7cfd0cb74b4b7824?page=<?php echo intval($pagina)-1; ?>"><</a>
         <?php 
             }
         ?>
@@ -64,7 +64,7 @@
         <p style="padding: 1rem"><?php echo $totalPaginas; ?></p>
         <?php 
             if($pagina < $totalPaginas) { ?>
-                <a style="padding: 1rem 1.5rem; border-radius: 2.5rem; background-color: #98c33a; color: white;" href="/286e18ee6617beaf7cfd0cb74b4b7824?page=<?php echo intval($pagina) + 1; ?>">></a>
+                <a style="padding: 1rem 1.5rem; border-radius: 2.5rem; background-color: #474747; color: white;" href="/286e18ee6617beaf7cfd0cb74b4b7824?page=<?php echo intval($pagina) + 1; ?>">></a>
 
         <?php 
             }

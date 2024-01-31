@@ -1124,7 +1124,7 @@ footer .inner-content p a {
 @media (max-width: 1024px) {}
 @media (max-width: 1024px) {
 	.navbar .navbar-brand {
-		position: absolute;
+		/*position: absolute;*/
 		left: 30px;
 		top: 16px;
 	}

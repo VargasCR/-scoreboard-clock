@@ -49,7 +49,9 @@ function changeSize(x) {
     document.querySelector('#talla-id').value = x;
 }
 function changeColor(x,img) {
-    //alert(x);
+    console.log(JSON.parse(img));
+    //console.log(x);
+//alert('');
     showingImgModal = 0;
     const colores = document.querySelectorAll('.color-button');
    
@@ -61,9 +63,21 @@ function changeColor(x,img) {
     document.querySelector('#c-'+x).classList.add('color-button-selected');
     document.querySelector('#color-id').value = x;
     document.querySelector('#image-id').value = JSON.parse(img)[showingImgModal];
-    console.log(img);
+   // console.log(img);
     document.querySelector('#imgs-url').value = img;
     document.querySelector('#img-show-product').src = '/images/'+JSON.parse(img)[showingImgModal];
+    if(JSON.parse(img).length > 1) {
+        document.querySelectorAll('.botonArrow').forEach(element => {
+            element.classList.remove('hidden');
+        });
+    } else {
+        //alert('');
+        
+        document.querySelectorAll('.botonArrow').forEach(element => {
+            element.classList.add('hidden');
+        });
+        
+    }
 }
 
 async function filtrarPorCategoria(categoria) {
@@ -159,6 +173,20 @@ async function showFloatingWindow(cod) {
     ////console.log(JSON.parse(producto.imagen)[0]);
     await limpiarProductoTallaColor();
     document.querySelector('#img-show-product').src = '/images/' + JSON.parse(producto.imagen)[0];
+    //console.log(JSON.parse(producto.imagen).length);
+    if(JSON.parse(producto.imagen).length > 1) {
+        document.querySelectorAll('.botonArrow').forEach(element => {
+            element.classList.remove('hidden');
+        });
+    } else {
+        //alert('');
+        
+        document.querySelectorAll('.botonArrow').forEach(element => {
+            element.classList.add('hidden');
+        });
+        
+    }
+    
     JSON.parse(producto.desc).forEach(text => {
         const textoDesc = document.createElement('P');
         textoDesc.textContent = text;
@@ -585,8 +613,10 @@ async function createProduct() {
             cambiarImagen(event,product.codigo,product.imagen,1);
         };
     
-        contenedorBotones.appendChild(botonIzquierdo);
-        contenedorBotones.appendChild(botonDerecho);
+        if(JSON.parse(product.imagen).length > 1) {
+            contenedorBotones.appendChild(botonIzquierdo);
+            contenedorBotones.appendChild(botonDerecho);
+        }
     
         const imagenPrincipal = document.createElement("img");
         imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
@@ -941,6 +971,7 @@ async function buscar(w) {
         const botonIzquierdo = document.createElement("button");
         botonIzquierdo.className = "botonArrow";
         botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
+        console.log(JSON.parse(product.imagen).length);
         
         botonIzquierdo.onclick = function() {
             cambiarImagen(event,product.codigo,product.imagen,0);
@@ -953,9 +984,11 @@ async function buscar(w) {
         botonDerecho.onclick = function() {
             cambiarImagen(event,product.codigo,product.imagen,1);
         };
-    
-        contenedorBotones.appendChild(botonIzquierdo);
-        contenedorBotones.appendChild(botonDerecho);
+        if(JSON.parse(product.imagen).length > 1) {
+            contenedorBotones.appendChild(botonIzquierdo);
+            contenedorBotones.appendChild(botonDerecho);
+        }
+        
     
         const imagenPrincipal = document.createElement("img");
         imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
