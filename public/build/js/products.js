@@ -82,7 +82,7 @@ function changeColor(x,img) {
 
 async function filtrarPorCategoria(categoria,tipo,aurum) {
     
-    //alert(categoria);
+    //alert(tipo);
     if(document.querySelector('#page-category').value == 1) {
         if(categoria == '0') {
             const data = new FormData();
@@ -114,6 +114,7 @@ async function filtrarPorCategoria(categoria,tipo,aurum) {
         if(categoria == '0') {
             const data = new FormData();
             data.append('class', '1');
+            
             const url = `${location.origin}/api/find-products`;
             const response = await fetch(url, {
                 method: 'POST',
@@ -1355,7 +1356,18 @@ async function encontrarPagina(n) {
     });
     document.querySelector('#'+n).classList.add('btn-nav-active');
     
-    buscar(buscandoCategoria);
+    if(document.querySelector('#pageindex').value == '1') {
+
+        buscar(buscandoCategoria,'0');
+    }
+    if(document.querySelector('#pageindex').value == '1.5') {
+
+        buscar(buscandoCategoria,'1');
+    }
+    if(document.querySelector('#pageindex').value == '2') {
+
+        buscarA(buscandoCategoria);
+    }
 }
 
 async function siguientePagina() {
@@ -1395,7 +1407,18 @@ async function siguientePagina() {
             default:
                 break;
         }
-        buscar(buscandoCategoria);
+        if(document.querySelector('#pageindex').value == '1') {
+
+            buscar(buscandoCategoria,'0');
+        }
+        if(document.querySelector('#pageindex').value == '1.5') {
+
+            buscar(buscandoCategoria,'1');
+        }
+        if(document.querySelector('#pageindex').value == '2') {
+
+            buscarA(buscandoCategoria);
+        }
 
     }
 }
@@ -1436,7 +1459,18 @@ async function retrocederPagina() {
         default:
             break;
     }
-        buscar(buscandoCategoria);
+        if(document.querySelector('#pageindex').value == '1') {
+
+            buscar(buscandoCategoria,'0');
+        }
+        if(document.querySelector('#pageindex').value == '1.5') {
+
+            buscar(buscandoCategoria,'1');
+        }
+        if(document.querySelector('#pageindex').value == '2') {
+
+            buscarA(buscandoCategoria);
+        }
     }
 }
 function buscarProductosCart() {

@@ -78,7 +78,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </div>  
     <!-- ***** Preloader End ***** -->
-    
+    <input type="hidden" name="" value="<?php echo $pageIndex; ?>" id="pageindex">
     <!-- Header -->
     <?php
 if($pageIndex != 15) {
