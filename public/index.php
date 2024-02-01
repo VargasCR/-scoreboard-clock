@@ -21,6 +21,7 @@ $router->get('/', [ClientController::class,'index']);
 $router->get('/products', [ClientController::class,'products']);
 $router->get('/products-male', [ClientController::class,'productsMale']);
 $router->get('/products-female', [ClientController::class,'productsFemale']);
+
 $router->get('/products-aurum', [ClientController::class,'productsaurum']);
 $router->get('/about', [ClientController::class,'about']);
 $router->get('/reviews', [ClientController::class,'reviews']);
