@@ -104,6 +104,7 @@
 }
 </style>
 <br>
+<!--
 <h2 style="font-size: 28px;
     font-weight: 400;
     color: #1e1e1e;
@@ -169,7 +170,7 @@
     </div>
   </div>
 </div>
-
+-->
 
     <div class="latest-products" id="latest-products">
       <div class="container">
