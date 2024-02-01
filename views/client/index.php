@@ -112,7 +112,7 @@
 <div class="category-container">
   <div class="sub-category-container">
     <div class="category">
-      <a href="/products?ea170e2cafb1337755c8b3d5ae4437f4=1">
+      <a href="/products-male?ea170e2cafb1337755c8b3d5ae4437f4=1">
         <img src="/build/img/atlantic-header-1.png" alt="">
         <p>Category 1</p>
       </a>

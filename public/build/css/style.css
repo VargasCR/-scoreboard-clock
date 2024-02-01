@@ -330,7 +330,7 @@ a:hover {
 
 .btn:hover {
 	color: #fff;
-	background: #429188;
+	background: #2c2c2c;
 }
 
 .type {
@@ -426,7 +426,7 @@ a:hover {
    text-decoration: none;
 }
 .credit a:hover{
-   color: #1DBF73; 
+   color: #2c2c2c; 
 }
 .credit a:hover:after{
     font-family: FontAwesome;

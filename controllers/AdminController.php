@@ -90,6 +90,10 @@ class AdminController {
         $alertlink = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $categoria = new Categoria($_POST);
+            if($categoria->aurum != '0') {
+                $categoria->aurum = '1';
+            }
+            //debuguear($categoria);
             $categoria->save();
         }
         $registros = Categoria::all();
@@ -227,9 +231,9 @@ class AdminController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //debuguear($_FILES['imagen']['tmp_name']);
         //$alerts = $producto->validateProduct($_POST,$_FILES['imagenColor']['tmp_name'],$_FILES['imagen']['tmp_name']);
-            //debuguear($_POST);
-            if(empty($alerts)) {
-                $producto->sync($_POST);
+        if(empty($alerts)) {
+            $producto->sync($_POST);
+            
                 $alerts = [];
                 $producto->desc = $producto->convertirTextAJSON($_POST['desc']);
                 if (!is_dir(IMAGE_FOLDER)) {
@@ -312,7 +316,7 @@ foreach ($colorFileCountArray as $value => $key) {
 
 $ColoresjsonResult = json_encode($imagenesJSON);
 $producto->colores = $ColoresjsonResult;
-
+//debuguear($producto);
 $producto->save();
 //debuguear($producto);
             }

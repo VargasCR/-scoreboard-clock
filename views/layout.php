@@ -96,8 +96,14 @@ if($pageIndex != 15) {
                   <span class="sr-only">(current)</span>
                 </a>
               </li> 
-              <li class="nav-item ' . ($pageIndex == 1 ? 'active' : '') . '">
+              <!--<li class="nav-item ' . ($pageIndex == 1 ? 'active' : '') . '">
                 <a class="nav-link" href="/products">Productos</a>
+              </li>-->
+              <li class="nav-item ' . ($pageIndex == 1 ? 'active' : '') . '">
+                <a class="nav-link" href="/products-male">Hombre</a>
+              </li>
+              <li class="nav-item ' . ($pageIndex == 1.5 ? 'active' : '') . '">
+                <a class="nav-link" href="/products-female">Mujer</a>
               </li>
               <li class="nav-item ' . ($pageIndex == 2 ? 'active' : '') . '">
                 <a class="nav-link" href="/products-aurum">Aurum</a>

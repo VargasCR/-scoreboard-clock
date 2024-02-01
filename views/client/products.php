@@ -30,8 +30,14 @@
             </button>
         </div>
         <div class="custom-select-options" id="optionsContainer" style="z-index: 9999;">
-            <?php foreach ($categorias as $categoria) { ?>
-                <div class="custom-option" onclick="cambiarCategoria('<?= $categoria->id ?>', '<?= $categoria->nombre ?>')"><?= $categoria->nombre ?></div>
+            <?php foreach ($categorias as $categoria) { 
+              if($pageIndex == 1) { ?>
+                    <div class="custom-option" onclick="cambiarCategoria('<?= $categoria->id ?>', '<?= $categoria->nombre ?>','0')"><?= $categoria->nombre ?></div>
+                    <?php } else {  
+                      ?>
+                    <div class="custom-option" onclick="cambiarCategoria('<?= $categoria->id ?>', '<?= $categoria->nombre ?>','1')"><?= $categoria->nombre ?></div>
+                  <?php } ?> 
+              
             <?php } ?>
         </div>
     </div>

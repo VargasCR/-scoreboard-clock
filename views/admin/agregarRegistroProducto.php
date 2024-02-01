@@ -47,7 +47,14 @@
             <?php endforeach; ?>
         </select>
     </div>
-
+    <div class="slot">
+    <label for="genero">Genero</label>
+        <select name="genero" class="select-genero" value="0" id="">
+            <option value="0">Hombre</option>
+            <option value="1">Mujer</option>
+            <option value="2">Unisex</option>
+        </select>
+    </div>
     <div class="slot">
         <label for="desc">Descripción (JSON)</label>
         <textarea

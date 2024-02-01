@@ -184,13 +184,41 @@ class ActiveRecord {
 */
     public static function findAllWhere($column,$value) {
 
+        $query = "SELECT * FROM " . static::$table . " WHERE $column = $value OR genero = '2'";
+        $result = self::querySQL($query);
+        return $result;
+    }
+    public static function findAllWhereA($column,$value) {
+
         $query = "SELECT * FROM " . static::$table . " WHERE $column = $value";
         $result = self::querySQL($query);
         return $result;
     }
-    public static function findAllWhereAND($column1,$value1,$column2,$value2) {
-        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 && $column2 = $value2";
+    public static function findAllCatWhere($column,$value) {
+
+        $query = "SELECT * FROM " . static::$table . " WHERE $column = $value OR id = '0'";
         $result = self::querySQL($query);
+        return $result;
+    }
+    public static function findAllWhereAND($column1,$value1,$column2,$value2) {
+        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 && $column2 = $value2 OR genero = '2'";
+       // debuguear($query);
+        $result = self::querySQL($query);
+
+        return $result;
+    }
+    public static function findAllWhereAAND($column1,$value1,$column2,$value2) {
+        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 && $column2 = $value2";
+       // debuguear($query);
+        $result = self::querySQL($query);
+
+        return $result;
+    }
+    public static function findAllWhereOR($column1,$value1,$column2,$value2) {
+        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 OR $column2 = $value2";
+        //debuguear($query);
+        $result = self::querySQL($query);
+
         return $result;
     }
     

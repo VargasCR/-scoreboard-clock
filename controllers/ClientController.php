@@ -48,17 +48,66 @@ class ClientController {
             'isClient' => $isClient,
         ]);
     }
+
+    public static function productsMale(Router $router) {
+        if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
+            $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
+            $functions = "buscar('".$urlParam."','0');";
+        } else {
+            $functions = "buscar('0','0');";
+        }
+        //debuguear($_GET['ea170e2cafb1337755c8b3d5ae4437f4']);
+        $pageIndex = 1;
+        $isClient = true;
+        $categorias = Categoria::findAllWhereOR('genero','0','genero','2');
+       // debuguear($categorias);
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        //debuguear($urlParam);
+        $router->render('client/products', [
+            'function' => $functions,
+            'categorias' => $categorias,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+    public static function productsFemale(Router $router) {
+        if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
+            $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
+            $functions = "buscar('".$urlParam."','1');";
+        } else {
+            $functions = "buscar('0','1');";
+        }
+        //debuguear($_GET['ea170e2cafb1337755c8b3d5ae4437f4']);
+        $pageIndex = 1.5;
+        $isClient = true;
+        $categorias = Categoria::findAllWhereOR('genero','1','genero','2');
+       // debuguear($categorias);
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+       // debuguear($categorias);
+        $router->render('client/products', [
+            'function' => $functions,
+            'categorias' => $categorias,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+
     public static function productsaurum(Router $router) {
         if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
             $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
-            $functions = "buscar('".$urlParam."');buscarProductosCart();";
+            $functions = "buscarA('".$urlParam."');buscarProductosCart();";
         } else {
-            $functions = "buscar('0');buscarProductosCart();";
+            $functions = "buscarA('0');buscarProductosCart();";
         }
         
         $pageIndex = 2;
         $isClient = true;
-        $categorias = Categoriaa::all();
+        $categorias = Categoria::findAllCatWhere('aurum','1');
+        //debuguear($urlParam);
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         }

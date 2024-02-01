@@ -16,7 +16,7 @@ class Producto extends ActiveRecord {
         'colores',
         'new',
         'aurum',
-        'cantidad'
+        'cantidad','genero'
     ];
     public $id;
     public $titulo;
@@ -31,6 +31,7 @@ class Producto extends ActiveRecord {
     public $new;
     public $aurum;
     public $cantidad;
+    public $genero;
     
 
     public function __construct($args = [])
@@ -48,6 +49,7 @@ class Producto extends ActiveRecord {
         $this->new = $args['new'] ?? '';       
         $this->aurum = $args['aurum'] ?? '';       
         $this->cantidad = $args['cantidad'] ?? '';       
+        $this->genero = $args['genero'] ?? '2';       
        
  
     }

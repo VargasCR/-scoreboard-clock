@@ -2109,14 +2109,14 @@ iframe {
 	user-select: none;
   }
 
-  .iluminationbutton:hover{
+ /* .iluminationbutton:hover{
 	color: #ffffff;
 	background: transparent;
 	border: 1px solid #02e677;
 	text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
 	box-shadow: 0 0 5px #02e677, 0 0 20px #02e677, 0 0 50px #02e677,
 	  0 0 100px #02e677;
-  }
+  }*/
 
 
 

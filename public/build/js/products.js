@@ -80,13 +80,15 @@ function changeColor(x,img) {
     }
 }
 
-async function filtrarPorCategoria(categoria) {
+async function filtrarPorCategoria(categoria,tipo,aurum) {
     
     //alert(categoria);
     if(document.querySelector('#page-category').value == 1) {
         if(categoria == '0') {
             const data = new FormData();
-            data.append('class', '0');
+            data.append('class', categoria);
+            data.append('tipo', tipo);
+            data.append('aurum', aurum);
             const url = `${location.origin}/api/find-products`;
             const response = await fetch(url, {
                 method: 'POST',
@@ -99,6 +101,7 @@ async function filtrarPorCategoria(categoria) {
             const data = new FormData();
             data.append('class', '0');
             data.append('categoria', categoria);
+            data.append('tipo', tipo);
             const url = `${location.origin}/api/find-products`;
             const response = await fetch(url, {
                 method: 'POST',
@@ -693,7 +696,7 @@ async function createProduct() {
 }
 
 
-
+/*
 async function buscarTodos() {
     await limpiarProductos();
     cantidadDeProductos = products.length;
@@ -822,7 +825,7 @@ async function buscarTodos() {
     
     });
     encontrarProductosEnCarrito();
-}
+}*/
 
 function limpiarProductos() {
     const productsContainer = document.querySelector('#products-container');
@@ -859,7 +862,8 @@ function limpiarProductosCarrito() {
     }
 }
 
-function cambiarCategoria(w,t) {
+function cambiarCategoria(w,t,g) {
+    
     btnSelected = 'btn-nav-0';
     let btnCount = 1;
     document.querySelectorAll('.btn-nav-number').forEach(element => {
@@ -890,7 +894,7 @@ function cambiarCategoria(w,t) {
     var hash = window.location.hash;
     history.pushState(null, "", pathname + newSearchParams.toString() + hash);
     toggleOptions(t);
-    buscar(w);
+    buscar(w,g);
 }
 
 try {
@@ -929,10 +933,160 @@ function toggleOptions(t) {
 }
 
 
-async function buscar(w) {
+async function buscar(w,t) {
+    //alert(t);
     await limpiarProductos();
 
-    const productosFiltrados = await filtrarPorCategoria(w);
+    const productosFiltrados = await filtrarPorCategoria(w,t,'0');
+    
+    cantidadDeProductos = productosFiltrados.length;
+    buscandoCategoria = w;
+    
+    cantidadDeProductos = productosFiltrados.length;
+    cantidadDePaginas = cantidadDeProductos / 4;
+    document.querySelector('#btn-nav-2').classList.remove('hidden');
+    if(cantidadDePaginas <= 1){
+        document.querySelector('#navegation-products').classList.add('hidden');
+    } else if(cantidadDePaginas <= 2 && cantidadDePaginas > 1) {
+        document.querySelector('#btn-nav-2').classList.add('hidden');
+        document.querySelector('#navegation-products').classList.remove('hidden');
+    } else {
+        document.querySelector('#btn-nav-2').classList.remove('hidden');
+        document.querySelector('#navegation-products').classList.remove('hidden');
+    }
+    let productosSeleccionados = [];
+    const indexDesde = (4 * paginaActual) - 4;
+    const indexHasta = 4 * paginaActual;
+    productosSeleccionados = productosFiltrados.slice(indexDesde, indexHasta);
+
+    if (w == '0') {
+
+    } else if(cantidadDeProductos == 0) {
+        const textoVacio = document.createElement("h3");
+        textoVacio.textContent = 'No hay resultados';
+        textoVacio.style.textAlign = 'center';
+        const productsContainer = document.querySelector("#products-container");
+        productsContainer.appendChild(textoVacio);
+        return;
+    }
+    productosSeleccionados.forEach(product => {
+        const productContainer = document.createElement("div");
+        productContainer.classList.add('productContainer');
+    
+        const productItem = document.createElement("div");
+        productItem.className = "product-item";
+        productItem.style.margin = "0.5rem";
+       
+        productItem.id = 'p-'+product.codigo;
+        productItem.value = 0;
+        productItem.setAttribute('showingImg', 0);
+    
+        const contenedorImagen = document.createElement("div");
+        contenedorImagen.id = "contenedorImagen";
+    
+        const contenedorBotones = document.createElement("div");
+        contenedorBotones.id = "contenedorBotones";
+    
+        const botonIzquierdo = document.createElement("button");
+        botonIzquierdo.className = "botonArrow";
+        botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
+        console.log(JSON.parse(product.imagen).length);
+        
+        botonIzquierdo.onclick = function() {
+            cambiarImagen(event,product.codigo,product.imagen,0);
+        };
+    
+        const botonDerecho = document.createElement("button");
+        botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
+        botonDerecho.className = "botonArrow";
+       
+        botonDerecho.onclick = function() {
+            cambiarImagen(event,product.codigo,product.imagen,1);
+        };
+        if(JSON.parse(product.imagen).length > 1) {
+            contenedorBotones.appendChild(botonIzquierdo);
+            contenedorBotones.appendChild(botonDerecho);
+        }
+        
+    
+        const imagenPrincipal = document.createElement("img");
+        imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
+        imagenPrincipal.alt = "";
+        imagenPrincipal.id = 'img-'+product.codigo;
+    
+        contenedorImagen.appendChild(contenedorBotones);
+        contenedorImagen.appendChild(imagenPrincipal);
+    
+        const downContent = document.createElement("div");
+        downContent.className = "down-content";
+    
+        const productName = document.createElement("h4");
+        productName.style.textAlign = "left";
+        productName.style.fontSize = "16px";
+        productName.textContent = product.titulo;
+    
+        const priceContainer = document.createElement("div");
+        priceContainer.style.display = "flex";
+        priceContainer.style.justifyContent = "space-between";
+        priceContainer.style.alignItems = "center";
+    
+        const productPrice = document.createElement("h6");
+        productPrice.style.margin = "0 !important";
+        productPrice.textContent = '₡' + product.precio;
+        productPrice.style.fontSize = '14px';
+    
+        const addToCartButton = document.createElement("div");
+        addToCartButton.className = "buttonadd";
+        addToCartButton.onclick = function() {
+            showFloatingWindow(product.codigo);
+        };
+    
+        const buttonWrapper = document.createElement("div");
+        buttonWrapper.className = "button-wrapper";
+    
+        const textDiv = document.createElement("div");
+        textDiv.className = "text";
+        textDiv.textContent = "🛒";
+
+        textDiv.onclick = function() {
+                showFloatingWindow(product.codigo);
+           };
+    
+        const iconSpan = document.createElement("span");
+        iconSpan.className = "icon";
+        const pTag = document.createElement("p");
+        pTag.style.color = "white";
+        pTag.textContent = "AGREGAR";
+        pTag.style.margin = "0px";
+        pTag.style.fontSize = '8px';
+        iconSpan.appendChild(pTag);
+    
+        buttonWrapper.appendChild(textDiv);
+        buttonWrapper.appendChild(iconSpan);
+        addToCartButton.appendChild(buttonWrapper);
+    
+        priceContainer.appendChild(productPrice);
+        priceContainer.appendChild(addToCartButton);
+    
+        downContent.appendChild(productName);
+        downContent.appendChild(priceContainer);
+    
+        productItem.appendChild(contenedorImagen);
+        productItem.appendChild(downContent);
+        productContainer.appendChild(productItem);
+    
+        const productsContainer = document.querySelector("#products-container");
+        productsContainer.appendChild(productContainer);
+    });
+    
+    
+    encontrarProductosEnCarrito();
+}
+async function buscarA(w,t) {
+    //alert(t);
+    await limpiarProductos();
+
+    const productosFiltrados = await filtrarPorCategoria(w,t,'1');
     
     cantidadDeProductos = productosFiltrados.length;
     buscandoCategoria = w;

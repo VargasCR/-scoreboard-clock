@@ -30,17 +30,19 @@ public static function findProduct() {
 public static function findproducts() {
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $class = $_POST['class'];
+        $tipo = $_POST['tipo'];
+        $aurum = $_POST['aurum'];
         if($class == '0') {
             if($_POST['categoria']) {
-                $result = Producto::findAllWhere('category',$_POST['categoria']);
+                $result = Producto::findAllWhereAND('category',$_POST['categoria'],'genero',$tipo);
             } else {
-                $result = Producto::all();
+                $result = Producto::findAllWhere('genero',$tipo);
             }
         } elseif($class == '1') {
             if($_POST['categoria']) {
-                $result = Producto::findAllWhereAND('category',$_POST['categoria'],'aurum','1');
+                $result = Producto::findAllWhereAAND('category',$_POST['categoria'],'aurum','1');
             } else {
-                $result = Producto::findAllWhere('aurum','1');
+                $result = Producto::findAllWhereA('aurum','1');
                 
             }
         }
