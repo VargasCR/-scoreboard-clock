@@ -49,8 +49,126 @@
       </div>
     </div>
     <!-- Banner Ends Here -->
+    <style>
+  .category-container {
+    display: flex;
+   
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+  }
 
+  .category {
+    
+    padding: 0.3rem;
+    position: relative;
+    width: 100%;
+  }
 
+  .category img {
+    max-width: 100%; /* Asegura que la imagen no exceda el tamaño del contenedor */
+  }
+
+  .category p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    color: white;
+  }
+  .sub-category-container {
+    display: flex;
+  }
+  @media (max-width: 768px) {
+	.category-container {
+		width: 100%;
+		display: block;
+    
+	}
+  .category {
+    
+    padding: 0.3rem 1rem;
+  }
+}
+  @media (max-width: 512px) {
+	.sub-category-container {
+		width: 100%;
+		display: block;
+	}
+  .category-container-no-mobil {
+    display: none !important;
+  }
+
+}
+</style>
+<br>
+<h2 style="font-size: 28px;
+    font-weight: 400;
+    color: #1e1e1e;
+    margin-bottom: 15px;
+    text-align: center;">Categorias</h2>
+<div class="category-container">
+  <div class="sub-category-container">
+    <div class="category">
+      <a href="/products?ea170e2cafb1337755c8b3d5ae4437f4=1">
+        <img src="/build/img/atlantic-header-1.png" alt="">
+        <p>Category 1</p>
+      </a>
+    </div>
+    <div class="category">
+      <a href="">
+        <img src="/build/img/atlantic-header-1.png" alt="">
+        <p>Category 2</p>
+      </a>
+    </div>
+  </div>
+  <div class="sub-category-container">
+    <div class="category">
+      <a href="">
+        <img src="/build/img/atlantic-header-1.png" alt="">
+        <p>Category 3</p>
+      </a>
+    </div>
+    <div class="category">
+      <a href="">
+        <img src="/build/img/atlantic-header-1.png" alt="">
+        <p>Category 4</p>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="category-container category-container-no-mobil">
+  <div class="sub-category-container">
+    <div class="category">
+      <a href="">
+        <img src="/build/img/atlantic-header-1.png" alt="">
+        <p>Category 1</p>
+      </a>
+    </div>
+    <div class="category">
+      <a href="">
+        <img src="/build/img/atlantic-header-1.png" alt="">
+        <p>Category 2</p>
+      </a>
+    </div>
+  </div>
+  <div class="sub-category-container">
+    <div class="category">
+      <a href="">
+        <img src="/build/img/atlantic-header-1.png" alt="">
+        <p>Category 3</p>
+      </a>
+    </div>
+    <div class="category">
+      <a href="">
+        <img src="/build/img/atlantic-header-1.png" alt="">
+        <p>Category 4</p>
+      </a>
+    </div>
+  </div>
+</div>
 
 
     <div class="latest-products" id="latest-products">
@@ -83,10 +201,6 @@
         </div>
       </div>
     </div>
-    <style>
-
-
-    </style>
     
 
     <div class="best-features">

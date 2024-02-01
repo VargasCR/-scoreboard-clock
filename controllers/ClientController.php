@@ -26,10 +26,17 @@ class ClientController {
         ]);
     }
     public static function products(Router $router) {
-        $functions = "buscar('0');";
+        if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
+            $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
+            $functions = "buscar('".$urlParam."');";
+        } else {
+            $functions = "buscar('0');";
+        }
+        //debuguear($_GET['ea170e2cafb1337755c8b3d5ae4437f4']);
         $pageIndex = 1;
         $isClient = true;
         $categorias = Categoria::all();
+        //debuguear($categorias);
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         }
@@ -42,7 +49,13 @@ class ClientController {
         ]);
     }
     public static function productsaurum(Router $router) {
-        $functions = "buscar('0');buscarProductosCart();";
+        if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
+            $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
+            $functions = "buscar('".$urlParam."');buscarProductosCart();";
+        } else {
+            $functions = "buscar('0');buscarProductosCart();";
+        }
+        
         $pageIndex = 2;
         $isClient = true;
         $categorias = Categoriaa::all();

@@ -8,7 +8,19 @@
         <div style="display: flex;">
           <button id="selecter" class="custom-select" onclick="toggleOptions()">
             <div style="display: flex;justify-content:center;align-items:center;">
-              <p style="line-height: 0;margin:0;color:white;" id="select-text">Todos los productos</p>
+              <p style="line-height: 0;margin:0;color:white;" id="select-text">
+              <?php if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
+                      foreach ($categorias as $categoria) { 
+                        if($categoria->id == $_GET['ea170e2cafb1337755c8b3d5ae4437f4']) {
+                          echo $categoria->nombre;
+                          break;
+                        }
+                        
+                      } 
+                    } else {
+                      echo 'Todos los productos';
+                    }?>
+            </p>
               <span id="select-simbol" style="line-height: 0;margin:0;color:white;">&#9660;</span>
             </div>
           </button>

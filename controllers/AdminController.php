@@ -256,7 +256,7 @@ class AdminController {
                 $imagenes = json_encode($imagenesJSON);
                 $producto->setImage($imagenes);
                 
-                //debuguear($producto);
+                
                 $tallasArray = explode(',', $_POST['tallas']);
                 $tallasJson = json_encode($tallasArray);
                 $producto->tallas = $tallasJson;
@@ -275,6 +275,7 @@ class AdminController {
 $colorFileCountArray = explode(',', $colorFileCountValue);
 //debuguear($_POST);
 // Realiza un bucle foreach en el array
+//debuguear($_FILES['imagenColor_0']['tmp_name']);
 foreach ($colorFileCountArray as $value => $key) {
     // $value ahora contiene cada número del array
     // Realiza las operaciones necesarias aquí
@@ -310,10 +311,10 @@ foreach ($colorFileCountArray as $value => $key) {
 }
 
 $ColoresjsonResult = json_encode($imagenesJSON);
-//debuguear($ColoresjsonResult);
-                $producto->colores = $ColoresjsonResult;
+$producto->colores = $ColoresjsonResult;
 
-                $producto->save();
+$producto->save();
+//debuguear($producto);
             }
             //debuguear($_FILES['imagenColor']);
         }

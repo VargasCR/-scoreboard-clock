@@ -876,6 +876,19 @@ function cambiarCategoria(w,t) {
         element.classList.remove('btn-nav-active');
     });
     document.getElementById('btn-nav-0').classList.add('btn-nav-active');
+
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    var params = new URLSearchParams(url.search);
+    var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
+    console.log(param1Value);
+    if(param1Value != null) {
+
+    }
+    var newSearchParams = "?ea170e2cafb1337755c8b3d5ae4437f4="+w;
+    var pathname = window.location.pathname;
+    var hash = window.location.hash;
+    history.pushState(null, "", pathname + newSearchParams.toString() + hash);
     toggleOptions(t);
     buscar(w);
 }
@@ -912,6 +925,7 @@ function toggleOptions(t) {
         document.querySelector('#select-simbol').innerHTML = `&#9660;`;
         document.querySelector('#custom-select-container').style.position = 'unset';
     }
+    
 }
 
 
