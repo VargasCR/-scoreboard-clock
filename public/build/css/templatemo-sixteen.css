@@ -375,7 +375,7 @@ header .navbar img {
 	background-image: url(../img/atlantic-header-2.png);
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-position: center center;
+	background-position: center bottom;
 }
 
 .banner-item-03 {
@@ -383,7 +383,7 @@ header .navbar img {
 	background-image: url(../img/atlantic-header-3.png);
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-position: center center;
+	background-position: center bottom;
 }
 
 .banner .banner-item {
