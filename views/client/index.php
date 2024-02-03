@@ -27,7 +27,8 @@
           <div class="text-content">
             <div style="width: 100%;display:flex;justify-content:center;align-items:center;flex-direction: column;">
               <img class="imgheader" src="/build/img/atlanticTienda.png" alt="" style="margin-top:1.5rem;">
-              <img class="imgheader" src="/build/img/men.png" alt="" style="margin-top: 1.5rem;margin-bottom: 3rem;">
+              <img class="imgheader" src="/build/img/men.png" alt="" style="margin-top: 1.5rem;">
+              <a style="margin:1rem 0 0 0;margin-bottom: 3rem;" class="seemore" href="/products-male"><span style="font-weight: 300;">VER MAS</span></a>
               <br>
             </div>
             
@@ -39,7 +40,9 @@
           <div class="text-content">
             <div style="width: 100%;display:flex;justify-content:center;align-items:center;flex-direction: column;">
               <img class="imgheader" src="/build/img/atlanticTienda.png" alt="" style="margin-top:1rem;">
-              <img class="imgheader" src="/build/img/women.png" alt="" style="margin-top: 1.5rem;margin-bottom: 3rem;">
+              <img class="imgheader" src="/build/img/women.png" alt="" style="margin-top: 1.5rem;">
+              <a style="margin:1rem 0 0 0;margin-bottom: 3rem;" class="seemore" href="/products-female"><span style="font-weight: 300;">VER MAS</span></a>
+
               <br>
             </div>
             <!--   <h4>Último Minuto</h4>
