@@ -18,6 +18,7 @@
             name="titulo"
             placeholder="Título del producto"
             value=""
+            maxlength="120"
         />
     </div>
 
@@ -30,6 +31,7 @@
             placeholder="Precio del producto"
             value=""
             step="1"
+            maxlength="10"
         />
     </div>
 
@@ -74,6 +76,7 @@
             name="shortDesc"
             placeholder="Descripción corta del producto"
             value=""
+            maxlength="500"
         />
     </div>
 
@@ -99,6 +102,7 @@
             name="codigo"
             placeholder="Código del producto"
             value=""
+            maxlength="32"
         />
     </div>
 

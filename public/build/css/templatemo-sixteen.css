@@ -1502,7 +1502,7 @@ footer .inner-content p a {
   .color-button,
 .talla-button {
  	margin: 0 0 0 0.2rem !important;
- 	width: 4rem;
+ 	width: auto;
 	border-radius: 1rem;
 	border: none;
 }

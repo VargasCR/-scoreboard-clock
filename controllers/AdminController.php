@@ -546,7 +546,7 @@ $producto->save();
         $producto->tallas = $textoNormal;
         $colores = json_decode($producto->colores, true);
         $producto->colores = $colores;
-        //debuguear($producto->colores);
+       // debuguear($producto);
         $router->render('admin/editarRegistroProductos', [
             'producto' => $producto,
             'alerts' => $alerts,

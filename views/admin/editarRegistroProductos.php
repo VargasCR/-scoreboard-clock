@@ -18,6 +18,7 @@
                 name="titulo"
                 placeholder="Título del producto"
                 value="<?php echo $producto->titulo; ?>"
+                maxlength="120"
             />
         </div>
 
@@ -30,9 +31,17 @@
                 placeholder="Precio del producto"
                 value="<?php echo $producto->precio; ?>"
                 step="1"
+                maxlength="10"
             />
         </div>
-
+        <div class="slot">
+    <label for="genero">Genero</label>
+        <select name="genero" class="select-genero" value="<?php echo $producto->genero; ?>" id="">
+            <option value="0" <?php if($producto->genero == '0') { echo 'selected';}?>>Hombre</option>
+            <option value="1"<?php if($producto->genero == '1') { echo 'selected';}?>>Mujer</option>
+            <option value="2"<?php if($producto->genero == '2') { echo 'selected';}?>>Unisex</option>
+        </select>
+    </div>
         <div class="slot">
     <label for="category">Categoría</label>
     <select id="category" name="category">
@@ -68,6 +77,7 @@
                 name="shortDesc"
                 placeholder="Descripción corta del producto"
                 value="<?php echo $producto->shortDesc; ?>"
+                maxlength="500"
             />
         </div>
 
