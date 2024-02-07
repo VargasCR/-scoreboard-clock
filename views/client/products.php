@@ -3,7 +3,7 @@
 
 
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 
 <input type="hidden" value="1" id="page-category">
 <input type="hidden" value="3" id="selecter-used">

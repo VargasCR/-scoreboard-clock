@@ -61,7 +61,7 @@ async function sendSuscribeEmail() {
     if(email != '') {
         
         data.append('email', email);
-        url = 'http://localhost:3000/api/new-suscribe';
+        url = '/api/new-suscribe';
             const result = await fetch(url,{
                 method: 'POST',
                 body: data
@@ -73,7 +73,7 @@ async function sendSuscribeEmail() {
                 Swal.fire({
                     position: "center",
                     icon: 'success',
-                    title: 'Suscripto correctamente.',
+                    title: 'Suscripto Correctamente.',
                     showConfirmButton: false,
                     timer: 2500,
                     customStyle: {
@@ -113,7 +113,7 @@ async function borrarSuscriptor(id) {
         const data = new FormData();
         data.append('id', id);
 
-        const url = 'http://localhost:3000/api/delete-suscribe';
+        const url = '/api/delete-suscribe';
 
         try {
             const response = await fetch(url, {

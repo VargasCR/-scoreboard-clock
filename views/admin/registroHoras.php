@@ -44,7 +44,7 @@ $salarioPorHora = $empleado->salario; // Asegúrate de que esta variable esté c
 <div>
     <div style="display: block;text-align:center;">
         
-            <a class="button" href="/21232f297a57a5a743894a0e4a801fc3">Volver</a>
+            <a class="button" href="/21232f297a57a5a743894a0e4a801fc7">Volver</a>
             <h2 style="color: black;">Registro de Horas para <?php echo mostrarValor($empleado->nombre); ?></h2>
             <form id="filtroForm" action="" method="GET">
                 <label for="fechaDesde">Desde:</label>

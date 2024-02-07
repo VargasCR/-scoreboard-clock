@@ -896,6 +896,12 @@ footer .inner-content p a {
 .contact-form {
 	border: 1px solid #eee !important;
 	padding: 1rem;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: .4s ease-in-out;
+}
+iframe {
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: .4s ease-in-out;
 }
 .contact-form input {
 	width: 100%;

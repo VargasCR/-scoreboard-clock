@@ -19,7 +19,7 @@
             <a class="button" href="/21232f297a57a5a743894a0e4a801fc7">EMPLEADOS</a>
             <a class="button" href="/286e18ee6617beaf7cfd0cb74b4b7824">PRODUCTOS</a>
             <a class="button" href="/1b64884ff1c612eaca3a0ece9a609116">CATEGORIAS</a>
-            <a class="button" href="/054d19a00589bfb69c334a7e27a734b3">CATEGORIAS A</a>
+            
             <a class="button" href="/2dae35a48d8dd4a168abb48b8ff3b209">SUSCRIPTORES</a>
         </div>
 </section>

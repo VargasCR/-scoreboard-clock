@@ -1,7 +1,10 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+  header("Cache-Control: no-cache, must-revalidate");
+  header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Fecha en el pasado
+?>
   <head>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -44,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
     <link href="/build/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <?php if($pageIndex == 7) {
       echo '<link rel="stylesheet" href="/build/css/app.css">';
       }?>
@@ -131,7 +134,7 @@ if($pageIndex != 15) {
 
     
             
-            <main style="height:100vh;align-items: center;justify-content: center;">
+            <main style="height:100vh;">
                 <?php echo $content ?? ''; ?>
             </main>
 
