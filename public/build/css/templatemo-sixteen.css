@@ -2917,3 +2917,14 @@ iframe {
  .fadeEaseIn {
   transition: opacity 0.2s ease-in;
 }
+
+
+.button {
+	padding: 0.4rem;
+	background-color: #474747;
+	display: block;
+	color: white;
+	
+	text-align: center;
+	margin-bottom: 0.4rem;
+}
