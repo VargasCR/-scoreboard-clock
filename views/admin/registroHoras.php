@@ -40,6 +40,29 @@ $fechaHasta = isset($_GET['fechaHasta']) ? $_GET['fechaHasta'] : date('Y-m-d', s
 // Salario por hora del empleado
 $salarioPorHora = $empleado->salario; // Asegúrate de que esta variable esté correctamente definida
 
+
+while (($totalMinutosTrabajados + $totalMinutosExtras) >= 60) {
+        
+    $totalHorasTrabajadas ++;
+    $totalMinutosTrabajados -= 60; // Resta 60 minutos y actualiza el valor
+    
+}
+$totalSalario = null;
+$totalHoras = null;
+
+
+
+
+
+$totalHoras = mostrarValor($totalHorasTrabajadas + $totalHorasExtras . ' horas y ' . ($totalMinutosTrabajados + $totalMinutosExtras) . ' minutos');
+$totalSalario = ($totalHorasTrabajadas + $totalHorasExtras + $totalMinutosTrabajados / 60 + $totalMinutosExtras / 60) * $salarioPorHora;
+
+
+
+
+
+
+
 ?>
 <div>
     <div style="display: block;text-align:center;">
@@ -59,6 +82,8 @@ $salarioPorHora = $empleado->salario; // Asegúrate de que esta variable esté c
 
                 <button class="button" style='margin-top:1rem;' type="submit">Buscar</button>
             </form>
+            
+            
             <br>
             <?php 
                 if(empty($registros)) {
@@ -90,30 +115,24 @@ $salarioPorHora = $empleado->salario; // Asegúrate de que esta variable esté c
                                         // Suma las horas trabajadas al total
                                         $totalHorasTrabajadas += $intervalo['horas'];
                                         $totalMinutosTrabajados += $intervalo['minutos'];
-                                    ?>
+                                        ?>
 
-                                    <td style=""><p class="tableInfoField">Total de Horas: </p><?php echo mostrarValor($intervalo['horas'] . ' horas y ' . $intervalo['minutos'] . ' minutos'); ?></td>
-                                    <td>
-                                    <!-- Botones de editar y borrar -->
-                                    <a href="/4584073e4643fe782c06f2955569a966?id=<?php echo $registro->id; ?>&uid=<?php echo $empleado->id; ?>">Editar</a>
-                                    <button style="background-color: transparent;border:none;" onclick="borrarRegistro(<?php echo $registro->id; ?>)">Borrar</button>
-                                </td>
-                                </tr>
-                            <?php endforeach; ?>
+                                        <td style=""><p class="tableInfoField">Total de Horas: </p><?php echo mostrarValor($intervalo['horas'] . ' horas y ' . $intervalo['minutos'] . ' minutos'); ?></td>
+                                        <td>
+                                            <!-- Botones de editar y borrar -->
+                                            <a href="/4584073e4643fe782c06f2955569a966?id=<?php echo $registro->id; ?>&uid=<?php echo $empleado->id; ?>">Editar</a>
+                                            <button style="background-color: transparent;border:none;" onclick="borrarRegistro(<?php echo $registro->id; ?>)">Borrar</button>
+                                        </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                        
                         </tbody>
                     </table>
                             </div>
                     <div style="display: block;">
                         <div style='margin-top:1rem;'>
                             <p style="margin: 0;font-size:1.5rem;color:black;">Total de Horas Trabajadas + Extras:</p>
-                            <?php
-                                while (($totalMinutosTrabajados + $totalMinutosExtras) >= 60) {
-                                    
-                                    $totalHorasTrabajadas ++;
-                                    $totalMinutosTrabajados -= 60; // Resta 60 minutos y actualiza el valor
-                                    
-                                }
-                                ?>
+                            
 
                             <p style="margin: 0;font-size:1.5rem;color:black;"><?php echo mostrarValor($totalHorasTrabajadas + $totalHorasExtras . ' horas y ' . ($totalMinutosTrabajados + $totalMinutosExtras) . ' minutos'); ?></p>
                         </div>
@@ -125,7 +144,15 @@ $salarioPorHora = $empleado->salario; // Asegúrate de que esta variable esté c
 
             <?php }
             ?>
-       
+       <form action="/e98d2f001da5678b39482efbdf5770dc" method="POST">
+                <input type="hidden" value="<?php echo $empleado->id;?>" name="id">
+                <input type="hidden" value="<?php echo $fechaDesde;?>" name="fechaDesde">
+                <input type="hidden" value="<?php echo $fechaHasta;?>" name="fechaHasta">
+                <input type="hidden" value="<?php echo mostrarValor(($totalHorasTrabajadas + $totalHorasExtras + $totalMinutosTrabajados / 60 + $totalMinutosExtras / 60) * $salarioPorHora);?>" name="totalSalario">
+                <input type="hidden" value="<?php echo mostrarValor($totalHorasTrabajadas + $totalHorasExtras . ' horas y ' . ($totalMinutosTrabajados + $totalMinutosExtras) . ' minutos');?>" name="totalHoras">
+                
+                <button class="button" style='margin-top:1rem;' type="submit">Exportar</button>
+            </form>
         
     </div>
 </div>

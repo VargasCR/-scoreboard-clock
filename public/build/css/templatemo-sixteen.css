@@ -1508,11 +1508,13 @@ iframe {
   .color-button,
 .talla-button {
  	margin: 0 0 0 0.2rem !important;
- 	width: auto;
+ 	min-width: 3rem;
 	border-radius: 1rem;
 	border: none;
 }
-
+.color-button {
+	width: 3rem;
+}
 .color-button {
 	height: 2rem !important;
 }

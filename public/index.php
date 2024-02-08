@@ -13,6 +13,8 @@ use MVC\Router;
 //require_once 'Router.php';
 $router = new Router();
 
+$router->get('/e98d2f001da5678b39482efbdf5770dc', [AdminController::class,'crearPDFreport']);
+$router->post('/e98d2f001da5678b39482efbdf5770dc', [AdminController::class,'crearPDFreport']);
 
 $router->get('/sitemap', [SitemapController::class,'index']);
 

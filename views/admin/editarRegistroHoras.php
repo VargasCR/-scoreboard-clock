@@ -41,7 +41,15 @@
             />
         </div>
         <input class="button" type="submit" value="Guardar">
-        <a class="button" type="submit" href="/2885991af6301511c3ec390fec3fbceb?id=<?php echo $_GET['uid'] ?>">Volver</a>
+        <a class="button" type="submit" href="<?php
+                if(isset($_SERVER['HTTP_REFERER'])) {
+                    echo $_SERVER['HTTP_REFERER'];
+                } else {
+                    // Si la página anterior no está disponible, redirigir a una página predeterminada
+                    echo "/2885991af6301511c3ec390fec3fbceb?id=".$_GET['uid'];
+                }
+            ?>">Volver</a>
+        
     </form>
 </div>
 

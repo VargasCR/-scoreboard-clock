@@ -12,10 +12,58 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Model\Suscriptor;
 
 class AdminController {
+    
+    public static function crearPDFreport(Router $router) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $fechaDesde = $_POST['fechaDesde'];
+            $fechaHasta = $_POST['fechaHasta'];
+            $parametro = $_POST['id'];
+            $totalSalario = $_POST['totalSalario'];
+            $totalHoras = $_POST['totalHoras'];
+            $empleado = User::find($parametro);
+            $registros = Registro::findTimes($parametro,$fechaDesde,$fechaHasta);
+            $registro = new Registro();
+            
+            // Obtener la ruta del PDF desde el método crearPDFreport() en el modelo Registro
+            $rutaPDF = $registro->crearPDFreport($registros,$empleado,$totalSalario,$totalHoras);
+            
+            // URL completa del PDF
+            $url_actual = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'];
+            $fullURL = $url_actual . $rutaPDF[0];
+    
+            // Mostrar un mensaje y redirigir utilizando JavaScript
+            echo "<script>
+                function descargarArchivo(url, nombreArchivo) {
+                    fetch(url)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const urlBlob = window.URL.createObjectURL(blob);
+                            const enlace = document.createElement('a');
+                            enlace.href = urlBlob;
+                            enlace.download = nombreArchivo;
+                            document.body.appendChild(enlace);
+                            enlace.click();
+                            setTimeout(() => {
+                                document.body.removeChild(enlace);
+                                window.URL.revokeObjectURL(urlBlob);
+                            }, 0);
+                        })
+                        .catch(error => console.error('Error al descargar el archivo:', error));
+                }
+    
+                const urlArchivo = '$fullURL';
+                const nombreArchivo = '$rutaPDF[1].pdf';
+                descargarArchivo(urlArchivo, nombreArchivo);
+    
+                // Redirigir después de un breve retraso
+                setTimeout(() => {
+                    window.location.href = '/2885991af6301511c3ec390fec3fbceb?id=$parametro&fechaDesde=$fechaDesde&fechaHasta=$fechaHasta';
+                }, 1000); // Redirigir después de 1 segundo (1000 milisegundos)
+            </script>";
+        }
+    }
+    
     public static function index( Router $router ) {
-        //session_start();
-        //$auth = $_SESSION;
-        //debuguear('2');
         $pageIndex = 7;
         $isClient = false;
         isAdmin();
@@ -32,9 +80,6 @@ class AdminController {
         ]);
     }
     public static function menuSeleccionar( Router $router ) {
-        //session_start();
-        //$auth = $_SESSION;
-        //debuguear('2');
         $pageIndex = 7;
         $isClient = false;
         isAdmin();
@@ -60,6 +105,8 @@ class AdminController {
             'alertlink'=>$alertlink,
             'pageIndex' => $pageIndex,
             'isClient' => $isClient,
+            'fechaDesde' => $fechaDesde,
+            'fechaHasta' => $fechaHasta
         ]);
 
     }

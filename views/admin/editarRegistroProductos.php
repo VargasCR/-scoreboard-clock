@@ -261,8 +261,14 @@
         <input type="submit" value="Guardar" class="button" style="width: 100%;">
 
     </form>
-
-    <a class="button" style="color:white !important;width:100%;margin:0;" href="/286e18ee6617beaf7cfd0cb74b4b7824">Volver</a>
+    <a style="width: 100%;" class="button" type="submit" href="<?php
+                if(isset($_SERVER['HTTP_REFERER'])) {
+                    echo $_SERVER['HTTP_REFERER'];
+                } else {
+                    // Si la página anterior no está disponible, redirigir a una página predeterminada
+                    echo "/286e18ee6617beaf7cfd0cb74b4b7824";
+                }
+            ?>">Volver</a>
     <br>
 </div>
 </div>

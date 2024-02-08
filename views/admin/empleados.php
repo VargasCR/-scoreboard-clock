@@ -35,8 +35,9 @@
                             <td><p class="tableInfoField">Final: </p><?= $usuario->fechaFinal ?></td>
                             <!-- <td><?= $usuario->admin ?></td> -->
                             <td>
-                                <a href="/2885991af6301511c3ec390fec3fbceb?id=<?= $usuario->id ?>" value=''>Ver Registro</a>
-                                <a href="/b6f3f62dfe05b410e3f7f72e0d5db63a?id=<?= $usuario->id ?>" style="margin: 0 0 0 0.5rem;">Editar</a>
+
+                                <a href="/2885991af6301511c3ec390fec3fbceb?id=<?= $usuario->id.'&fechaDesde='.date('Y-m-d', strtotime('last Monday')).'&fechaHasta='.date('Y-m-d', strtotime('next Sunday'))?>" value=''>Ver Registro</a>
+                                <a href="/b6f3f62dfe05b410e3f7f72e0d5db63a?id=<?= $usuario->id?>" style="margin: 0 0 0 0.5rem;">Editar</a>
                                 <button style="background-color: transparent;border:none" onclick="borrarUsuario(<?= $usuario->id ?>)">Borrar</button>
                             </td>
                         </tr>
