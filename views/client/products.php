@@ -48,9 +48,14 @@
   optionsContainer.style.display = 'none';
 </script>
 
-<div class="" id="products-container">
-      
-</div>
+
+  <!-- Carrusel de imágenes -->
+  <div class="products-container" id="products-containerx">
+  <!-- Añade más imágenes según sea necesario -->
+  
+  </div>
+
+
 <div id="navegation-products" style="width: 100%;align-items: center;text-align: center;">
   <div>
     <button class="btn-nav hidden" id="btn-nav-back-hidden"></button>
@@ -149,69 +154,7 @@
             </div>
         </div>
 
-  <div id="myModal" onclick="closeOnOutsideClick(event)" class="modal" style="padding:0rem;z-index: 9999999;overflow-y: auto;justify-content: center;">
-      <div class="modal-content">
-        <button onclick="closeFloatingWindow()" class="deleteButton">
-          <span class="close" id="closeModalBtn">&times;</span>
-          <span class="tooltip">Cerrar</span>
-        </button>
-
-        <div style="" class="showingProductContainer">
-        <style>
-
-
-</style>
-
-        <div id="contenedorImagen">
-          <div id="contenedorBotones">
-            <button class="botonArrow" onclick="cambiarImagenShowing(event,0)"><span class='material-symbols-outlined'>chevron_left</span></button>
-            <button class="botonArrow" onclick="cambiarImagenShowing(event,1)"><span class='material-symbols-outlined'>chevron_right</span></button>
-          </div>
-          <!-- Tu elemento de imagen aquí -->
-            <img id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
-            
-          </div>
-
-
-
-          <div style="padding: 1rem;width: 100%;">
-            <h4 style="margin: 0 0 1rem 0;">
-              Descripción
-            </h4>
-            <div id="desc-container">
-              
-            </div>
-            <br>
-            <div>
-              <h4>Talla</h4>
-              <div id="tallas-container">
-
-              </div>
-              
-            </div>
-            <div>
-              <h4>Color</h4>
-              <div id="colores-container">
-
-              </div>
-              
-            </div>
-            <div style="width: 100%;display: flex;align-content: center;align-items: center;">
-          <!--    <button onclick="agregarAlCarrito()" style="margin-top: 1rem;width: 100% !important;">Añadir al carrito</button> -->
-              <button onclick="agregarAlCarrito()" class="btn-add-cart" style="margin-top: 1rem;width: 100% !important;">Agregar Al Carrito</button>
-
-            </div>
-          </div>
-        </div>
-        
-
-            <input type="hidden" id="talla-id" value="-1">
-            <input type="hidden" id="color-id" value="-1">
-            <input type="hidden" id="product-id" value="-1">
-            <input type="hidden" id="image-id" value="-1">
-            <input type="hidden" id="imgs-url" value="">
-        </div>
-    </div>
+ 
 
 
 
@@ -305,3 +248,68 @@
                 </div>
         </footer>
 
+
+
+        <div id="myModal" onclick="closeOnOutsideClick(event)" class="modal" style="padding:0rem;z-index: 9999999;overflow-y: auto;justify-content: center;">
+      <div class="modal-content">
+        <button onclick="closeFloatingWindow()" class="deleteButton">
+          <span class="closex" id="closeModalBtn">&times;</span>
+          <span class="tooltip">Cerrar</span>
+        </button>
+
+        <div style="" class="showingProductContainer">
+
+
+        <div id="contenedorImagen">
+          <div id="contenedorBotones">
+            <button class="botonArrow" onclick="cambiarImagenShowing(event,0)"><span class='material-symbols-outlined'>chevron_left</span></button>
+            <button class="botonArrow" onclick="cambiarImagenShowing(event,1)"><span class='material-symbols-outlined'>chevron_right</span></button>
+          </div>
+            <!-- Tu elemento de imagen aquí -->
+            <img id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
+            
+          </div>
+
+
+
+          <div style="padding: 1rem;width: 100%;">
+            <h4 style="margin: 0 0 1rem 0;">
+              Descripción
+            </h4>
+            <div id="desc-container">
+              
+            </div>
+            <br>
+            <div>
+              <h4>Precio</h4>
+              <div id="precio-container">
+
+              </div>
+              
+            <div>
+              <h4>Talla</h4>
+              <div id="tallas-container">
+
+              </div>
+              
+            </div>
+            <div>
+              <h4>Color</h4>
+              <div id="colores-container">
+
+              </div>
+              
+            </div>
+            <div style="width: 100%;display: flex;align-content: center;align-items: center;">
+              <!--    <button onclick="agregarAlCarrito()" style="margin-top: 1rem;width: 100% !important;">Añadir al carrito</button> -->
+              <button onclick="agregarAlCarrito()" class="btn-add-cart" style="margin-top: 1rem;width: 100% !important;">Agregar Al Carrito</button>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" id="talla-id" value="-1">
+        <input type="hidden" id="color-id" value="-1">
+        <input type="hidden" id="product-id" value="-1">
+        <input type="hidden" id="image-id" value="-1">
+        <input type="hidden" id="imgs-url" value="">
+      </div>
+    </div>

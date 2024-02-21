@@ -34,6 +34,61 @@
                 maxlength="10"
             />
         </div>
+
+        <div class="slot">
+        <label for="marca">Marca</label>
+        <select name="marca" id="marca" value="<?php echo $producto->marca; ?>">
+            <option value="0" <?php if($producto->marca == '0') { echo 'selected';}?>>Sin marca</option>
+            <option value="1" <?php if($producto->marca == '1') { echo 'selected';}?>>Saint Laurent</option>
+            <option value="2" <?php if($producto->marca == '2') { echo 'selected';}?>>Prada</option>
+            <option value="3" <?php if($producto->marca == '3') { echo 'selected';}?>>Dior</option>
+            <option value="4" <?php if($producto->marca == '4') { echo 'selected';}?>>Vizzano</option>
+            <option value="5" <?php if($producto->marca == '5') { echo 'selected';}?>>Coral</option>
+            <option value="6" <?php if($producto->marca == '6') { echo 'selected';}?>>Gucci</option>
+            <option value="7" <?php if($producto->marca == '7') { echo 'selected';}?>>Michael Kors</option>
+            <option value="8" <?php if($producto->marca == '8') { echo 'selected';}?>>Lili Pink</option>
+            <option value="9" <?php if($producto->marca == '9') { echo 'selected';}?>>Nike</option>
+            <option value="10" <?php if($producto->marca == '10') { echo 'selected';}?>>Chanel</option>
+            <option value="11" <?php if($producto->marca == '11') { echo 'selected';}?>>Roxy</option>
+            <option value="12" <?php if($producto->marca == '12') { echo 'selected';}?>>Victoria Secret</option>
+            <option value="13" <?php if($producto->marca == '13') { echo 'selected';}?>>Volcom</option>
+            <option value="14" <?php if($producto->marca == '14') { echo 'selected';}?>>Vans</option>
+            <option value="15" <?php if($producto->marca == '15') { echo 'selected';}?>>Emerica</option>
+            <option value="16" <?php if($producto->marca == '16') { echo 'selected';}?>>Jordan</option>
+            <option value="17" <?php if($producto->marca == '17') { echo 'selected';}?>>Columbia</option>
+            <option value="18" <?php if($producto->marca == '18') { echo 'selected';}?>>Puma</option>
+            <option value="19" <?php if($producto->marca == '19') { echo 'selected';}?>>Hurley</option>
+            <option value="20" <?php if($producto->marca == '20') { echo 'selected';}?>>Element</option>
+            <option value="21" <?php if($producto->marca == '21') { echo 'selected';}?>>Lakai</option>
+            <option value="22" <?php if($producto->marca == '22') { echo 'selected';}?>>QuikSilver</option>
+            <option value="23" <?php if($producto->marca == '23') { echo 'selected';}?>>Supra</option>
+            <option value="24" <?php if($producto->marca == '24') { echo 'selected';}?>>Fox</option>
+            <option value="25" <?php if($producto->marca == '25') { echo 'selected';}?>>Nike SB</option>
+            <option value="26" <?php if($producto->marca == '26') { echo 'selected';}?>>Adidas</option>
+            <option value="27" <?php if($producto->marca == '27') { echo 'selected';}?>>Reef</option>
+            <option value="28" <?php if($producto->marca == '28') { echo 'selected';}?>>Last Kings</option>
+            <option value="29" <?php if($producto->marca == '29') { echo 'selected';}?>>Timberland</option>
+            <option value="30" <?php if($producto->marca == '30') { echo 'selected';}?>>NY</option>
+            <option value="31" <?php if($producto->marca == '31') { echo 'selected';}?>>Bulls</option>
+            <option value="32" <?php if($producto->marca == '32') { echo 'selected';}?>>BlackOut</option>
+            <option value="33" <?php if($producto->marca == '33') { echo 'selected';}?>>DC</option>
+            <option value="34" <?php if($producto->marca == '34') { echo 'selected';}?>>Pelagic</option>
+            <option value="35" <?php if($producto->marca == '35') { echo 'selected';}?>>Under Armour</option>
+            <option value="36" <?php if($producto->marca == '36') { echo 'selected';}?>>Rip Curl</option>
+            <option value="37" <?php if($producto->marca == '37') { echo 'selected';}?>>Jugados</option>
+            <option value="38" <?php if($producto->marca == '38') { echo 'selected';}?>>Hi-Tec</option>
+            <option value="39" <?php if($producto->marca == '39') { echo 'selected';}?>>Ray-Ban</option>
+            <option value="40" <?php if($producto->marca == '40') { echo 'selected';}?>>Versace</option>
+            <option value="41" <?php if($producto->marca == '41') { echo 'selected';}?>>Burberry</option>
+            <option value="42" <?php if($producto->marca == '42') { echo 'selected';}?>>Nicole Lee</option>
+            <option value="43" <?php if($producto->marca == '43') { echo 'selected';}?>>Merrell</option>
+            <option value="44" <?php if($producto->marca == '44') { echo 'selected';}?>>Oneill</option>
+            <option value="45" <?php if($producto->marca == '45') { echo 'selected';}?>>Aurum</option>
+            <option value="46" <?php if($producto->marca == '46') { echo 'selected';}?>>Salty Crew</option>
+            
+        </select>
+    </div>
+
         <div class="slot">
     <label for="genero">Genero</label>
         <select name="genero" class="select-genero" value="<?php echo $producto->genero; ?>" id="">
@@ -243,6 +298,20 @@
         </div>
         
         
+        
+
+
+        <div class="slot" style="display: flex;align-items:center;">
+            <label for="original" style="flex: 0 0 6.5rem;">¿Producto Original?</label>
+            <input
+                type="checkbox"
+                value="0"
+                style="flex:none;width: auto !important;"
+                onchange="handleCheckboxChange(this,'original')"
+                <?php echo $producto->original == 1 ? 'checked' : ''; ?>
+            />
+            <input type="hidden" value="<?php echo $producto->aurum; ?>" id="original" name="original">
+        </div>
         <div class="slot" style="display: flex;align-items:center;">
             <label for="aurum" style="flex: 0 0 6.5rem;">¿Producto Aurum?</label>
             <input
@@ -261,14 +330,7 @@
         <input type="submit" value="Guardar" class="button" style="width: 100%;">
 
     </form>
-    <a style="width: 100%;" class="button" type="submit" href="<?php
-                if(isset($_SERVER['HTTP_REFERER'])) {
-                    echo $_SERVER['HTTP_REFERER'];
-                } else {
-                    // Si la página anterior no está disponible, redirigir a una página predeterminada
-                    echo "/286e18ee6617beaf7cfd0cb74b4b7824";
-                }
-            ?>">Volver</a>
+    <a style="width: 100%;" class="button" type="submit" href="/286e18ee6617beaf7cfd0cb74b4b7824">Volver</a>
     <br>
 </div>
 </div>

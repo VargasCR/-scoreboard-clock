@@ -1,3 +1,107 @@
+<style>
+  * {box-sizing: border-box;}
+
+.img-zoom-container {
+  
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  /*border: 1px solid #d4d4d4;*/
+  border: none;
+  /*set the size of the lens:*/
+  width: 120px;
+  height: 120px;
+}
+
+.img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 200px;
+  height: 200px;
+  
+}
+.container-img-modal {
+  width: 50%;
+  position: absolute;
+}
+@media only screen and (max-width: 984px){
+  .img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 120px;
+  height: 120px;
+  
+}
+.img-zoom-lens {
+  position: absolute;
+  /*border: 1px solid #d4d4d4;*/
+  border: none;
+  /*set the size of the lens:*/
+  width: 70px;
+  height: 70px;
+}
+.container-img-modal {
+  width: 100%;
+}
+}
+</style>
+
+
+
+<script>
+  
+</script>
+
+<script>
+  
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- The Modal -->
+<div id="myModal-modal" class="modal-modal">
+
+  <!-- The Close Button -->
+  <span class="close-modal" onclick="closeModalImg()">&times;</span>
+
+  <!-- Modal Content (The Image) -->
+  <div style="width: 100%;text-align:center;display:flex;justify-content:center;">
+
+    <div style="" class="container-img-modal">
+      <img class="modal-content-modal" id="myModal-img">
+      <div class="img-zoom-container">
+        <!-- Modal Caption (Image Text) -->
+        <div id="myresult" class="img-zoom-result"></div>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+
+
+
+
 
 
 <input type="hidden" value="0" id="page-category">
@@ -16,7 +120,7 @@
             <img class="imgheader" src="/build/img/pidetusteniscon.png" alt="" style="">
             <img class="imgheader" src="/build/img/atlanticTienda.png" alt="" style="margin-top:1.5rem;">
            
-            <a style="margin:1rem 0 0 0;" class="seemore" href="/products-male"><span style="font-weight: 300;">VER MAS</span></a>
+            <a style="margin:1rem 0 0 0;" class="seemore gold-effect" href="/products-male"><span style="font-weight: 300;">VER MAS</span></a>
           
           </div>
 
@@ -24,27 +128,35 @@
           </div>
         </div>
         <div class="banner-item-02">
-          <div class="text-content">
-            <div style="width: 100%;display:flex;justify-content:center;align-items:center;flex-direction: column;">
-              <img class="imgheader" src="/build/img/atlanticTienda.png" alt="" style="margin-top:1.5rem;">
-              <img class="imgheader" src="/build/img/men.png" alt="" style="margin-top: 1.5rem;">
-              <a style="margin:1rem 0 0 0;margin-bottom: 3rem;" class="seemore" href="/products-male"><span style="font-weight: 300;">VER MAS</span></a>
-              <br>
+          <div class="text-content" style="height: 100%;">
+          <div class="header-banner-container">
+              <img class="top-right img-w-corner-r-h" src="/build/img/header/h_e_1.png" alt="Imagen 2" style="">
+              <img class="top-left img-w-corner-l-h" src="/build/img/header/h_e_0.png" alt="Imagen 1" style="">
+              <img class="center-bottom img-logo-header" style="" src="/build/img/header/h_e_2.png" alt="Imagen 1">
+              
+              <div class="center-center">
+                <img class="img-atlantic-logo-header" src="/build/img/header/h_e_3.png" alt="Imagen 1" style="">
+                
+                <a style="margin:1rem 0 0 0;" class="seemore gold-effect" href="/products-female"><span style="font-weight: 300;">VER MAS</span></a>
+              </div>
             </div>
-            
-            <!-- <h4>Ofertas Relámpago</h4>
-            <h2>Obtén tus mejores productos</h2> -->
           </div>
         </div>
         <div class="banner-item-03">
-          <div class="text-content">
-            <div style="width: 100%;display:flex;justify-content:center;align-items:center;flex-direction: column;">
-              <img class="imgheader" src="/build/img/atlanticTienda.png" alt="" style="margin-top:1rem;">
-              <img class="imgheader" src="/build/img/women.png" alt="" style="margin-top: 1.5rem;">
-              <a style="margin:1rem 0 0 0;margin-bottom: 3rem;" class="seemore" href="/products-female"><span style="font-weight: 300;">VER MAS</span></a>
-
-              <br>
+          <div class="text-content" style="height: 100%;">
+          
+            <div class="header-banner-container">
+              <img class="bottom-right img-w-corner-r" src="/build/img/header/w_e_1_0.png" alt="Imagen 2" style="">
+              <img class="top-left img-w-corner-l" src="/build/img/header/w_e_0_0.png" alt="Imagen 1" style="">
+              <img class="center-bottom img-logo-header" style="" src="/build/img/header/w_e_2.png" alt="Imagen 1">
+              <img class="center-left img-forwoman-header" style="" src="/build/img/header/w_e_4.png" alt="Imagen 1">
+              <div class="center-center">
+                <img class="img-atlantic-logo-header" src="/build/img/header/w_e_5.png" alt="Imagen 1" style="">
+                
+                <a style="margin:1rem 0 0 0;" class="seemore gold-effect" href="/products-female"><span style="font-weight: 300;">VER MAS</span></a>
+              </div>
             </div>
+          
             <!--   <h4>Último Minuto</h4>
             <h2>Aprovecha las ofertas de último minuto</h2> -->
           </div>
@@ -52,62 +164,9 @@
       </div>
     </div>
     <!-- Banner Ends Here -->
-    <style>
-  .category-container {
-    display: flex;
-   
-    align-items: center;
-    text-align: center;
-    justify-content: space-between;
-  }
-
-  .category {
-    
-    padding: 0.3rem;
-    position: relative;
-    width: 100%;
-  }
-
-  .category img {
-    max-width: 100%; /* Asegura que la imagen no exceda el tamaño del contenedor */
-  }
-
-  .category p {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
-    color: white;
-  }
-  .sub-category-container {
-    display: flex;
-  }
-  @media (max-width: 768px) {
-	.category-container {
-		width: 100%;
-		display: block;
-    
-	}
-  .category {
-    
-    padding: 0.3rem 1rem;
-  }
-}
-  @media (max-width: 512px) {
-	.sub-category-container {
-		width: 100%;
-		display: block;
-	}
-  .category-container-no-mobil {
-    display: none !important;
-  }
-
-}
-</style>
 <br>
-<!--
+
+
 <h2 style="font-size: 28px;
     font-weight: 400;
     color: #1e1e1e;
@@ -115,97 +174,95 @@
     text-align: center;">Categorias</h2>
 <div class="category-container">
   <div class="sub-category-container">
+    <a href="/products-female">
     <div class="category">
-      <a href="/products-male?ea170e2cafb1337755c8b3d5ae4437f4=1">
-        <img src="/build/img/atlantic-header-1.png" alt="">
-        <p>Category 1</p>
-      </a>
-    </div>
+        <img src="/build/img/woman-vector.png" width="75px" alt="">
+        <p style="font-size:22px;font-weight:400;"><span>PARA </span>ELLA</p>
+      </div>
+    </a>
+    <a href="/products-male">
     <div class="category">
-      <a href="">
-        <img src="/build/img/atlantic-header-1.png" alt="">
-        <p>Category 2</p>
-      </a>
-    </div>
-  </div>
-  <div class="sub-category-container">
+        <img src="/build/img/man-vector.png" width="75px" alt="">
+        <p style="font-size:22px;font-weight:400;"><span>PARA </span>ÉL</p>
+      </div>
+    </a>
+    <a href="/products-aurum">
     <div class="category">
-      <a href="">
-        <img src="/build/img/atlantic-header-1.png" alt="">
-        <p>Category 3</p>
-      </a>
-    </div>
-    <div class="category">
-      <a href="">
-        <img src="/build/img/atlantic-header-1.png" alt="">
-        <p>Category 4</p>
-      </a>
-    </div>
-  </div>
-</div>
-<div class="category-container category-container-no-mobil">
-  <div class="sub-category-container">
-    <div class="category">
-      <a href="">
-        <img src="/build/img/atlantic-header-1.png" alt="">
-        <p>Category 1</p>
-      </a>
-    </div>
-    <div class="category">
-      <a href="">
-        <img src="/build/img/atlantic-header-1.png" alt="">
-        <p>Category 2</p>
-      </a>
-    </div>
-  </div>
-  <div class="sub-category-container">
-    <div class="category">
-      <a href="">
-        <img src="/build/img/atlantic-header-1.png" alt="">
-        <p>Category 3</p>
-      </a>
-    </div>
-    <div class="category">
-      <a href="">
-        <img src="/build/img/atlantic-header-1.png" alt="">
-        <p>Category 4</p>
-      </a>
-    </div>
-  </div>
-</div>
--->
-
-    <div class="latest-products" id="latest-products">
-      <div class="container">
-        <div class="col-md-12">
-          <div class="section-heading">
-            <h2>Novedades</h2>
-            
-            <a class="ctax" href="/products">
-              <span class="hover-underline-animation">VER TODO</span>
-              <svg
-                id="arrow-horizontal"
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="10"
-                viewBox="0 0 46 16"
-              >
-                <path
-                  id="Path_10"
-                  data-name="Path 10"
-                  d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
-                  transform="translate(30)"
-                ></path>
-              </svg>
-</a>
-          </div>
+          <img src="/build/img/aurum-vector.png" width="75px" alt="">
+          <p style="font-size:22px;font-weight:400;">AURUM</p>
         </div>
-        <div class="row" id="products-container">
-          
+      </a>
+  </div>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="latest-products" id="latest-products">
+  <div class="container">
+    <div class="col-md-12">
+      <div class="section-heading">
+        <h2>Novedades</h2>
+        <a class="ctax" type="button" onclick="showSelectGenre()">
+          <span class="hover-underline-animation">VER TODO</span>
+          <svg
+            id="arrow-horizontal"
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="10"
+            viewBox="0 0 46 16"
+          >
+            <path
+              id="Path_10"
+              data-name="Path 10"
+              d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+              transform="translate(30)"
+            ></path>
+          </svg>
+        </a>
+        <div class="select-genre">
+          <a href="/products-female" style="margin: 5px;">Departamento de Mujer</a>
+          <a href="/products-male" style="margin: 5px 5px 5px 5px;">Departamento de Hombre</a>
         </div>
       </div>
     </div>
+    <div class="row">
+      <!-- Contenido adicional aquí -->
+    </div>
+  </div>
+</div>
+
     
+    
+
+<div class="carouselx">
+  <!-- Carrusel de imágenes -->
+  <div class="carouselx--wrap" id="products-containerx">
+  <!-- Añade más imágenes según sea necesario -->
+  <div class="carouselx--filler"></div> <!-- Relleno para centrar la última imagen -->
+  </div>
+
+  <!-- Botones de desplazamiento -->
+</div>
+<div style="display: flex;width: 100%;align-items:center;justify-content:center;">
+  <div class="carouselx-controls">
+    <button id="prevBtnx" class="">&lt;</button>
+    <button id="nextBtnx" class="">&gt;</button>
+  </div>
+</div>
+
+<br>
+
 
     <div class="best-features">
       <div class="container">
@@ -283,6 +340,7 @@
     </div>
     
 
+   
     
     <div class="call-to-action">
       <div class="container">
@@ -312,8 +370,64 @@
         </div>
       </div>
     </div>
+    <br>
 
-
+    <div class="section-heading">
+      <h2>Marcas</h2>
+    </div>
+    <div id="containerm">
+  <div id="slider-containerm">
+    <div id="sliderm">
+      <div class="slidem"><span><img src="/build/img/logos/01.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/02.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/03.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/04.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/05.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/06.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/07.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/08.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/09.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/10.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/11.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/12.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/13.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/14.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/15.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/16.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/17.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/18.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/19.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/20.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/21.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/22.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/23.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/24.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/25.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/26.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/27.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/28.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/29.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/30.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/31.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/32.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/33.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/34.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/35.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/36.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/37.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/38.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/39.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/40.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/41.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/42.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/43.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/44.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/45.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/46.png" alt=""></span></div>
+      
+    </div>
+  </div>
+</div>
 
 
     <div class="send-message">
@@ -500,7 +614,7 @@
             <div id="myModal" onclick="closeOnOutsideClick(event)" class="modal" style="padding:0rem;z-index: 9999999;overflow-y: auto;justify-content: center;">
       <div class="modal-content">
         <button onclick="closeFloatingWindow()" class="deleteButton">
-          <span class="close" id="closeModalBtn">&times;</span>
+          <span class="closex" id="closeModalBtn">&times;</span>
           <span class="tooltip">Cerrar</span>
         </button>
 
@@ -513,11 +627,33 @@
             <button class="botonArrow" onclick="cambiarImagenShowing(event,1)"><span class='material-symbols-outlined'>chevron_right</span></button>
           </div>
           <!-- Tu elemento de imagen aquí -->
-            <img id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
+            <img onclick="openFullImgModal(event)" id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
             
           </div>
 
-
+<script>
+  function openFullImgModal(event) {
+    const modal = document.getElementById("myModal-modal");
+    const modalImg = document.getElementById("myModal-img");
+    modal.style.display = "block";
+    console.log(event.target.attributes.src.value);
+    modalImg.src = event.target.attributes.src.value;
+    originalBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    imageZoom("myModal-img", "myresult");
+    console.log(event);
+  }
+ /* imagenPrincipal.onclick = function(){
+            // Get the modal
+            const modal = document.getElementById("myModal-modal");
+            const modalImg = document.getElementById("myModal-img");
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            originalBodyOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            imageZoom("myModal-img", "myresult");
+          }*/
+</script>
 
           <div style="padding: 1rem;width: 100%;">
             <h4 style="margin: 0 0 1rem 0;">
@@ -527,6 +663,12 @@
               
             </div>
             <br>
+            <div>
+              <h4>Precio</h4>
+              <div id="precio-container">
+
+              </div>
+              
             <div>
               <h4>Talla</h4>
               <div id="tallas-container">
@@ -557,3 +699,35 @@
             <input type="hidden" id="imgs-url" value="">
         </div>
     </div>
+
+
+
+
+
+    <div id="popup" class="popup hidden">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">&times;</span>
+    <a href="#">
+      <img id="popUpIMG" src="" alt="Oferta especial">
+    </a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div id="sticky-ad-container">
+  <div class="sticky">
+    <div class="sticky-ad"><span><img src="/build/img/envios.png" alt=""></span>Envios a todo el país</div>
+    <div class="sticky-ad hidden"><span><img src="/build/img/genuine.png" alt=""></span>Productos 100% genuinos</div>
+    <div class="sticky-ad hidden"><span><img src="/build/img/payment.png" alt=""></span>Pago seguro</div>
+    <button onclick="closeStickyAd()">X</button>
+  </div>
+</div>

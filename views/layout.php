@@ -114,6 +114,9 @@ if($pageIndex != 15) {
               <li class="nav-item ' . ($pageIndex == 3 ? 'active' : '') . '">
                 <a class="nav-link" href="/about">Nosotros</a>
               </li>
+              <li class="nav-item ' . ($pageIndex == 3.5 ? 'active' : '') . '">
+                <a class="nav-link" href="/terms">Términos</a>
+              </li>
               <li class="nav-item ' . ($pageIndex == 4 ? 'active' : '') . '">
                 <a class="nav-link" href="/reviews">Reseñas</a>
               </li>

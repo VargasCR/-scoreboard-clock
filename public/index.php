@@ -12,6 +12,20 @@ use MVC\Router;
 
 //require_once 'Router.php';
 $router = new Router();
+$router->get('/terms', [ClientController::class,'terms']);
+
+$router->get('/e0ba580ca07a56b26d44e88ee03b1abb', [AdminController::class,'menuPopUp']);
+$router->post('/e0ba580ca07a56b26d44e88ee03b1abb', [AdminController::class,'menuPopUp']);
+
+$router->get('/8ae4a90b2a7bc44f4217893f89e28f58', [AdminController::class,'agregarPopUpImg']);
+$router->post('/8ae4a90b2a7bc44f4217893f89e28f58', [AdminController::class,'agregarPopUpImg']);
+$router->post('/api/95ff27d16e904dccf0d9bc2f961e748d', [APIController::class,'findPopUpImg']);
+
+$router->post('/api/585017aa4ee7d08060322deb77c9d74d', [APIController::class,'deletePopUpImg']);
+
+
+
+
 
 $router->get('/e98d2f001da5678b39482efbdf5770dc', [AdminController::class,'crearPDFreport']);
 $router->post('/e98d2f001da5678b39482efbdf5770dc', [AdminController::class,'crearPDFreport']);

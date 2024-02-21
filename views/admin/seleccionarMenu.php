@@ -21,6 +21,7 @@
             <a class="button" href="/1b64884ff1c612eaca3a0ece9a609116">CATEGORIAS</a>
             
             <a class="button" href="/2dae35a48d8dd4a168abb48b8ff3b209">SUSCRIPTORES</a>
+            <a class="button" href="/e0ba580ca07a56b26d44e88ee03b1abb">ANUNCIOS</a>
         </div>
 </section>
     <script src="/build/js/checkToken.js"></script>

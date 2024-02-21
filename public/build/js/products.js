@@ -154,6 +154,7 @@ async function showFloatingWindow(cod) {
     
     const coloresContainer = document.querySelector('#colores-container');
     const tallaContainer = document.querySelector('#tallas-container');
+    const precioContainer = document.querySelector('#precio-container');
     const descContainer = document.querySelector('#desc-container');
 
 
@@ -190,7 +191,10 @@ async function showFloatingWindow(cod) {
         });
         
     }
-    
+    const textoPrecio = document.createElement('P');
+    precioContainer.appendChild(textoPrecio);
+    textoPrecio.textContent = '₡'+producto.precio;
+
     JSON.parse(producto.desc).forEach(text => {
         const textoDesc = document.createElement('P');
         textoDesc.textContent = text;
@@ -572,7 +576,7 @@ function closeFloatingWindow() {
         modal.style.display = 'none';
     }, 500);
 }
-
+let originalBodyOverflow = null;
 async function createProduct() {
     let countItem = 0;
 
@@ -582,8 +586,13 @@ async function createProduct() {
     });
 
     const result = await response.json();
-    //console.log(result);
     result.forEach(product => {
+    //console.log(result);
+
+        const productContainerSlider = document.createElement("div");
+        productContainerSlider.classList.add('carouselx--item');
+
+
         const productContainer = document.createElement("div");
         productContainer.classList.add('productContainer');
     
@@ -626,6 +635,17 @@ async function createProduct() {
         imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
         imagenPrincipal.alt = "";
         imagenPrincipal.id = 'img-'+product.codigo;
+
+        imagenPrincipal.onclick = function(){
+            // Get the modal
+            const modal = document.getElementById("myModal-modal");
+            const modalImg = document.getElementById("myModal-img");
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            originalBodyOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            imageZoom("myModal-img", "myresult");
+          }
     
         contenedorImagen.appendChild(contenedorBotones);
         contenedorImagen.appendChild(imagenPrincipal);
@@ -687,9 +707,10 @@ async function createProduct() {
         productItem.appendChild(contenedorImagen);
         productItem.appendChild(downContent);
         productContainer.appendChild(productItem);
-    
-        const productsContainer = document.querySelector("#products-container");
-        productsContainer.appendChild(productContainer);
+        productContainerSlider.appendChild(productContainer);
+           
+        const productsContainer = document.querySelector("#products-containerx");
+        productsContainer.appendChild(productContainerSlider);
     });
     
     
@@ -697,149 +718,105 @@ async function createProduct() {
 }
 
 
-/*
-async function buscarTodos() {
-    await limpiarProductos();
-    cantidadDeProductos = products.length;
-    cantidadDePaginas = cantidadDeProductos / 4;
-
-    const indexDesde = (4 * paginaActual) - 4;
-    const indexHasta = 4 * paginaActual;
-    let productosSeleccionados = [];
-    alert();
-    if(document.querySelector('#page-category').value == 1) {
-        const data = new FormData();
-        data.append('class', '0');
-        const url = `${location.origin}/api/find-products`;
-        const response = await fetch(url, {
-            method: 'POST',
-            body: data
-        });
-        const producto = await response.json();
-        ////console.log(producto);
-        productosSeleccionados = producto.slice(indexDesde, indexHasta);
-    } else if(document.querySelector('#page-category').value == 2){
-        
-        const data = new FormData();
-        
-        
-        data.append('class', '1');
-        const url = `${location.origin}/api/find-products`;
-        const response = await fetch(url, {
-            method: 'POST',
-            body: data
-        });
-    
-        const productsAurum = await response.json();
-
-
-        cantidadDeProductos = productsAurum.length;
-        cantidadDePaginas = cantidadDeProductos / 4;
-        productosSeleccionados = productsAurum.slice(indexDesde, indexHasta);
+function imageZoom(imgID, resultID) {
+    var img, lens, result, cx, cy;
+    img = document.getElementById(imgID);
+    result = document.getElementById(resultID);
+    /* Create lens: */
+    lens = document.createElement("DIV");
+    lens.setAttribute("class", "img-zoom-lens");
+    /* Insert lens: */
+    img.parentElement.insertBefore(lens, img);
+    /* Calculate the ratio between result DIV and lens: */
+    cx = result.offsetWidth / lens.offsetWidth;
+    cy = result.offsetHeight / lens.offsetHeight;
+    /* Set background properties for the result DIV */
+    result.style.backgroundImage = "url('" + img.src + "')";
+    result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+    /* Execute a function when someone moves the cursor over the image, or the lens: */
+    lens.addEventListener("mousemove", moveLens);
+    img.addEventListener("mousemove", moveLens);
+    /* And also for touch screens: */
+    lens.addEventListener("touchmove", moveLens);
+    img.addEventListener("touchmove", moveLens);
+    function moveLens(e) {
+      var pos, x, y;
+      /* Prevent any other actions that may occur when moving over the image */
+      e.preventDefault();
+      /* Get the cursor's x and y positions: */
+      pos = getCursorPos(e);
+      /* Calculate the position of the lens: */
+      x = pos.x - (lens.offsetWidth / 2);
+     // y = pos.y +80;
+      y = pos.y - (lens.offsetHeight / 2);
+      console.log('y: '+y);
+      console.log(lens.offsetHeight);
+      /* Prevent the lens from being positioned outside the image: */
+      if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+      if (x < 0) {x = 0;}
+      if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+      if (y < 0) {y = 0;}
+      /* Set the position of the lens: */
+      lens.style.left = x + "px";
+      lens.style.top = y + "px";
+      /* Display what the lens "sees": */
+      result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
     }
-    if(cantidadDePaginas <= 1){
-        document.querySelector('#navegation-products').classList.add('hidden');
-    } else if(cantidadDePaginas <= 2 && cantidadDePaginas > 1) {
-        document.querySelector('#btn-nav-2').classList.add('hidden');
-        document.querySelector('#navegation-products').classList.remove('hidden');
-        
-    } else {
-        //alert(cantidadDePaginas)
-        document.querySelector('#btn-nav-2').classList.remove('hidden');
-        document.querySelector('#navegation-products').classList.remove('hidden');
+    function getCursorPos(e) {
+      var a, x = 0, y = 0;
+      e = e || window.event;
+      /* Get the x and y positions of the image: */
+      a = img.getBoundingClientRect();
+      /* Calculate the cursor's x and y coordinates, relative to the image: */
+      x = e.pageX - a.left;
+      y = e.pageY - a.top;
+      /* Consider any page scrolling: */
+      x = x - window.pageXOffset;
+      y = y - window.pageYOffset;
+      //console.log(y);
+      return {x : x, y : y};
     }
+}
 
+function closeModalImg() {
+    const modal = document.getElementById("myModal-modal");
+    modal.style.display = "none";
+    document.body.style.overflow = originalBodyOverflow;
+}
 
-    productosSeleccionados.forEach(product => {
-        const productContainer = document.createElement("div");
-        productContainer.classList.add('productContainer');
-
-        const productItem = document.createElement("div");
-        productItem.className = "product-item";
-        productItem.style.margin = "0.5rem";
-        productItem.onclick = function() {
-            showFloatingWindow(product.codigo);
-        };
-
-        const productImage = document.createElement("img");
-        productImage.src = "/images/" + product.imagen;
-        productImage.alt = "";
-
-        const downContent = document.createElement("div");
-        downContent.className = "down-content";
-
-        const productName = document.createElement("h4");
-        productName.style.textAlign = "left";
-        productName.style.fontSize = "16px";
-        productName.textContent = product.titulo;
-
-        const priceContainer = document.createElement("div");
-        priceContainer.style.display = "flex";
-        priceContainer.style.justifyContent = "space-between";
-        priceContainer.style.alignItems = "center";
-
-        const productPrice = document.createElement("h6");
-        productPrice.style.margin = "0 !important";
-        productPrice.textContent = '₡' + product.precio;
-        productPrice.style.fontSize = '14px';
-        const addToCartButton = document.createElement("div");
-        addToCartButton.className = "buttonadd";
-        //addToCartButton.dataset.tooltip = "¿Añadir?";
-        addToCartButton.onclick = function() {
-            showFloatingWindow(product.codigo);
-        };
-
-        const buttonWrapper = document.createElement("div");
-        buttonWrapper.className = "button-wrapper";
-
-        const textDiv = document.createElement("div");
-        textDiv.className = "text";
-        textDiv.textContent = "🛒";
-
-        const iconSpan = document.createElement("span");
-        iconSpan.className = "icon";
-        const pTag = document.createElement("p");
-        pTag.style.color = "white";
-        pTag.textContent = "AGREGAR";
-        pTag.style.margin = "0px";
-        pTag.style.fontSize = '8px';
-        iconSpan.appendChild(pTag);
-
-        buttonWrapper.appendChild(textDiv);
-        buttonWrapper.appendChild(iconSpan);
-        addToCartButton.appendChild(buttonWrapper);
-
-        priceContainer.appendChild(productPrice);
-        priceContainer.appendChild(addToCartButton);
-
-        downContent.appendChild(productName);
-        downContent.appendChild(priceContainer);
-
-        productItem.appendChild(productImage);
-        productItem.appendChild(downContent);
-
-        productContainer.appendChild(productItem);
-
-        const productsContainer = document.querySelector("#products-container");
-        productsContainer.appendChild(productContainer);
-        countItem++;
-    
+function limpiarProductos(products) {
+    //const items = document.querySelectorAll('.productContainer');
+    //return items;
+    products.forEach(element => {
+        element.remove();
     });
-    encontrarProductosEnCarrito();
-}*/
-
-function limpiarProductos() {
-    const productsContainer = document.querySelector('#products-container');
+    /*
+    const productsContainer = document.querySelector('#products-containerx');
     // Elimina todos los elementos hijos
     while (productsContainer.firstChild) {
         productsContainer.removeChild(productsContainer.firstChild);
-    }
+    }*/
+    
+}
+function encontrarProductos() {
+    const items = document.querySelectorAll('.productContainer');
+    items.forEach(element => {
+        element.style.opacity = '0';
+    });
+    return items;
+    /*
+    const productsContainer = document.querySelector('#products-containerx');
+    // Elimina todos los elementos hijos
+    while (productsContainer.firstChild) {
+        productsContainer.removeChild(productsContainer.firstChild);
+    }*/
     
 }
 
 function limpiarProductoTallaColor() {
     const colorContainer = document.querySelector('#colores-container');
     const tallaContainer = document.querySelector('#tallas-container');
+    const precioContainer = document.querySelector('#precio-container');
     const descContainer = document.querySelector('#desc-container');
 
     // Elimina todos los elementos hijos
@@ -851,6 +828,9 @@ function limpiarProductoTallaColor() {
     }
     while (descContainer.firstChild) {
         descContainer.removeChild(descContainer.firstChild);
+    }
+    while (precioContainer.firstChild) {
+        precioContainer.removeChild(precioContainer.firstChild);
     }
 }
 
@@ -864,7 +844,6 @@ function limpiarProductosCarrito() {
 }
 
 function cambiarCategoria(w,t,g) {
-    
     btnSelected = 'btn-nav-0';
     let btnCount = 1;
     document.querySelectorAll('.btn-nav-number').forEach(element => {
@@ -886,7 +865,7 @@ function cambiarCategoria(w,t,g) {
     var url = new URL(urlString);
     var params = new URLSearchParams(url.search);
     var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
-    console.log(param1Value);
+    
     if(param1Value != null) {
 
     }
@@ -936,7 +915,7 @@ function toggleOptions(t) {
 
 async function buscar(w,t) {
     //alert(t);
-    await limpiarProductos();
+    const productsItems = encontrarProductos();
 
     const productosFiltrados = await filtrarPorCategoria(w,t,'0');
     
@@ -966,11 +945,16 @@ async function buscar(w,t) {
         const textoVacio = document.createElement("h3");
         textoVacio.textContent = 'No hay resultados';
         textoVacio.style.textAlign = 'center';
-        const productsContainer = document.querySelector("#products-container");
+        textoVacio.classList.add('productContainer');
+        const productsContainer = document.querySelector("#products-containerx");
         productsContainer.appendChild(textoVacio);
+        await limpiarProductos(productsItems);
         return;
     }
     productosSeleccionados.forEach(product => {
+       
+
+
         const productContainer = document.createElement("div");
         productContainer.classList.add('productContainer');
     
@@ -984,14 +968,14 @@ async function buscar(w,t) {
     
         const contenedorImagen = document.createElement("div");
         contenedorImagen.id = "contenedorImagen";
-    
+        
         const contenedorBotones = document.createElement("div");
         contenedorBotones.id = "contenedorBotones";
-    
+        
+        
         const botonIzquierdo = document.createElement("button");
         botonIzquierdo.className = "botonArrow";
         botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
-        console.log(JSON.parse(product.imagen).length);
         
         botonIzquierdo.onclick = function() {
             cambiarImagen(event,product.codigo,product.imagen,0);
@@ -1004,11 +988,11 @@ async function buscar(w,t) {
         botonDerecho.onclick = function() {
             cambiarImagen(event,product.codigo,product.imagen,1);
         };
+    
         if(JSON.parse(product.imagen).length > 1) {
             contenedorBotones.appendChild(botonIzquierdo);
             contenedorBotones.appendChild(botonDerecho);
         }
-        
     
         const imagenPrincipal = document.createElement("img");
         imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
@@ -1075,16 +1059,17 @@ async function buscar(w,t) {
         productItem.appendChild(contenedorImagen);
         productItem.appendChild(downContent);
         productContainer.appendChild(productItem);
-    
-        const productsContainer = document.querySelector("#products-container");
+        
+           
+        const productsContainer = document.querySelector("#products-containerx");
         productsContainer.appendChild(productContainer);
     });
     
-    
+    await limpiarProductos(productsItems);
     encontrarProductosEnCarrito();
 }
 async function buscarA(w,t) {
-    //alert(t);
+    alert(t);
     await limpiarProductos();
 
     const productosFiltrados = await filtrarPorCategoria(w,t,'1');
@@ -1115,7 +1100,7 @@ async function buscarA(w,t) {
         const textoVacio = document.createElement("h3");
         textoVacio.textContent = 'No hay resultados';
         textoVacio.style.textAlign = 'center';
-        const productsContainer = document.querySelector("#products-container");
+        const productsContainer = document.querySelector("#products-containerx");
         productsContainer.appendChild(textoVacio);
         return;
     }
@@ -1140,10 +1125,10 @@ async function buscarA(w,t) {
         const botonIzquierdo = document.createElement("button");
         botonIzquierdo.className = "botonArrow";
         botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
-        console.log(JSON.parse(product.imagen).length);
+       
         
         botonIzquierdo.onclick = function() {
-            cambiarImagen(event,product.codigo,product.imagen,0);
+            cambiarImagen(event,product.id,product.imagen,0);
         };
     
         const botonDerecho = document.createElement("button");
@@ -1151,7 +1136,7 @@ async function buscarA(w,t) {
         botonDerecho.className = "botonArrow";
        
         botonDerecho.onclick = function() {
-            cambiarImagen(event,product.codigo,product.imagen,1);
+            cambiarImagen(event,product.id,product.imagen,1);
         };
         if(JSON.parse(product.imagen).length > 1) {
             contenedorBotones.appendChild(botonIzquierdo);
@@ -1225,7 +1210,7 @@ async function buscarA(w,t) {
         productItem.appendChild(downContent);
         productContainer.appendChild(productItem);
     
-        const productsContainer = document.querySelector("#products-container");
+        const productsContainer = document.querySelector("#products-containerx");
         productsContainer.appendChild(productContainer);
     });
     
@@ -1238,6 +1223,10 @@ async function buscarA(w,t) {
 
 
 function cambiarImagen(event, codigo, imagenes, clase) {
+    console.log('codigo:'+codigo);
+    console.log('imagenes'+imagenes);
+    console.log('clase'+clase);
+    
     event.preventDefault();
     const imgContainer = document.querySelector('#p-' + codigo);
     const imgElmt = document.querySelector('#img-' + codigo);
@@ -1346,7 +1335,9 @@ function cambiarImagenShowing(event, clase) {
     
 }
 
+async function encontrarPaginaDesdeUrl(category,page) {
 
+}
 
 async function encontrarPagina(n) {
     paginaActual = document.getElementById(n).value;
@@ -1355,19 +1346,44 @@ async function encontrarPagina(n) {
         element.classList.remove('btn-nav-active');
     });
     document.querySelector('#'+n).classList.add('btn-nav-active');
-    
     if(document.querySelector('#pageindex').value == '1') {
-
         buscar(buscandoCategoria,'0');
     }
     if(document.querySelector('#pageindex').value == '1.5') {
-
         buscar(buscandoCategoria,'1');
     }
     if(document.querySelector('#pageindex').value == '2') {
-
         buscarA(buscandoCategoria);
     }
+
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    var params = new URLSearchParams(url.search);
+
+    // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
+    var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
+
+    console.log(param1Value);
+
+    // Definimos el valor de "paginaActual"
+
+
+    if (param1Value != null) {
+        var lastSearchParams = "&ea170e2cafb1337755c8b3d5ae4437f4=" + param1Value;
+    } else {
+        var lastSearchParams = "";
+    }
+
+    // Definimos el nuevo parámetro "4014baac2e585d86e97c81beb778c6c8" con el valor de "paginaActual"
+    var newSearchParams = "?4014baac2e585d86e97c81beb778c6c8=" + paginaActual;
+
+    var pathname = window.location.pathname;
+    var hash = window.location.hash;
+
+    // Concatenamos todos los parámetros y actualizamos la URL
+    history.pushState(null, "", pathname + newSearchParams + lastSearchParams + hash);
+
+
 }
 
 async function siguientePagina() {
@@ -1419,6 +1435,32 @@ async function siguientePagina() {
 
             buscarA(buscandoCategoria);
         }
+        var urlString = window.location.href;
+        var url = new URL(urlString);
+        var params = new URLSearchParams(url.search);
+
+        // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
+        var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
+
+        console.log(param1Value);
+
+        // Definimos el valor de "paginaActual"
+
+
+        if (param1Value != null) {
+            var lastSearchParams = "&ea170e2cafb1337755c8b3d5ae4437f4=" + param1Value;
+        } else {
+            var lastSearchParams = "";
+        }
+
+        // Definimos el nuevo parámetro "4014baac2e585d86e97c81beb778c6c8" con el valor de "paginaActual"
+        var newSearchParams = "?4014baac2e585d86e97c81beb778c6c8=" + paginaActual;
+
+        var pathname = window.location.pathname;
+        var hash = window.location.hash;
+
+        // Concatenamos todos los parámetros y actualizamos la URL
+        history.pushState(null, "", pathname + newSearchParams + lastSearchParams + hash);
 
     }
 }
@@ -1426,7 +1468,6 @@ async function siguientePagina() {
 async function retrocederPagina() {
     if(paginaActual > 1) {
         paginaActual--;
-        
     if (btnSelected == 'btn-nav-0') {
         let RestandoValor = 1;
         const nodeList = document.querySelectorAll('.btn-nav-number');
@@ -1471,6 +1512,32 @@ async function retrocederPagina() {
 
             buscarA(buscandoCategoria);
         }
+        var urlString = window.location.href;
+        var url = new URL(urlString);
+        var params = new URLSearchParams(url.search);
+
+        // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
+        var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
+
+        console.log(param1Value);
+
+        // Definimos el valor de "paginaActual"
+
+
+        if (param1Value != null) {
+            var lastSearchParams = "&ea170e2cafb1337755c8b3d5ae4437f4=" + param1Value;
+        } else {
+            var lastSearchParams = "";
+        }
+
+        // Definimos el nuevo parámetro "4014baac2e585d86e97c81beb778c6c8" con el valor de "paginaActual"
+        var newSearchParams = "?4014baac2e585d86e97c81beb778c6c8=" + paginaActual;
+
+        var pathname = window.location.pathname;
+        var hash = window.location.hash;
+
+        // Concatenamos todos los parámetros y actualizamos la URL
+        history.pushState(null, "", pathname + newSearchParams + lastSearchParams + hash);
     }
 }
 function buscarProductosCart() {
@@ -2124,5 +2191,339 @@ async function eliminarCategoriaa(id) {
 
 
 
+const carousel = document.getElementById('products-containerx');
+  const prevBtnx = document.getElementById('prevBtnx');
+  const nextBtnx = document.getElementById('nextBtnx');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  // Manejadores de eventos táctiles
+  carousel.addEventListener('touchstart', (e) => {
+    isDown = true;
+    startX = e.touches[0].pageX - carousel.offsetLeft;
+    scrollLeft = carousel.scrollLeft;
+  });
+
+  carousel.addEventListener('touchmove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.touches[0].pageX - carousel.offsetLeft;
+    const walk = (x - startX) * 2; // Velocidad del scroll
+    carousel.scrollLeft = scrollLeft - walk;
+  });
+
+  carousel.addEventListener('touchend', () => {
+    isDown = false;
+  });
+
+  // Manejadores de eventos de clic del ratón
+  carousel.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX - carousel.offsetLeft;
+    scrollLeft = carousel.scrollLeft;
+  });
+
+  carousel.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - carousel.offsetLeft;
+    const walk = (x - startX) * 2; // Velocidad del scroll
+    carousel.scrollLeft = scrollLeft - walk;
+  });
+
+  carousel.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+  let ct = 0;
+  // Botón para desplazar a la izquierda
+ // Botón para desplazar a la izquierda
+prevBtnx.addEventListener('click', () => {
+  const scrollWidth = carousel.offsetWidth;
+  let currentScroll = carousel.scrollLeft;
+  
+  // Si el carrusel está en el principio, no se puede desplazar más a la izquierda
+  if (currentScroll === 0) return;
+
+  // Calcular la nueva posición del scroll
+  currentScroll = Math.max(0, currentScroll - scrollWidth);
+
+  // Desplazar suavemente al nuevo punto
+  carousel.scrollTo({
+    left: currentScroll,
+    behavior: 'smooth'
+  });
+});
+
+// Botón para desplazar a la derecha
+nextBtnx.addEventListener('click', () => {
+  const scrollWidth = carousel.offsetWidth;
+  const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+  let currentScroll = carousel.scrollLeft;
+  
+  // Si el carrusel está en el final, no se puede desplazar más a la derecha
+  if (currentScroll === maxScroll) return;
+
+  // Calcular la nueva posición del scroll
+  currentScroll = Math.min(maxScroll, currentScroll + scrollWidth);
+
+  // Desplazar suavemente al nuevo punto
+  carousel.scrollTo({
+    left: currentScroll,
+    behavior: 'smooth'
+  });
+});
 
 
+  // Ajustar el carousel al centro cuando se desplaza
+  carousel.addEventListener('scroll', () => {
+    const centerX = carousel.offsetWidth / 2;
+    const items = carousel.querySelectorAll('.carouselx--item');
+    let minDiff = Infinity;
+    let targetIndex = 0;
+
+    items.forEach((item, index) => {
+      const itemRect = item.getBoundingClientRect();
+      const itemCenterX = itemRect.left + itemRect.width / 2;
+      const diff = Math.abs(centerX - itemCenterX);
+
+      if (diff < minDiff) {
+        minDiff = diff;
+        targetIndex = index;
+      }
+    });
+
+    const targetItem = items[targetIndex];
+    const targetItemRect = targetItem.getBoundingClientRect();
+    const targetItemCenterX = targetItemRect.left + targetItemRect.width / 2;
+    const scrollAmount = targetItemCenterX - centerX;
+    carousel.scrollLeft += scrollAmount;
+  });
+
+  function showSelectGenre() {
+    var selectGenre = document.querySelector('.select-genre');
+    selectGenre.style.display = (selectGenre.style.display === 'block') ? 'none' : 'block';
+  }
+
+
+
+  // Obtener la barra sticky
+const stickyBar = document.querySelector('.sticky');
+const stickyBarContainer = document.querySelector('#sticky-ad-container');
+
+//localStorage.setItem('showSticky', '1');
+
+let showSticky = localStorage.getItem('showSticky');
+
+
+// Obtener la posición inicial de la barra
+const stickyBarTopOffset = stickyBar.offsetTop;
+
+// Función para manejar el evento de desplazamiento
+function handleScroll() {
+  // Obtener la posición de desplazamiento actual
+  const scrollPosition = window.scrollY;
+
+  // Si la posición de desplazamiento es mayor que la posición inicial de la barra, agregar la clase 'top'; de lo contrario, eliminarla
+  if (scrollPosition >= stickyBarTopOffset) {
+    stickyBar.classList.add('top');
+    stickyBarContainer.classList.add('top');
+  } else {
+    stickyBar.classList.remove('top');
+    stickyBarContainer.classList.remove('top');
+  }
+}
+let stickyElementCount = 0;
+let intervalId = null;
+
+if(showSticky == '0') {
+  stickyBarContainer.classList.add('hidden');
+} else {
+  intervalId = setInterval(showNextItem, 6000);
+  //console.log(intervalId);
+}
+
+function closeStickyAd() {
+  localStorage.setItem('showSticky', '0');
+  if(intervalId != null) {
+    clearInterval(intervalId); // Detener el intervalo
+  }
+  stickyBarContainer.classList.add('hidden');
+}
+
+function showNextItem() {
+  //console.log(99);
+  document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.add('hidden');
+  stickyElementCount++;
+  if(stickyElementCount > 2) {
+    stickyElementCount = 0;
+  }
+  document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.remove('hidden');
+  
+}
+// Agregar evento de desplazamiento a la ventana
+window.addEventListener('scroll', handleScroll);
+
+
+
+
+
+
+
+
+  let intervalPopupId = null;
+  let imgsPopUp = [];
+  //localStorage.setItem('showPopUp', '1');
+  let showPopUp = localStorage.getItem('showPopUp');
+  
+
+ 
+  let imgsPopUpH = [];
+  let imgsPopUpV = [];
+  let imgsPopUpCount = 0;
+  let popUpOpen = false;
+  function detectOrientation() {
+    if(popUpOpen == true) {
+      if (window.innerWidth > window.innerHeight) {
+       // console.log("La pantalla está en modo horizontal");
+        imgsPopUp = imgsPopUpH;
+        imgsPopUpCount = 0;
+        if(intervalPopupId != null) {
+          clearInterval(intervalPopupId);
+        }
+        openPopup();
+      } else {
+        //console.log("La pantalla está en modo vertical");
+        imgsPopUp = imgsPopUpV;
+        imgsPopUpCount = 0;
+        if(intervalPopupId != null) {
+          clearInterval(intervalPopupId);
+        }
+        openPopup();
+      }
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', detectOrientation);
+  window.addEventListener('resize', detectOrientation);
+
+  function closePopup() {
+    popUpOpen = false;
+    document.getElementById('popup').classList.add('hidden');
+    if(intervalPopupId != null) {
+      clearInterval(intervalPopupId);
+      intervalPopupId = null;
+    }
+    localStorage.setItem('showPopUp', '0');
+  }
+
+  async function openPopup() {
+   // console.log('abriendo pop up')
+    const url = `${location.origin}/api/95ff27d16e904dccf0d9bc2f961e748d`;
+    const response = await fetch(url, {
+        method: 'POST',
+    });
+
+    const result = await response.json();
+    if(result.length > 0) {
+        result.forEach(element => {
+            imgsPopUpV.push(element.name+'-v.jpg');
+            imgsPopUpH.push(element.name+'-h.jpg');
+        });
+        if (window.innerWidth > window.innerHeight) {
+            
+            imgsPopUp = imgsPopUpH;
+            
+          } else {
+           
+            imgsPopUp = imgsPopUpV;
+        }
+            
+        //console.log(imgsPopUp);
+        //console.log(result);
+        popUpOpen = true;
+        document.getElementById('popup').classList.remove('hidden');
+        document.getElementById('popUpIMG').src = '/images/'+imgsPopUp[imgsPopUpCount];
+        intervalPopupId = setInterval(function() {
+          imgsPopUpCount++;
+          if (imgsPopUpCount > imgsPopUp.length -1) {
+            imgsPopUpCount = 0;
+          }
+          document.getElementById('popUpIMG').src = '/images/'+imgsPopUp[imgsPopUpCount];
+        }, 6000);
+    }
+    
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    if(showPopUp == '0') {
+      
+    } else {
+      openPopup();
+    }
+  });
+
+
+  function eliminarPopUp(id) {
+    //alert(id);
+    Swal.fire({
+        title: '¿Eliminar?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, borrar",
+        cancelButtonText: "Cancelar"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const data = new FormData();
+            data.append('id', id);
+            const url = `${location.origin}/api/585017aa4ee7d08060322deb77c9d74d`;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: data
+                });
+
+                const result = await response.json();
+                ////console.log(result);
+                if (result) {
+                    // Éxito
+                    Swal.fire({
+                        title: "¡Borrado!",
+                        text: "",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    }).then(() => {
+                        // Aquí puedes realizar acciones adicionales después del borrado
+                        // Por ejemplo, recargar la página o actualizar la interfaz
+                        location.reload();
+                    });
+                } else {
+                    // Error
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Lo sentimos, se ha producido un error al eliminar el producto',
+                        icon: 'error',
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "OK"
+                    });
+                }
+            } catch (error) {
+                // Manejar errores de red u otros
+                console.error('Error al realizar la solicitud:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Lo sentimos, se ha producido un error al realizar la solicitud',
+                    icon: 'error',
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "OK"
+                });
+            }
+        }
+    });
+}

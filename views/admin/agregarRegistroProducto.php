@@ -36,6 +36,60 @@
     </div>
 
     <div class="slot">
+        <label for="marca">Marca</label>
+        <select name="marca" id="marca">
+            <option value="0">Sin marca</option>
+            <option value="1">Saint Laurent</option>
+            <option value="2">Prada</option>
+            <option value="3">Dior</option>
+            <option value="4">Vizzano</option>
+            <option value="5">Coral</option>
+            <option value="6">Gucci</option>
+            <option value="7">Michael Kors</option>
+            <option value="8">Lili Pink</option>
+            <option value="9">Nike</option>
+            <option value="10">Chanel</option>
+            <option value="11">Roxy</option>
+            <option value="12">Victoria Secret</option>
+            <option value="13">Volcom</option>
+            <option value="14">Vans</option>
+            <option value="15">Emerica</option>
+            <option value="16">Jordan</option>
+            <option value="17">Columbia</option>
+            <option value="18">Puma</option>
+            <option value="19">Hurley</option>
+            <option value="20">Element</option>
+            <option value="21">Lakai</option>
+            <option value="22">QuikSilver</option>
+            <option value="23">Supra</option>
+            <option value="24">Fox</option>
+            <option value="25">Nike SB</option>
+            <option value="26">Adidas</option>
+            <option value="27">Reef</option>
+            <option value="28">Last Kings</option>
+            <option value="29">Timberland</option>
+            <option value="30">NY</option>
+            <option value="31">Bulls</option>
+            <option value="32">BlackOut</option>
+            <option value="33">DC</option>
+            <option value="34">Pelagic</option>
+            <option value="35">Under Armour</option>
+            <option value="36">Rip Curl</option>
+            <option value="37">Jugados</option>
+            <option value="38">Hi-Tec</option>
+            <option value="39">Ray-Ban</option>
+            <option value="40">Versace</option>
+            <option value="41">Burberry</option>
+            <option value="42">Nicole Lee</option>
+            <option value="43">Merrell</option>
+            <option value="44">Oneill</option>
+            <option value="45">Aurum</option>
+            <option value="46">Salty Crew</option>
+            
+        </select>
+    </div>
+
+    <div class="slot">
         <label for="category">Categoría</label>
         <select id="category" name="category">
             <?php foreach ($categorias as $categoria): ?>
@@ -169,14 +223,24 @@
     
 
     <div class="slot" style="display: flex;align-items:center;">
-    <label for="new" style="flex: 0 0 6.5rem;">¿Producto Nuevo?</label>
-    <input
-        type="checkbox"
-        value="0"
-        style="flex:none;width: auto !important;"
-        onchange="handleCheckboxChange(this,'new')"
+        <label for="new" style="flex: 0 0 6.5rem;">¿Producto Nuevo?</label>
+        <input
+            type="checkbox"
+            value="0"
+            style="flex:none;width: auto !important;"
+            onchange="handleCheckboxChange(this,'new')"
         />
         <input type="hidden" value="0" id="new" name="new">
+    </div>
+    <div class="slot" style="display: flex;align-items:center;">
+        <label for="original" style="flex: 0 0 6.5rem;">¿Producto Original?</label>
+        <input
+            type="checkbox"
+            value="0"
+            style="flex:none;width: auto !important;"
+            onchange="handleCheckboxChange(this,'original')"
+        />
+        <input type="hidden" value="0" id="original" name="original">
     </div>
     
     

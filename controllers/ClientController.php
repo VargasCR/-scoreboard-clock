@@ -5,6 +5,7 @@ use Model\Categoria;
 use Model\Categoriaa;
 use Model\User;
 use Model\Suscriptor;
+//use Model\ImgPopUp;
 use MVC\Router;
 
 
@@ -14,7 +15,9 @@ class ClientController {
         $functions = "encontrarProductosEnCarrito();createProduct();";
         $pageIndex = 0;
         $isClient = true;
-        
+      //  $imgsa = new ImgPopUp();
+      //  $queryImgs = $imgsa::all();
+      //  debuguear($queryImgs);
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         }
@@ -50,9 +53,13 @@ class ClientController {
     }
 
     public static function productsMale(Router $router) {
-        if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
+        $urlParamPage = $_GET['4014baac2e585d86e97c81beb778c6c8'];
+        //debuguear($urlParamPage);
+
+        if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4']) && !isset($_GET['4014baac2e585d86e97c81beb778c6c8'])) {
             $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
             $functions = "buscar('".$urlParam."','0');";
+            //debuguear('a');
         } else {
             $functions = "buscar('0','0');";
         }
@@ -128,6 +135,20 @@ class ClientController {
         }
         
         $router->render('client/about', [
+            'function' => $functions,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
+    public static function terms(Router $router) {
+        $functions = "encontrarProductosEnCarrito();";
+        $pageIndex = 3.5;
+        $isClient = true;
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        
+        $router->render('client/terms', [
             'function' => $functions,
             'pageIndex' => $pageIndex,
             'isClient' => $isClient,

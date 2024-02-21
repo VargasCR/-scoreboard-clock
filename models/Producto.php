@@ -16,7 +16,8 @@ class Producto extends ActiveRecord {
         'colores',
         'new',
         'aurum',
-        'cantidad','genero'
+        'cantidad',
+        'genero','original','marca'
     ];
     public $id;
     public $titulo;
@@ -32,6 +33,8 @@ class Producto extends ActiveRecord {
     public $aurum;
     public $cantidad;
     public $genero;
+    public $original;
+    public $marca;
     
 
     public function __construct($args = [])
@@ -50,6 +53,8 @@ class Producto extends ActiveRecord {
         $this->aurum = $args['aurum'] ?? '';       
         $this->cantidad = $args['cantidad'] ?? '';       
         $this->genero = $args['genero'] ?? '2';       
+        $this->original = $args['original'] ?? '0';       
+        $this->marca = $args['marca'] ?? '0';       
        
  
     }
@@ -91,9 +96,19 @@ class Producto extends ActiveRecord {
         return self::$alerts;
     }
 
-    public function validateProduct($product,$imgColor,$imgPrincipal)
+    public function validateProduct($product,$FILES,$imgPrincipal,$colorFileCountArray)
     {
-        
+        foreach ($colorFileCountArray as $value => $key) {
+            foreach ($FILES['imagenColor_'.$value]['tmp_name'] as $key => $tmp_name) {
+                if($tmp_name == "") {
+                    
+                        self::$alerts['error'][] = 'Imagen de color faltante';
+                    
+                }
+                //debuguear($tmp_name);
+            }
+        }
+        //debuguear(self::$alerts);
         if(!$product['titulo']) {
             self::$alerts['error'][] = 'El titulo es obligatorio';
         }

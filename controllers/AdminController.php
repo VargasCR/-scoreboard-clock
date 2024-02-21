@@ -10,9 +10,110 @@ use MVC\Router;
 use Model\User;
 use Intervention\Image\ImageManagerStatic as Image;
 use Model\Suscriptor;
+use Model\ImgPopUp;
 
 class AdminController {
-    
+    public static function menuPopUp( Router $router ) {
+        $pageIndex = 7;
+        $isClient = false;
+        isAdmin();
+        $images = ImgPopUp::all();
+        usort($images, function($a, $b) {
+            return intval($a->index) - intval($b->index);
+        });
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $img = ImgPopUp::find($_POST['id']);
+            $oldIndex = $img->index;
+            $newIndex = $oldIndex - 1;
+            $itemChanged = -1;
+            foreach ($images as $item) {
+                if($item->index == $oldIndex) {
+                    $item->index = $newIndex;
+                    $itemChanged = $item->id;
+                    $item->save();
+                }
+            }
+            foreach ($images as $item) {
+              //  debuguear($newIndex);
+                if($item->index == $newIndex && $item->id != $itemChanged) {
+                    $item->index = $oldIndex;
+                    $item->save();
+                }
+            }
+            usort($images, function($a, $b) {
+                return intval($a->index) - intval($b->index);
+            });
+            //debuguear($images);
+            header('Location: /e0ba580ca07a56b26d44e88ee03b1abb');
+        }
+        $router->render('admin/PopUpImg', [
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+            'images' => $images,
+
+        ]);
+    }
+
+
+    public static function agregarPopUpImg( Router $router ) {
+        $pageIndex = 7;
+        $popUpImg = new ImgPopUp();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $result = ImgPopUp::all();
+            //debuguear($result);
+           // debuguear($_FILES['imagenV']['tmp_name']);
+            if($_FILES['imagenV']['tmp_name'] == '') {
+                $alerts['error'][] = 'Agregue una imagen Vertical';
+            }
+            if($_FILES['imagenH']['tmp_name'] == '') {
+                $alerts['error'][] = 'Agregue una imagen Horizontal';
+            }
+            if(empty($alerts)) {
+                $image_name = md5( uniqid( rand(), true ) ) ;
+                $imagen = Image::make($_FILES['imagenV']['tmp_name']);
+                if ($imagen->save(IMAGE_FOLDER . $image_name. '-v.jpg')) {
+                    
+                } else {
+                    $alerts['error'][] = 'Error al guardar la imagen ';
+                }
+                $imagen = Image::make($_FILES['imagenH']['tmp_name']);
+                if ($imagen->save(IMAGE_FOLDER . $image_name. '-h.jpg')) {
+                    
+                } else {
+                    $alerts['error'][] = 'Error al guardar la imagen ';
+                }
+                $popUpImg->name = $image_name;
+                if(empty($result)) {
+                    $popUpImg->index = '0';
+                } else {
+                    $popUpImg->index = '1';
+
+                }
+                // Inicializar el índice más alto
+                $highestIndex = -1;
+
+                // Iterar sobre el array
+                foreach ($result as $obj) {
+                    // Convertir el índice a entero y compararlo con el índice más alto actual
+                    $currentIndex = intval($obj->index);
+                    if ($currentIndex > $highestIndex) {
+                        // Si el índice actual es mayor, actualizar el índice más alto
+                        $highestIndex = $currentIndex;
+                    }
+                }
+                $popUpImg->index = $highestIndex + 1;
+                $popUpImg->save();
+                $alerts['success'][] = 'Guardado correctamente';
+            }
+            //debuguear($_FILES['imagenV']['tmp_name']);
+        }
+        $router->render('admin/addPopUpImg', [
+            'pageIndex' => $pageIndex,
+            'alerts' => $alerts,
+        ]);
+    }
+
+
     public static function crearPDFreport(Router $router) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fechaDesde = $_POST['fechaDesde'];
@@ -52,7 +153,7 @@ class AdminController {
                 }
     
                 const urlArchivo = '$fullURL';
-                const nombreArchivo = '$rutaPDF[1].pdf';
+                const nombreArchivo = '$rutaPDF[1]';
                 descargarArchivo(urlArchivo, nombreArchivo);
     
                 // Redirigir después de un breve retraso
@@ -63,6 +164,8 @@ class AdminController {
         }
     }
     
+    
+
     public static function index( Router $router ) {
         $pageIndex = 7;
         $isClient = false;
@@ -70,6 +173,7 @@ class AdminController {
         $empleados = new User();
         $perfiles = $empleados->all();
         $funtions = '/build/js/account.js';
+        
         $alertlink = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
         $router->render('admin/empleados', [
             'perfiles' => $perfiles,
@@ -85,9 +189,11 @@ class AdminController {
         isAdmin();
         
         $router->render('admin/seleccionarMenu', [
-            
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
         ]);
     }
+    
     
     
     public static function showEmployeeTime( Router $router ) {
@@ -276,38 +382,58 @@ class AdminController {
         $categorias = $categoria->all();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //debuguear($_FILES['imagen']['tmp_name']);
-        //$alerts = $producto->validateProduct($_POST,$_FILES['imagenColor']['tmp_name'],$_FILES['imagen']['tmp_name']);
-        if(empty($alerts)) {
-            $producto->sync($_POST);
             
+            $colorFileCountValue = $_POST['colorFileCount'];
+            $colorFileCountArray = explode(',', $colorFileCountValue);
+           // debuguear($_FILES['imagenColor']['tmp_name']);
+            $alerts = $producto->validateProduct($_POST,$_FILES,$_FILES['imagen']['tmp_name'],$colorFileCountArray);
+            //debuguear($alerts);
+            //debuguear($_POST);
+            if(empty($alerts)) {
+                $producto->sync($_POST);
                 $alerts = [];
                 $producto->desc = $producto->convertirTextAJSON($_POST['desc']);
                 if (!is_dir(IMAGE_FOLDER)) {
                     mkdir(IMAGE_FOLDER);
                 }
+                
                 $imagenesJSON = [];
-                //debuguear('$');
                 foreach ($_FILES['imagen']['tmp_name'] as $key => $tmp_name) {
                     $image_name = md5( uniqid( rand(), true ) ) . '.jpg';
-                    $imagen = Image::make ($tmp_name)->fit(600,740);
-                   // debuguear($image_name);
-                    //debuguear(0);
+                    $imagen = Image::make ($tmp_name);
 
+                    $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/atlantic.png';
+                    $marca_de_agua = Image::make($ruta_marca_de_agua);
+                    $marca_de_agua->resize(200, 200);
+                    $imagen->insert($marca_de_agua, 'top-right',10,40);
+
+                    if($_POST['marca'] != '0') {
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/logos-oscuros/'.$_POST['marca'].'.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(280, 280);
+                        $imagen->insert($marca_de_agua, 'top-left',20,0);
+                    }
+                    if($_POST['original'] == '1') {
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/original.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(350, 350);
+                        $imagen->insert($marca_de_agua, 'bottom-right',10,-100);
+                    }
+
+
+                    
                     if ($imagen->save(IMAGE_FOLDER . $image_name)) {
-                        // Asignar el nombre de la imagen al producto o almacenar en un array si es necesario
-                        // Almacenar información relevante en el array $imagenesJSON
                         $imagenesJSON[] = $image_name;
-                        //  $producto->addImage($image_name);--------
                     } else {
-                        // Manejar el caso en el que no se pudo guardar la imagen
                         $alerts[] = 'Error al guardar la imagen ' . $key;
                     }
+                    
                 }
+              //  debuguear($_POST['original']);
+                //debuguear($ruta_marca_de_agua);
+                
                 $imagenes = json_encode($imagenesJSON);
                 $producto->setImage($imagenes);
-                
-                
                 $tallasArray = explode(',', $_POST['tallas']);
                 $tallasJson = json_encode($tallasArray);
                 $producto->tallas = $tallasJson;
@@ -315,61 +441,57 @@ class AdminController {
                 $imagenesJSON = [];
                 $nombre = '';
                 $rgb = '';
-               // debuguear('$');
+                
+                foreach ($colorFileCountArray as $value => $key) {
+                    $imagenJSON = [];
+                    foreach ($_FILES['imagenColor_'.$value]['tmp_name'] as $key => $tmp_name) {
+                        $image_name = md5(uniqid(rand(), true)) . '.jpg';
+                        $imagen = Image::make($tmp_name);
+                        
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/atlantic.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(200, 200);
+                        $imagen->insert($marca_de_agua, 'top-right',10,40);
+
+                    if($_POST['marca'] != '0') {
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/logos-oscuros/'.$_POST['marca'].'.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(280, 280);
+                        $imagen->insert($marca_de_agua, 'top-left',20,0);
+                    }
+                    if($_POST['original'] == '1') {
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/original.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(350, 350);
+                        $imagen->insert($marca_de_agua, 'bottom-right',10,-100);
+                    }
+
+                        if ($imagen->save(IMAGE_FOLDER . $image_name)) {
 
 
+                            $imagenJSON[] = $image_name;
+                        } else {
+                            $alerts[] = 'Error al guardar la imagen ' . $key;
+                        }
+                    }
+                    $nombre = $_POST['color'][$countImages];
+                        $rgb = $_POST['rgb'][$countImages];
+                        $countImages++;
+                    $imagenesJSON[] = [
+                        'rgb' => $rgb,
+                        'color' => $nombre,
+                        'imagen' => $imagenJSON
+                    ];
+                    $imagenesColores[] = $imagenesJSON;
+                    
+                }
 
-
-                $colorFileCountValue = $_POST['colorFileCount'];
-
-// Convierte la cadena en un array utilizando explode
-$colorFileCountArray = explode(',', $colorFileCountValue);
-//debuguear($_POST);
-// Realiza un bucle foreach en el array
-//debuguear($_FILES['imagenColor_0']['tmp_name']);
-foreach ($colorFileCountArray as $value => $key) {
-    // $value ahora contiene cada número del array
-    // Realiza las operaciones necesarias aquí
-    $imagenJSON = [];
-    foreach ($_FILES['imagenColor_'.$value]['tmp_name'] as $key => $tmp_name) {
-        $image_name = md5(uniqid(rand(), true)) . '.jpg';
-
-        $imagen = Image::make($tmp_name)->fit(400, 540);
-        
-        // Guardar la imagen
-        if ($imagen->save(IMAGE_FOLDER . $image_name)) {
-            // Asignar el nombre de la imagen al producto o almacenar en un array si es necesario
-            // Almacenar información relevante en el array $imagenesJSON
-            $imagenJSON[] = $image_name;
-            
-            //  $producto->addImage($image_name);--------
-        } else {
-            // Manejar el caso en el que no se pudo guardar la imagen
-            $alerts[] = 'Error al guardar la imagen ' . $key;
-        }
-    }
-    $nombre = $_POST['color'][$countImages];
-        $rgb = $_POST['rgb'][$countImages];
-        $countImages++;
-    //debuguear($nombre);
-    $imagenesJSON[] = [
-        'rgb' => $rgb,
-        'color' => $nombre,
-        'imagen' => $imagenJSON
-    ];
-    $imagenesColores[] = $imagenesJSON;
-    
-}
-
-$ColoresjsonResult = json_encode($imagenesJSON);
-$producto->colores = $ColoresjsonResult;
-//debuguear($producto);
-$producto->save();
-//debuguear($producto);
+                $ColoresjsonResult = json_encode($imagenesJSON);
+                $producto->colores = $ColoresjsonResult;
+                $producto->save();
             }
-            //debuguear($_FILES['imagenColor']);
         }
-        //$producto->imagen = $image_name;
+        //debuguear('a');
         $router->render('admin/agregarRegistroProducto', [
             'pageIndex' => $pageIndex,
             'isClient' => $isClient,
@@ -382,119 +504,110 @@ $producto->save();
 
 
     public static function editarProducto( Router $router ) {
-        $users = null; // Initialize $users
-        $alerts = null; // Initialize $alerts
+        $users = null;
+        $alerts = null;
         $parametro = $_GET['b80bb7740288fda1f201890375a60c8f'];
         $pageIndex = 7;
         $isClient = false;
         $producto = Producto::find($parametro);
         $function = 'encontrarTotalColores()';
-        
-        
-        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //$newPrdoucto->sync($_POST);
-            $newPrdouct = new Producto($_POST);
-            //$alerts = $newPrdouct->validateOldProduct($_POST,$_FILES['imagenColor']['tmp_name'],$_FILES['imagen']['tmp_name']);
-            
+            $newPrdouct = new Producto($_POST);            
             $newPrdouct->id = $parametro;
             $producto = Producto::find($parametro);
             $alerts = [];
-
             $newPrdouct->desc = $newPrdouct->convertirTextAJSON($_POST['desc']);
-           
             if (!is_dir(IMAGE_FOLDER)) {
                 mkdir(IMAGE_FOLDER);
             }
-            
-            
-          //  debuguear(!empty(array_filter($_FILES['imagen']['tmp_name'])));
-             // debuguear(!empty(array_filter($_FILES['imagen']['tmp_name'])));
             if (!empty(array_filter($_FILES['imagen']['tmp_name']))) {
-                //debuguear($_FILES['imagen']['tmp_name']);
                 $imagenesJSON = [];
                 $imagenesJSON = json_decode($producto->imagen, true);
                 foreach ($_FILES['imagen']['tmp_name'] as $key => $tmp_name) {
                     if($tmp_name != '') {
                         $image_name = md5( uniqid( rand(), true ) ) . '.jpg';
-                        $imagen = Image::make ($tmp_name)->fit(600,740);
+                        $imagen = Image::make ($tmp_name);
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/atlantic.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(200, 200);
+                        $imagen->insert($marca_de_agua, 'top-right',10,40);
+                        //debuguear($_POST['marca']);
+                        
+                        if($_POST['marca'] != '0') {
+                            $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/logos-oscuros/'.$_POST['marca'].'.png';
+                            $marca_de_agua = Image::make($ruta_marca_de_agua);
+                            $marca_de_agua->resize(280, 280);
+                            $imagen->insert($marca_de_agua, 'top-left',20,0);
+                        }
+                        if($_POST['original'] == '1') {
+                            $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/original.png';
+                            $marca_de_agua = Image::make($ruta_marca_de_agua);
+                            $marca_de_agua->resize(350, 350);
+                            $imagen->insert($marca_de_agua, 'bottom-right',10,-100);
+                        }
                         
                         if ($imagen->save(IMAGE_FOLDER . $image_name)) {
-                            // Asignar el nombre de la imagen al producto o almacenar en un array si es necesario
-                            // Almacenar información relevante en el array $imagenesJSON
                             $imagenesJSON[] = $image_name;
-                            //  $producto->addImage($image_name);--------
                         } else {
-                            // Manejar el caso en el que no se pudo guardar la imagen
                             $alerts[] = 'Error al guardar la imagen ' . $key;
                         }
                     }
                 }
-                
-                
-               // debuguear($imagenesJSON);
                 $imagenes = json_encode($imagenesJSON);
                 $newPrdouct->imagen = $imagenes;
             } else {
                 $newPrdouct->imagen = $producto->imagen;
             }
-           // debuguear($newPrdouct);
             $tallasArray = explode(',', $_POST['tallas']);
-            
             $tallasJson = json_encode($tallasArray);
             $newPrdouct->tallas = $tallasJson;
-            
-            
             $countImages = 0;
             $countImagesColor = 0;
             $imagenesJSON = [];
             $nombre = '';
             $rgb = '';
-
-            
             $imagenesJSON = json_decode($producto->colores, true);
             $arrayPHP = explode(',', $_POST['colorFileCount']);
-            //debuguear($arrayPHP);
             foreach ($arrayPHP as $value) {
                 $imagenJSON = [];
                 $encontrado = false;
-                //echo $value;
                 $nombre = null;
                 $rgb = null;
                 foreach ($_FILES['imagenColor_'.$value]['tmp_name'] as $key => $tmp_name) {
-                   
                     if(file_exists($tmp_name)) {
-                        
                         $image_name = md5(uniqid(rand(), true)) . '.jpg';
-                        // Intentar cargar la imagen
-                        $imagen = Image::make($tmp_name)->fit(400, 540);
+                        $imagen = Image::make($tmp_name);
                         $encontrado = true;
-                        // Guardar la imagen
+
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/atlantic.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(200, 200);
+                        $imagen->insert($marca_de_agua, 'top-right',10,40);
+
+                    if($_POST['marca'] != '0') {
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/logos-oscuros/'.$_POST['marca'].'.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(280, 280);
+                        $imagen->insert($marca_de_agua, 'top-left',20,0);
+                    }
+                    if($_POST['original'] == '1') {
+                        $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/original.png';
+                        $marca_de_agua = Image::make($ruta_marca_de_agua);
+                        $marca_de_agua->resize(350, 350);
+                        $imagen->insert($marca_de_agua, 'bottom-right',10,-100);
+                    }
+
                         if ($imagen->save(IMAGE_FOLDER . $image_name)) {
                             $imagenJSON[] = $image_name;
                         } else {
-                            // Manejar el caso en el que no se pudo guardar la imagen
                             $alerts[] = 'Error al guardar la imagen ' . $key;
                         }
-                        
                         if($_POST['color'][$countImages] != null) {
                             $nombre = $_POST['color'][$countImages];
                             $rgb = $_POST['rgb'][$countImages];
                         }
                         $countImages++;
-                        //$imagenesTempJSON[] = $imagenJSON;     
-                        //debuguear($imagenJSON);
-                         //debuguear($imagenJSON);
-                       /* if($_POST['color'][$countImages] != null) {
-                            //debuguear($imagenJSON);
-                            $imagenesTempJSON[] = [
-                                'imagen' => $imagenJSON
-                            ];     
-                        }*/
                     }
-                    
-                    
-                    //$imagenesColores[] = $imagenesJSON;
                 }
                 if($nombre != null) {
                     $imagenesJSON[] = [
@@ -506,40 +619,22 @@ $producto->save();
                 $countImagesColor++;
                 
             }
-            //debuguear(array_filter($imagenesJSON));
-            
-            // Iterar sobre cada archivo de imagen
-            
             $ColoresjsonResult = json_encode($imagenesJSON);
-            //debuguear($imagenesJSON);
             $newPrdouct->colores = $ColoresjsonResult;
-            
-            
                 if (!empty($_POST['imagenesEliminar'])) {
-                    
                     $imagenesEliminarArray = json_decode($_POST['imagenesEliminar']);
                     $coloresIndex = explode(',', $_POST['IndexColoresEliminar']);
                     if($imagenesEliminarArray == null) {
-                        //$imagenesEliminarArray = $_POST['imagenesEliminar'];
                         $imagenesEliminarArray = explode(',',$_POST['imagenesEliminar']);
                     }
-                    
                     $colors = json_decode($newPrdouct->colores);
                     foreach ($coloresIndex as $indice) {     
                         unset($colors[$indice]);
                     }
-                    //debuguear(json_encode(array_values($colors)));
-                    
-                    
                     $newPrdouct->colores = json_encode(array_values($colors));
-                    
-                   
-                    
-                    
                 }
                 if (!empty($imagenesEliminarArray)) {
                     $imgArray = json_decode($newPrdouct->imagen);
-                    //debuguear($imagenesEliminarArray);
                     foreach ($imagenesEliminarArray as $indice => $color) {
                         foreach ($imgArray as $k => $v) {
                             if($color == $v) {
@@ -547,53 +642,34 @@ $producto->save();
                             }
                         }
                     }
-                   // debuguear(json_encode(array_values($imgArray)));
                     $newPrdouct->imagen = json_encode(array_values($imgArray));
-                    
-
                     foreach ($imagenesEliminarArray as $indice => $color) {
                         $producto->deleteImage($color);
                     }
                 }
-               // debuguear($newPrdouct);
                 if(empty($alerts)) {
-                    //$producto->imagen = $producto->imagen;
                     $producto->sync($newPrdouct);
-                    //debuguear($producto->colores);
-                    //debuguear($producto);
-                    //
-                    //debuguear($producto);
-                   // debuguear($newPrdouct);
                     $producto->save();
                     header('Location: /d94a5da526ad85f8e50ca84d4be1defd?b80bb7740288fda1f201890375a60c8f='.$parametro);           
                 }
             }
-        
-       // debuguear($producto->colores);
         $categoria = new Categoria();
         $categorias = $categoria->all();
         $newDesc = $producto->restaurarAJSON($producto->desc);
-        
-        // Convertir el array a una cadena de texto
         $textoNormal = '';
         foreach ($newDesc as $linea) {
             $textoNormal .= $linea . "\n";
         }
         $producto->desc = $textoNormal;
-        //debuguear($textoNormal);
         $tallasNormal = $producto->restaurarAJSON($producto->tallas);
-
         $textoNormal = '';
         $ultimoIndice = count($tallasNormal) - 1;
-
         foreach ($tallasNormal as $indice => $linea) {
-            // Verifica si es el último elemento antes de agregar la coma
             $textoNormal .= $linea . ($indice === $ultimoIndice ? '' : ",");
         }
         $producto->tallas = $textoNormal;
         $colores = json_decode($producto->colores, true);
         $producto->colores = $colores;
-       // debuguear($producto);
         $router->render('admin/editarRegistroProductos', [
             'producto' => $producto,
             'alerts' => $alerts,

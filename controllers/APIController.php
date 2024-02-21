@@ -8,6 +8,7 @@ use Model\Registro;
 use Model\User;
 use Model\Producto;
 use Model\Suscriptor;
+use Model\ImgPopUp;
 
 class APIController {
     
@@ -16,6 +17,14 @@ class APIController {
 public static function lastestProducts() {
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = Producto::findAllWhere('new',1);
+        echo json_encode($result);
+    }
+}
+
+public static function findPopUpImg() {
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+       // echo json_encode('result');
+        $result = ImgPopUp::all();
         echo json_encode($result);
     }
 }
@@ -138,6 +147,32 @@ public static function borrarRegistro() {
         if($registro) {
             $result = $registro->delete();
             $result = true;
+        }
+        //$services = Service::findMyServices($_POST['userid']);
+        echo json_encode($result);
+    }
+}
+
+public static function deletePopUpImg() {
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'];
+        $img = ImgPopUp::find($id);
+        $result = false;
+        if($img) {
+            $result = $img->delete();
+            $result = true;
+        }
+        if($result) {
+            $images = ImgPopUp::all();
+            usort($images, function($a, $b) {
+                return intval($a->index) - intval($b->index);
+            });
+            $newIndex = 0;
+            foreach ($images as $item) {
+                $item->index = $newIndex;
+                $item->save();
+                $newIndex++;
+            }
         }
         //$services = Service::findMyServices($_POST['userid']);
         echo json_encode($result);

@@ -42,6 +42,7 @@ class Registro extends ActiveRecord {
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->MultiCell(0, 6, utf8_decode('Nombre de empleado: '.$empleado->nombre.' '.$empleado->apellido));
         $pdf->MultiCell(0, 6, 'Cedula: '.$empleado->dni);
+        $pdf->MultiCell(0, 6, 'Pago x hora: c'.$empleado->salario);
         $pdf->MultiCell(0, 6, '');
         $pdf->MultiCell(0, 6, 'Total de horas: '.$totalHoras);
         $pdf->MultiCell(0, 6, 'Total de salario: c'.$totalSalario);
