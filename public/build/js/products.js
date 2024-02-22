@@ -28,7 +28,7 @@ function eliminarPrincipalEditSlot(indice,item,event) {
     //var imgValue = document.getElementById('imgp-' + slotId).getAttribute('value');
     imagenesAEliminar.push(item);
    // console.log(imagenesAEliminar);
-    console.log(item);
+    //console.log(item);
     document.querySelector('#imagenesEliminar').value = imagenesAEliminar;
     ////console.log(imgValue);
   //  return;
@@ -263,7 +263,7 @@ let conteoDeColores = 0;
 function encontrarTotalColores() {
    // alert();
     conteoDeColores = document.querySelector('#cantColores').value;
-    console.log(conteoDeColores);
+   // console.log(conteoDeColores);
 }
 let imageJsonCount = 1;
 function agregarColor(event) {
@@ -325,7 +325,7 @@ function agregarColor(event) {
 
     // Actualiza el valor del input hidden
     document.querySelector('#colorFileCount').value = nuevoValor;
-    console.log(nuevoValor);
+    //console.log(nuevoValor);
 
     inputImagen.setAttribute("accept", "image/*");
     inputImagen.multiple = true;
@@ -371,7 +371,7 @@ let coloresAEliminar = [];
 function eliminarEditSlot(slotId,event,values,index) {
     event.preventDefault();
     const valuesArray = values.split(', ');
-    console.log(valuesArray);
+    //console.log(valuesArray);
     valuesArray.forEach(element => {
         imagenesAEliminar.push(element);
         
@@ -577,6 +577,7 @@ function closeFloatingWindow() {
     }, 500);
 }
 let originalBodyOverflow = null;
+
 async function createProduct() {
     let countItem = 0;
 
@@ -712,8 +713,6 @@ async function createProduct() {
         const productsContainer = document.querySelector("#products-containerx");
         productsContainer.appendChild(productContainerSlider);
     });
-    
-    
     encontrarProductosEnCarrito();
 }
 
@@ -749,8 +748,8 @@ function imageZoom(imgID, resultID) {
       x = pos.x - (lens.offsetWidth / 2);
      // y = pos.y +80;
       y = pos.y - (lens.offsetHeight / 2);
-      console.log('y: '+y);
-      console.log(lens.offsetHeight);
+      //console.log('y: '+y);
+      //console.log(lens.offsetHeight);
       /* Prevent the lens from being positioned outside the image: */
       if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
       if (x < 0) {x = 0;}
@@ -999,6 +998,19 @@ async function buscar(w,t) {
         imagenPrincipal.alt = "";
         imagenPrincipal.id = 'img-'+product.codigo;
     
+        imagenPrincipal.onclick = function(){
+            // Get the modal
+            
+            const modal = document.getElementById("myModal-modal");
+            const modalImg = document.getElementById("myModal-img");
+            //console.log(modal);
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            originalBodyOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            imageZoom("myModal-img", "myresult");
+        }
+
         contenedorImagen.appendChild(contenedorBotones);
         contenedorImagen.appendChild(imagenPrincipal);
     
@@ -1068,9 +1080,11 @@ async function buscar(w,t) {
     await limpiarProductos(productsItems);
     encontrarProductosEnCarrito();
 }
+
 async function buscarA(w,t) {
-    alert(t);
-    await limpiarProductos();
+    
+    const productsItems = encontrarProductos();
+    
 
     const productosFiltrados = await filtrarPorCategoria(w,t,'1');
     
@@ -1118,17 +1132,17 @@ async function buscarA(w,t) {
     
         const contenedorImagen = document.createElement("div");
         contenedorImagen.id = "contenedorImagen";
-    
+        
         const contenedorBotones = document.createElement("div");
         contenedorBotones.id = "contenedorBotones";
-    
+        
+        
         const botonIzquierdo = document.createElement("button");
         botonIzquierdo.className = "botonArrow";
         botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
-       
         
         botonIzquierdo.onclick = function() {
-            cambiarImagen(event,product.id,product.imagen,0);
+            cambiarImagen(event,product.codigo,product.imagen,0);
         };
     
         const botonDerecho = document.createElement("button");
@@ -1136,19 +1150,32 @@ async function buscarA(w,t) {
         botonDerecho.className = "botonArrow";
        
         botonDerecho.onclick = function() {
-            cambiarImagen(event,product.id,product.imagen,1);
+            cambiarImagen(event,product.codigo,product.imagen,1);
         };
+    
         if(JSON.parse(product.imagen).length > 1) {
             contenedorBotones.appendChild(botonIzquierdo);
             contenedorBotones.appendChild(botonDerecho);
         }
-        
     
         const imagenPrincipal = document.createElement("img");
         imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
         imagenPrincipal.alt = "";
         imagenPrincipal.id = 'img-'+product.codigo;
     
+        imagenPrincipal.onclick = function(){
+            // Get the modal
+            
+            const modal = document.getElementById("myModal-modal");
+            const modalImg = document.getElementById("myModal-img");
+            //console.log(modal);
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            originalBodyOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            imageZoom("myModal-img", "myresult");
+        }
+
         contenedorImagen.appendChild(contenedorBotones);
         contenedorImagen.appendChild(imagenPrincipal);
     
@@ -1209,12 +1236,13 @@ async function buscarA(w,t) {
         productItem.appendChild(contenedorImagen);
         productItem.appendChild(downContent);
         productContainer.appendChild(productItem);
-    
+        
+           
         const productsContainer = document.querySelector("#products-containerx");
         productsContainer.appendChild(productContainer);
     });
     
-    
+    await limpiarProductos(productsItems);
     encontrarProductosEnCarrito();
 }
 
@@ -1223,9 +1251,9 @@ async function buscarA(w,t) {
 
 
 function cambiarImagen(event, codigo, imagenes, clase) {
-    console.log('codigo:'+codigo);
-    console.log('imagenes'+imagenes);
-    console.log('clase'+clase);
+    //console.log('codigo:'+codigo);
+    //console.log('imagenes'+imagenes);
+    //console.log('clase'+clase);
     
     event.preventDefault();
     const imgContainer = document.querySelector('#p-' + codigo);
@@ -1363,7 +1391,7 @@ async function encontrarPagina(n) {
     // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
     var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
 
-    console.log(param1Value);
+    //console.log(param1Value);
 
     // Definimos el valor de "paginaActual"
 
@@ -1442,7 +1470,7 @@ async function siguientePagina() {
         // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
         var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
 
-        console.log(param1Value);
+        //console.log(param1Value);
 
         // Definimos el valor de "paginaActual"
 
@@ -1519,7 +1547,7 @@ async function retrocederPagina() {
         // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
         var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
 
-        console.log(param1Value);
+        //console.log(param1Value);
 
         // Definimos el valor de "paginaActual"
 
@@ -2527,3 +2555,15 @@ window.addEventListener('scroll', handleScroll);
         }
     });
 }
+
+
+function openFullImgModal(event) {
+    
+    const modal = document.getElementById("myModal-modal");
+    const modalImg = document.getElementById("myModal-img");
+    modal.style.display = "block";
+    modalImg.src = event.target.attributes.src.value;
+    originalBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    imageZoom("myModal-img", "myresult");
+  }

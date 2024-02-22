@@ -1,83 +1,3 @@
-<style>
-  * {box-sizing: border-box;}
-
-.img-zoom-container {
-  
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-.img-zoom-lens {
-  position: absolute;
-  /*border: 1px solid #d4d4d4;*/
-  border: none;
-  /*set the size of the lens:*/
-  width: 120px;
-  height: 120px;
-}
-
-.img-zoom-result {
-  border: 1px solid #d4d4d4;
-  /*set the size of the result div:*/
-  width: 200px;
-  height: 200px;
-  
-}
-.container-img-modal {
-  width: 50%;
-  position: absolute;
-}
-@media only screen and (max-width: 984px){
-  .img-zoom-result {
-  border: 1px solid #d4d4d4;
-  /*set the size of the result div:*/
-  width: 120px;
-  height: 120px;
-  
-}
-.img-zoom-lens {
-  position: absolute;
-  /*border: 1px solid #d4d4d4;*/
-  border: none;
-  /*set the size of the lens:*/
-  width: 70px;
-  height: 70px;
-}
-.container-img-modal {
-  width: 100%;
-}
-}
-</style>
-
-
-
-<script>
-  
-</script>
-
-<script>
-  
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- The Modal -->
 <div id="myModal-modal" class="modal-modal">
 
@@ -95,10 +15,16 @@
       </div>
     </div>
   </div>
-  
-  
 </div>
 
+<div id="sticky-ad-container">
+  <div class="sticky">
+    <div class="sticky-ad"><span><img src="/build/img/envios.png" alt=""></span>Envios a todo el país</div>
+    <div class="sticky-ad hidden"><span><img src="/build/img/genuine.png" alt=""></span>Productos 100% genuinos</div>
+    <div class="sticky-ad hidden"><span><img src="/build/img/payment.png" alt=""></span>Pago seguro</div>
+    <button onclick="closeStickyAd()">X</button>
+  </div>
+</div>
 
 
 
@@ -163,6 +89,7 @@
         </div>
       </div>
     </div>
+    
     <!-- Banner Ends Here -->
 <br>
 
@@ -604,130 +531,77 @@
               </a>
             </div>
 
-            <style>
-            
+
+            <div id="popup" class="popup hidden">
+              <div class="popup-content">
+                <span class="close" onclick="closePopup()">&times;</span>
+                <a href="#">
+                  <img id="popUpIMG" src="" alt="Oferta especial">
+                </a>
+              </div>
+            </div>
 
 
-            </style>
+
+
+
+
+
+
+
+
+
+
             
 
             <div id="myModal" onclick="closeOnOutsideClick(event)" class="modal" style="padding:0rem;z-index: 9999999;overflow-y: auto;justify-content: center;">
-      <div class="modal-content">
-        <button onclick="closeFloatingWindow()" class="deleteButton">
-          <span class="closex" id="closeModalBtn">&times;</span>
-          <span class="tooltip">Cerrar</span>
-        </button>
+              <div class="modal-content">
+                <button onclick="closeFloatingWindow()" class="deleteButton">
+                  <span class="closex" id="closeModalBtn">&times;</span>
+                  <span class="tooltip">Cerrar</span>
+                </button>
+                <div style="" class="showingProductContainer">
+                  <div id="contenedorImagen">
+                    <div id="contenedorBotones">
+                      <button class="botonArrow" onclick="cambiarImagenShowing(event,0)"><span class='material-symbols-outlined'>chevron_left</span></button>
+                      <button class="botonArrow" onclick="cambiarImagenShowing(event,1)"><span class='material-symbols-outlined'>chevron_right</span></button>
+                    </div>
+                    <img onclick="openFullImgModal(event)" id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
+                  </div>
+                  <div style="padding: 1rem;width: 100%;">
+                    <h4 style="margin: 0 0 1rem 0;">
+                      Descripción
+                    </h4>
+                    <div id="desc-container">
+                      
+                    </div>
+                    <br>
+                    <div>
+                      <h4>Precio</h4>
+                      <div id="precio-container">
 
-        <div style="" class="showingProductContainer">
+                      </div>
+                      <div>
+                        <h4>Talla</h4>
+                        <div id="tallas-container">
 
+                        </div>
+                      </div>
+                    <div>
+                      <h4>Color</h4>
+                      <div id="colores-container">
 
-        <div id="contenedorImagen">
-          <div id="contenedorBotones">
-          <button class="botonArrow" onclick="cambiarImagenShowing(event,0)"><span class='material-symbols-outlined'>chevron_left</span></button>
-            <button class="botonArrow" onclick="cambiarImagenShowing(event,1)"><span class='material-symbols-outlined'>chevron_right</span></button>
-          </div>
-          <!-- Tu elemento de imagen aquí -->
-            <img onclick="openFullImgModal(event)" id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
-            
-          </div>
-
-<script>
-  function openFullImgModal(event) {
-    const modal = document.getElementById("myModal-modal");
-    const modalImg = document.getElementById("myModal-img");
-    modal.style.display = "block";
-    console.log(event.target.attributes.src.value);
-    modalImg.src = event.target.attributes.src.value;
-    originalBodyOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    imageZoom("myModal-img", "myresult");
-    console.log(event);
-  }
- /* imagenPrincipal.onclick = function(){
-            // Get the modal
-            const modal = document.getElementById("myModal-modal");
-            const modalImg = document.getElementById("myModal-img");
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            originalBodyOverflow = document.body.style.overflow;
-            document.body.style.overflow = 'hidden';
-            imageZoom("myModal-img", "myresult");
-          }*/
-</script>
-
-          <div style="padding: 1rem;width: 100%;">
-            <h4 style="margin: 0 0 1rem 0;">
-              Descripción
-            </h4>
-            <div id="desc-container">
-              
-            </div>
-            <br>
-            <div>
-              <h4>Precio</h4>
-              <div id="precio-container">
-
+                      </div>
+                    </div>
+                    <div style="width: 100%;display: flex;align-content: center;align-items: center;">
+                      <button onclick="agregarAlCarrito()" class="btn-add-cart" style="margin-top: 1rem;width: 100% !important;">Agregar Al Carrito</button>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" id="talla-id" value="-1">
+                <input type="hidden" id="color-id" value="-1">
+                <input type="hidden" id="product-id" value="-1">
+                <input type="hidden" id="image-id" value="-1">
+                <input type="hidden" id="imgs-url" value="">
               </div>
-              
-            <div>
-              <h4>Talla</h4>
-              <div id="tallas-container">
-
-              </div>
-              
             </div>
-            <div>
-              <h4>Color</h4>
-              <div id="colores-container">
-
-              </div>
-              
-            </div>
-            <div style="width: 100%;display: flex;align-content: center;align-items: center;">
-          <!--    <button onclick="agregarAlCarrito()" style="margin-top: 1rem;width: 100% !important;">Añadir al carrito</button> -->
-              <button onclick="agregarAlCarrito()" class="btn-add-cart" style="margin-top: 1rem;width: 100% !important;">Agregar Al Carrito</button>
-
-            </div>
-          </div>
-        </div>
-        
-
-            <input type="hidden" id="talla-id" value="-1">
-            <input type="hidden" id="color-id" value="-1">
-            <input type="hidden" id="product-id" value="-1">
-            <input type="hidden" id="image-id" value="-1">
-            <input type="hidden" id="imgs-url" value="">
-        </div>
-    </div>
-
-
-
-
-
-    <div id="popup" class="popup hidden">
-  <div class="popup-content">
-    <span class="close" onclick="closePopup()">&times;</span>
-    <a href="#">
-      <img id="popUpIMG" src="" alt="Oferta especial">
-    </a>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-<div id="sticky-ad-container">
-  <div class="sticky">
-    <div class="sticky-ad"><span><img src="/build/img/envios.png" alt=""></span>Envios a todo el país</div>
-    <div class="sticky-ad hidden"><span><img src="/build/img/genuine.png" alt=""></span>Productos 100% genuinos</div>
-    <div class="sticky-ad hidden"><span><img src="/build/img/payment.png" alt=""></span>Pago seguro</div>
-    <button onclick="closeStickyAd()">X</button>
-  </div>
-</div>
