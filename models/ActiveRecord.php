@@ -207,6 +207,13 @@ class ActiveRecord {
 
         return $result;
     }
+    public static function findAllWhereANDAND($column1,$value1,$column2,$value2,$column3,$value3) {
+        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 && $column2 = $value2 && $column3 = $value3 OR genero = '2'";
+       // debuguear($query);
+        $result = self::querySQL($query);
+
+        return $result;
+    }
     public static function findAllWhereAAND($column1,$value1,$column2,$value2) {
         $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 && $column2 = $value2";
        // debuguear($query);

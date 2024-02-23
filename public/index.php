@@ -22,6 +22,7 @@ $router->post('/8ae4a90b2a7bc44f4217893f89e28f58', [AdminController::class,'agre
 $router->post('/api/95ff27d16e904dccf0d9bc2f961e748d', [APIController::class,'findPopUpImg']);
 
 $router->post('/api/585017aa4ee7d08060322deb77c9d74d', [APIController::class,'deletePopUpImg']);
+$router->post('/api/55e926765c284cd9da07aea89bc9f753', [APIController::class,'changeProductState']);
 
 
 

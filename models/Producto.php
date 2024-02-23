@@ -17,7 +17,7 @@ class Producto extends ActiveRecord {
         'new',
         'aurum',
         'cantidad',
-        'genero','original','marca'
+        'genero','original','marca','activo'
     ];
     public $id;
     public $titulo;
@@ -35,6 +35,7 @@ class Producto extends ActiveRecord {
     public $genero;
     public $original;
     public $marca;
+    public $activo;
     
 
     public function __construct($args = [])
@@ -54,9 +55,8 @@ class Producto extends ActiveRecord {
         $this->cantidad = $args['cantidad'] ?? '';       
         $this->genero = $args['genero'] ?? '2';       
         $this->original = $args['original'] ?? '0';       
-        $this->marca = $args['marca'] ?? '0';       
-       
- 
+        $this->marca = $args['marca'] ?? '0';     
+        $this->activo = $args['activo'] ?? '0';
     }
 
     public function validateNewProduct($product)

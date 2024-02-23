@@ -595,7 +595,7 @@ async function createProduct() {
 
 
         const productContainer = document.createElement("div");
-        productContainer.classList.add('productContainer');
+        productContainer.classList.add('productContainerNew');
     
         const productItem = document.createElement("div");
         productItem.className = "product-item";
@@ -2566,4 +2566,26 @@ function openFullImgModal(event) {
     originalBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     imageZoom("myModal-img", "myresult");
+  }
+
+
+  async function activarProducto(id,estado) {
+    //alert(id);
+    const data = new FormData();
+    data.append('id', id);
+    data.append('estado', estado);
+    const url = `${location.origin}/api/55e926765c284cd9da07aea89bc9f753`;
+    const response = await fetch(url, {
+        method: 'POST',
+        body: data
+    });
+    const result = await response.json();
+    console.log(result);
+    if(result) {
+        // Obtener los parámetros de la URL actual
+        var params = window.location.search;
+
+        // Recargar la página manteniendo los parámetros
+        window.location.href = window.location.pathname + params;
+    }
   }

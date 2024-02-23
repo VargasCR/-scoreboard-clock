@@ -404,19 +404,19 @@ class AdminController {
 
                     $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/atlantic.png';
                     $marca_de_agua = Image::make($ruta_marca_de_agua);
-                    $marca_de_agua->resize(200, 200);
+                    $marca_de_agua->resize(400, 400);
                     $imagen->insert($marca_de_agua, 'top-right',10,40);
 
                     if($_POST['marca'] != '0') {
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/logos-oscuros/'.$_POST['marca'].'.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(280, 280);
+                        $marca_de_agua->resize(560, 560);
                         $imagen->insert($marca_de_agua, 'top-left',20,0);
                     }
                     if($_POST['original'] == '1') {
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/original.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(350, 350);
+                        $marca_de_agua->resize(700, 700);
                         $imagen->insert($marca_de_agua, 'bottom-right',10,-100);
                     }
 
@@ -450,19 +450,19 @@ class AdminController {
                         
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/atlantic.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(200, 200);
+                        $marca_de_agua->resize(400, 400);
                         $imagen->insert($marca_de_agua, 'top-right',10,40);
 
                     if($_POST['marca'] != '0') {
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/logos-oscuros/'.$_POST['marca'].'.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(280, 280);
+                        $marca_de_agua->resize(560, 560);
                         $imagen->insert($marca_de_agua, 'top-left',20,0);
                     }
                     if($_POST['original'] == '1') {
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/original.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(350, 350);
+                        $marca_de_agua->resize(700, 700);
                         $imagen->insert($marca_de_agua, 'bottom-right',10,-100);
                     }
 
@@ -529,20 +529,20 @@ class AdminController {
                         $imagen = Image::make ($tmp_name);
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/atlantic.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(200, 200);
+                        $marca_de_agua->resize(400, 400);
                         $imagen->insert($marca_de_agua, 'top-right',10,40);
                         //debuguear($_POST['marca']);
                         
                         if($_POST['marca'] != '0') {
                             $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/logos-oscuros/'.$_POST['marca'].'.png';
                             $marca_de_agua = Image::make($ruta_marca_de_agua);
-                            $marca_de_agua->resize(280, 280);
+                            $marca_de_agua->resize(560, 560);
                             $imagen->insert($marca_de_agua, 'top-left',20,0);
                         }
                         if($_POST['original'] == '1') {
                             $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/original.png';
                             $marca_de_agua = Image::make($ruta_marca_de_agua);
-                            $marca_de_agua->resize(350, 350);
+                            $marca_de_agua->resize(700, 700);
                             $imagen->insert($marca_de_agua, 'bottom-right',10,-100);
                         }
                         
@@ -581,19 +581,19 @@ class AdminController {
 
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/atlantic.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(200, 200);
+                        $marca_de_agua->resize(400, 400);
                         $imagen->insert($marca_de_agua, 'top-right',10,40);
 
                     if($_POST['marca'] != '0') {
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/logos-oscuros/'.$_POST['marca'].'.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(280, 280);
+                        $marca_de_agua->resize(560, 560);
                         $imagen->insert($marca_de_agua, 'top-left',20,0);
                     }
                     if($_POST['original'] == '1') {
                         $ruta_marca_de_agua = $_SERVER['DOCUMENT_ROOT'] . '/build/img/marca/original.png';
                         $marca_de_agua = Image::make($ruta_marca_de_agua);
-                        $marca_de_agua->resize(350, 350);
+                        $marca_de_agua->resize(700, 700);
                         $imagen->insert($marca_de_agua, 'bottom-right',10,-100);
                     }
 

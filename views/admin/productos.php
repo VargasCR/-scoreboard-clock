@@ -43,6 +43,8 @@
                     <!--<a href="/ver_producto?id=<?= $producto->id ?>" value=''>Ver Detalles</a>-->
                     <a href="/d94a5da526ad85f8e50ca84d4be1defd?b80bb7740288fda1f201890375a60c8f=<?= $producto->id ?>" style="margin: 0 0 0 0.5rem;">Editar</a>
                     <button style="background-color: transparent; border: none" onclick="borrarProducto(<?= $producto->id ?>)">Borrar</button>
+                    <button style="background-color: transparent; border: none" onclick="activarProducto(<?= $producto->id .','. $producto->activo ?>)"><?php if($producto->activo == '0' || $producto->activo == null) {echo 'Activar';} else {echo 'Desactivar';}?></button>
+                    
                 </td>
             </tr>
         <?php } ?>

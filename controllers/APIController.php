@@ -14,9 +14,21 @@ class APIController {
     
 
 
+public static function changeProductState() {
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $product = Producto::find($_POST['id']);
+        if($_POST['estado'] == '0' || $_POST['estado'] == null) {
+            $product->activo = '1';
+        } else {
+            $product->activo = '0';
+        }
+        $result = $product->save();
+        echo json_encode($result);
+    }
+}
 public static function lastestProducts() {
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result = Producto::findAllWhere('new',1);
+        $result = Producto::findAllWhereAAND('new',1,'activo','1');
         echo json_encode($result);
     }
 }
@@ -43,15 +55,15 @@ public static function findproducts() {
         $aurum = $_POST['aurum'];
         if($class == '0') {
             if($_POST['categoria']) {
-                $result = Producto::findAllWhereAND('category',$_POST['categoria'],'genero',$tipo);
+                $result = Producto::findAllWhereANDAND('category',$_POST['categoria'],'genero',$tipo,'activo','1');
             } else {
-                $result = Producto::findAllWhere('genero',$tipo);
+                $result = Producto::findAllWhereAND('genero',$tipo,'activo','1');
             }
         } elseif($class == '1') {
             if($_POST['categoria']) {
                 $result = Producto::findAllWhereAAND('category',$_POST['categoria'],'aurum','1');
             } else {
-                $result = Producto::findAllWhereA('aurum','1');
+                $result = Producto::findAllWhereAND('aurum','1','activo','1');
                 
             }
         }
