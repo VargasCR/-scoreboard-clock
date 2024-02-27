@@ -18,6 +18,9 @@ let buscandoCategoria = '0';
 let carritoDeCompras = [];
 let showingImgModal = 0;
 
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
 function eliminarPrincipalEditSlot(indice,item,event) {
     event.preventDefault();
     //return;
@@ -49,7 +52,7 @@ function changeSize(x) {
     document.querySelector('#talla-id').value = x;
 }
 function changeColor(x,img) {
-    console.log(JSON.parse(img));
+    
     //console.log(x);
 //alert('');
     showingImgModal = 0;
@@ -156,8 +159,8 @@ async function showFloatingWindow(cod) {
     const tallaContainer = document.querySelector('#tallas-container');
     const precioContainer = document.querySelector('#precio-container');
     const descContainer = document.querySelector('#desc-container');
-
-
+    
+    
     const data = new FormData();
 
     data.append('id', cod);
@@ -173,7 +176,11 @@ async function showFloatingWindow(cod) {
     mostrandoProducto = producto;
    // return;
 
-    
+    if(producto.descuento == '1') {
+        const imgTag = document.querySelector('#imgTag').classList.remove('hidden');
+    } else {  
+        const imgTag = document.querySelector('#imgTag').classList.add('hidden');
+    }
     const descriptions = JSON.parse(producto.desc);
     ////console.log(JSON.parse(producto.imagen)[0]);
     await limpiarProductoTallaColor();
@@ -458,12 +465,6 @@ async function agregarAlCarrito() {
                 return;
         }
     });
-
-
-
-    
-
-
     const data = new FormData();
 
     data.append('id', codigo);
@@ -576,7 +577,30 @@ function closeFloatingWindow() {
         modal.style.display = 'none';
     }, 500);
 }
+
 let originalBodyOverflow = null;
+let showingProductIndex = 0;
+
+function nextNewProduct() {
+    //alert();
+    console.log(showingProductIndex);
+    document.querySelectorAll('.productContainerNew')[showingProductIndex].classList.add('hidden');
+    showingProductIndex++;
+    if(showingProductIndex > document.querySelectorAll('.productContainerNew').length-1) {
+        showingProductIndex = 0;
+    }
+    document.querySelectorAll('.productContainerNew')[showingProductIndex].classList.remove('hidden');
+}
+
+function prevNewProduct() {
+    document.querySelectorAll('.productContainerNew')[showingProductIndex].classList.add('hidden');
+    showingProductIndex--;
+    if(showingProductIndex < 0) {
+        showingProductIndex = document.querySelectorAll('.productContainerNew').length-1;
+    }
+    document.querySelectorAll('.productContainerNew')[showingProductIndex].classList.remove('hidden');
+}
+
 
 async function createProduct() {
     let countItem = 0;
@@ -587,132 +611,282 @@ async function createProduct() {
     });
 
     const result = await response.json();
-    result.forEach(product => {
-    //console.log(result);
-
-        const productContainerSlider = document.createElement("div");
-        productContainerSlider.classList.add('carouselx--item');
-
-
-        const productContainer = document.createElement("div");
-        productContainer.classList.add('productContainerNew');
-    
-        const productItem = document.createElement("div");
-        productItem.className = "product-item";
-        productItem.style.margin = "0.5rem";
-       
-        productItem.id = 'p-'+product.codigo;
-        productItem.value = 0;
-        productItem.setAttribute('showingImg', 0);
-    
-        const contenedorImagen = document.createElement("div");
-        contenedorImagen.id = "contenedorImagen";
-    
-        const contenedorBotones = document.createElement("div");
-        contenedorBotones.id = "contenedorBotones";
-    
-        const botonIzquierdo = document.createElement("button");
-        botonIzquierdo.className = "botonArrow";
-        botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
+    if (isMobileDevice()) {
+        document.querySelector('#carouselx').classList.add('hidden');
+        document.querySelector('#carouselx-controls').classList.add('hidden');
+        // Es un dispositivo móvil
+        result.forEach((product,index) => {
+            console.log(index);
+            const productContainer = document.createElement("div");
+            productContainer.classList.add('productContainerNew');
         
-        botonIzquierdo.onclick = function() {
-            cambiarImagen(event,product.codigo,product.imagen,0);
-        };
-    
-        const botonDerecho = document.createElement("button");
-        botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
-        botonDerecho.className = "botonArrow";
-       
-        botonDerecho.onclick = function() {
-            cambiarImagen(event,product.codigo,product.imagen,1);
-        };
-    
-        if(JSON.parse(product.imagen).length > 1) {
-            contenedorBotones.appendChild(botonIzquierdo);
-            contenedorBotones.appendChild(botonDerecho);
-        }
-    
-        const imagenPrincipal = document.createElement("img");
-        imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
-        imagenPrincipal.alt = "";
-        imagenPrincipal.id = 'img-'+product.codigo;
+            const productItem = document.createElement("div");
+            productItem.className = "product-item";
+            productItem.style.margin = "0.5rem";
+            
+            productItem.id = 'p-'+product.codigo;
+            productItem.value = 0;
+            productItem.setAttribute('showingImg', 0);
+        
+            const contenedorImagen = document.createElement("div");
+            contenedorImagen.id = "contenedorImagen";
+        
+            const contenedorBotones = document.createElement("div");
+            contenedorBotones.id = "contenedorBotones";
 
-        imagenPrincipal.onclick = function(){
-            // Get the modal
-            const modal = document.getElementById("myModal-modal");
-            const modalImg = document.getElementById("myModal-img");
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            originalBodyOverflow = document.body.style.overflow;
-            document.body.style.overflow = 'hidden';
-            imageZoom("myModal-img", "myresult");
-          }
+            const botonIzquierdo = document.createElement("button");
+            botonIzquierdo.className = "botonArrow";
+            botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
+            
+            botonIzquierdo.onclick = function() {
+                cambiarImagen(event,product.codigo,product.imagen,0);
+            };
+        
+            const botonDerecho = document.createElement("button");
+            botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
+            botonDerecho.className = "botonArrow";
+            
+            botonDerecho.onclick = function() {
+                cambiarImagen(event,product.codigo,product.imagen,1);
+            };
+        
+            if(JSON.parse(product.imagen).length > 1) {
+                contenedorBotones.appendChild(botonIzquierdo);
+                contenedorBotones.appendChild(botonDerecho);
+            }
+        
+            const imagenPrincipal = document.createElement("img");
+            imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
+            imagenPrincipal.alt = "";
+            imagenPrincipal.id = 'img-'+product.codigo;
     
-        contenedorImagen.appendChild(contenedorBotones);
-        contenedorImagen.appendChild(imagenPrincipal);
+            imagenPrincipal.onclick = function(){
+                // Get the modal
+                const modal = document.getElementById("myModal-modal");
+                const modalImg = document.getElementById("myModal-img");
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                originalBodyOverflow = document.body.style.overflow;
+                document.body.style.overflow = 'hidden';
+                imageZoom("myModal-img", "myresult");
+                }
+        
+            contenedorImagen.appendChild(contenedorBotones);
+            contenedorImagen.appendChild(imagenPrincipal);
     
-        const downContent = document.createElement("div");
-        downContent.className = "down-content";
     
-        const productName = document.createElement("h4");
-        productName.style.textAlign = "left";
-        productName.style.fontSize = "16px";
-        productName.textContent = product.titulo;
     
-        const priceContainer = document.createElement("div");
-        priceContainer.style.display = "flex";
-        priceContainer.style.justifyContent = "space-between";
-        priceContainer.style.alignItems = "center";
+            if(product.descuento == '1') {
+                const imgDiscount = document.createElement('img');
+                imgDiscount.src = '/build/img/discount-tag.png';
+                imgDiscount.classList.add('imgTag');
+                contenedorImagen.appendChild(imgDiscount);
+            }
     
-        const productPrice = document.createElement("h6");
-        productPrice.style.margin = "0 !important";
-        productPrice.textContent = '₡' + product.precio;
-        productPrice.style.fontSize = '14px';
-    
-        const addToCartButton = document.createElement("div");
-        addToCartButton.className = "buttonadd";
-        addToCartButton.onclick = function() {
-            showFloatingWindow(product.codigo);
-        };
-    
-        const buttonWrapper = document.createElement("div");
-        buttonWrapper.className = "button-wrapper";
-    
-        const textDiv = document.createElement("div");
-        textDiv.className = "text";
-        textDiv.textContent = "🛒";
-
-        textDiv.onclick = function() {
+            const downContent = document.createElement("div");
+            downContent.className = "down-content";
+        
+            const productName = document.createElement("h4");
+            productName.style.textAlign = "left";
+            productName.style.fontSize = "16px";
+            productName.textContent = product.titulo;
+        
+            const priceContainer = document.createElement("div");
+            priceContainer.style.display = "flex";
+            priceContainer.style.justifyContent = "space-between";
+            priceContainer.style.alignItems = "center";
+        
+            const productPrice = document.createElement("h6");
+            productPrice.style.margin = "0 !important";
+            productPrice.textContent = '₡' + product.precio;
+            productPrice.style.fontSize = '14px';
+        
+            const addToCartButton = document.createElement("div");
+            addToCartButton.className = "buttonadd";
+            addToCartButton.onclick = function() {
                 showFloatingWindow(product.codigo);
-           };
+            };
+        
+            const buttonWrapper = document.createElement("div");
+            buttonWrapper.className = "button-wrapper";
+        
+            const textDiv = document.createElement("div");
+            textDiv.className = "text";
+            textDiv.textContent = "🛒";
     
-        const iconSpan = document.createElement("span");
-        iconSpan.className = "icon";
-        const pTag = document.createElement("p");
-        pTag.style.color = "white";
-        pTag.textContent = "AGREGAR";
-        pTag.style.margin = "0px";
-        pTag.style.fontSize = '8px';
-        iconSpan.appendChild(pTag);
+            textDiv.onclick = function() {
+                    showFloatingWindow(product.codigo);
+                };
+        
+            const iconSpan = document.createElement("span");
+            iconSpan.className = "icon";
+            const pTag = document.createElement("p");
+            pTag.style.color = "white";
+            pTag.textContent = "AGREGAR";
+            pTag.style.margin = "0px";
+            pTag.style.fontSize = '8px';
+            iconSpan.appendChild(pTag);
+        
+            buttonWrapper.appendChild(textDiv);
+            buttonWrapper.appendChild(iconSpan);
+            addToCartButton.appendChild(buttonWrapper);
+        
+            priceContainer.appendChild(productPrice);
+            priceContainer.appendChild(addToCartButton);
+        
+            downContent.appendChild(productName);
+            downContent.appendChild(priceContainer);
+        
+            productItem.appendChild(contenedorImagen);
+            productItem.appendChild(downContent);
+            if(index != 0) {
+                productContainer.classList.add('hidden');
+            }
+            productContainer.appendChild(productItem);
+            //productContainerSlider.appendChild(productContainer);
+                
+            const productsContainer = document.querySelector("#products-container");
+            productsContainer.appendChild(productContainer);
+        });
+    } else {
+        document.querySelector('#products-container').classList.add('hidden');
+        document.querySelector('#products-controls').classList.add('hidden');
+        // Es un dispositivo de escritorio
+        result.forEach(product => {
+            //console.log(result);
+            const productContainerSlider = document.createElement("div");
+            productContainerSlider.classList.add('carouselx--item');
+            
+            const productContainer = document.createElement("div");
+            productContainer.classList.add('productContainerNew');
+        
+            const productItem = document.createElement("div");
+            productItem.className = "product-item";
+            productItem.style.margin = "0.5rem";
+            
+            productItem.id = 'p-'+product.codigo;
+            productItem.value = 0;
+            productItem.setAttribute('showingImg', 0);
+        
+            const contenedorImagen = document.createElement("div");
+            contenedorImagen.id = "contenedorImagen";
+        
+            const contenedorBotones = document.createElement("div");
+            contenedorBotones.id = "contenedorBotones";
+
+            const botonIzquierdo = document.createElement("button");
+            botonIzquierdo.className = "botonArrow";
+            botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
+            
+            botonIzquierdo.onclick = function() {
+                cambiarImagen(event,product.codigo,product.imagen,0);
+            };
+        
+            const botonDerecho = document.createElement("button");
+            botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
+            botonDerecho.className = "botonArrow";
+            
+            botonDerecho.onclick = function() {
+                cambiarImagen(event,product.codigo,product.imagen,1);
+            };
+        
+            if(JSON.parse(product.imagen).length > 1) {
+                contenedorBotones.appendChild(botonIzquierdo);
+                contenedorBotones.appendChild(botonDerecho);
+            }
+        
+            const imagenPrincipal = document.createElement("img");
+            imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
+            imagenPrincipal.alt = "";
+            imagenPrincipal.id = 'img-'+product.codigo;
     
-        buttonWrapper.appendChild(textDiv);
-        buttonWrapper.appendChild(iconSpan);
-        addToCartButton.appendChild(buttonWrapper);
+            imagenPrincipal.onclick = function(){
+                // Get the modal
+                const modal = document.getElementById("myModal-modal");
+                const modalImg = document.getElementById("myModal-img");
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                originalBodyOverflow = document.body.style.overflow;
+                document.body.style.overflow = 'hidden';
+                imageZoom("myModal-img", "myresult");
+                }
+        
+            contenedorImagen.appendChild(contenedorBotones);
+            contenedorImagen.appendChild(imagenPrincipal);
     
-        priceContainer.appendChild(productPrice);
-        priceContainer.appendChild(addToCartButton);
     
-        downContent.appendChild(productName);
-        downContent.appendChild(priceContainer);
     
-        productItem.appendChild(contenedorImagen);
-        productItem.appendChild(downContent);
-        productContainer.appendChild(productItem);
-        productContainerSlider.appendChild(productContainer);
-           
-        const productsContainer = document.querySelector("#products-containerx");
-        productsContainer.appendChild(productContainerSlider);
-    });
+            if(product.descuento == '1') {
+                const imgDiscount = document.createElement('img');
+                imgDiscount.src = '/build/img/discount-tag.png';
+                imgDiscount.classList.add('imgTag');
+                contenedorImagen.appendChild(imgDiscount);
+            }
+    
+            const downContent = document.createElement("div");
+            downContent.className = "down-content";
+        
+            const productName = document.createElement("h4");
+            productName.style.textAlign = "left";
+            productName.style.fontSize = "16px";
+            productName.textContent = product.titulo;
+        
+            const priceContainer = document.createElement("div");
+            priceContainer.style.display = "flex";
+            priceContainer.style.justifyContent = "space-between";
+            priceContainer.style.alignItems = "center";
+        
+            const productPrice = document.createElement("h6");
+            productPrice.style.margin = "0 !important";
+            productPrice.textContent = '₡' + product.precio;
+            productPrice.style.fontSize = '14px';
+        
+            const addToCartButton = document.createElement("div");
+            addToCartButton.className = "buttonadd";
+            addToCartButton.onclick = function() {
+                showFloatingWindow(product.codigo);
+            };
+        
+            const buttonWrapper = document.createElement("div");
+            buttonWrapper.className = "button-wrapper";
+        
+            const textDiv = document.createElement("div");
+            textDiv.className = "text";
+            textDiv.textContent = "🛒";
+    
+            textDiv.onclick = function() {
+                    showFloatingWindow(product.codigo);
+                };
+        
+            const iconSpan = document.createElement("span");
+            iconSpan.className = "icon";
+            const pTag = document.createElement("p");
+            pTag.style.color = "white";
+            pTag.textContent = "AGREGAR";
+            pTag.style.margin = "0px";
+            pTag.style.fontSize = '8px';
+            iconSpan.appendChild(pTag);
+        
+            buttonWrapper.appendChild(textDiv);
+            buttonWrapper.appendChild(iconSpan);
+            addToCartButton.appendChild(buttonWrapper);
+        
+            priceContainer.appendChild(productPrice);
+            priceContainer.appendChild(addToCartButton);
+        
+            downContent.appendChild(productName);
+            downContent.appendChild(priceContainer);
+        
+            productItem.appendChild(contenedorImagen);
+            productItem.appendChild(downContent);
+            productContainer.appendChild(productItem);
+            productContainerSlider.appendChild(productContainer);
+                
+            const productsContainer = document.querySelector("#products-containerx");
+            productsContainer.appendChild(productContainerSlider);
+        });
+    }
+    
     encontrarProductosEnCarrito();
 }
 
@@ -1569,7 +1743,6 @@ async function retrocederPagina() {
     }
 }
 function buscarProductosCart() {
-    
     const shoppingCartProducts = document.getElementById('shopping-cart-products-container');
     limpiarProductosCarrito();
     
@@ -1578,7 +1751,6 @@ function buscarProductosCart() {
     // Convertir la cadena JSON a un objeto
     const datosRecuperados = JSON.parse(datosGuardados);
     carritoDeCompras = datosRecuperados;
-
     if(carritoDeCompras.length == 0) {
         const vacioTexto = document.createElement('h3');
         vacioTexto.textContent = 'VACÍO';
@@ -1588,22 +1760,17 @@ function buscarProductosCart() {
         encontrarResumen();
         return;
     }
-    
     carritoDeCompras.forEach(item => {
-        
         // Crear el elemento article
         const article = document.createElement('article');
         article.classList.add('product');
         article.style.opacity = '1';
-
         // Crear el encabezado
         const header = document.createElement('header');
         const aRemove = document.createElement('a');
         aRemove.classList.add('remove');
-
         const imgRemove = document.createElement('img');
         imgRemove.setAttribute('src', '/images/'+item.imagen);
-        
         imgRemove.setAttribute('alt', 'Atlantic Product');
         imgRemove.value = item.codigo;
         imgRemove.setAttribute('talla', item.talla);
@@ -1649,10 +1816,8 @@ function buscarProductosCart() {
                 }
               });     
         });
-        
         const h3Remove = document.createElement('h3');
         h3Remove.textContent = 'Borrar';
-
         h3Remove.value = item.codigo;
         h3Remove.setAttribute('talla', item.talla);
         h3Remove.setAttribute('color', item.color);
@@ -1702,7 +1867,6 @@ function buscarProductosCart() {
         aRemove.value = item.codigo;
         aRemove.setAttribute('talla', item.talla);
         aRemove.setAttribute('color', item.color);
-        
         aRemove.addEventListener('click', function() {
             const talla = event.target.getAttribute('talla');
             const color = event.target.getAttribute('color');
@@ -1744,18 +1908,15 @@ function buscarProductosCart() {
                 }
               });
         });
-
         header.appendChild(aRemove);
         article.appendChild(header);
         const content = document.createElement('div');
         content.classList.add('content');
         content.classList.add('content-flex');
-
         const h1Title = document.createElement('h1');
         h1Title.textContent = item.titulo;
         h1Title.style.padding = '0';
         h1Title.style.margin = '1.5rem 3rem 1rem 0';
-
         const pDescription = document.createElement('p');
         pDescription.textContent = item.shortDesc;
         pDescription.style.padding = '0';
@@ -1767,19 +1928,13 @@ function buscarProductosCart() {
         divColor.setAttribute('title', 'You have selected this product to be shipped in the color yellow.');
         divColor.style.top = '0';
         divColor.classList.add('color');
-
         const coloresArray = JSON.parse(item.colores);
         const tallasArray = JSON.parse(item.tallas);
-
         divColor.style.backgroundColor = coloresArray[item.color]['rgb'];
         const divType = document.createElement('div');
         divType.textContent = tallasArray[item.talla];
         divType.style.top = '43px';
         divType.classList.add('type', 'small');
-
-        //console.log(tallasArray[item.talla]);
-        //console.log(coloresArray[item.color]['rgb']);
-        
         
         content.appendChild(h1Title);
         content.appendChild(pDescription);
@@ -1890,11 +2045,22 @@ function buscarProductosCart() {
 
         const h2FullPrice = document.createElement('h2');
         h2FullPrice.classList.add('full-price');
-        h2FullPrice.textContent = '₡'+item.precio*item.cantidad;
-
+        
         const h2Price = document.createElement('h2');
         h2Price.classList.add('price');
-        h2Price.textContent = '₡'+item.precio;
+        
+        if(item.cantidad > 3) {
+            const descuento = item.precio * 0.2;
+            //item.precio = item.precio - descuento;
+            h2FullPrice.textContent = '₡'+(item.precio-descuento)*item.cantidad;
+            const precioDescuento = item.precio-descuento;
+            h2Price.textContent = '₡'+precioDescuento;
+            //console.log(item.precio-descuento);
+        } else {
+            h2FullPrice.textContent = '₡'+item.precio*item.cantidad;
+            h2Price.textContent = '₡'+item.precio;
+        }
+
 
         footerContent.appendChild(spanQtMinus);
         footerContent.appendChild(spanQt);
@@ -1921,11 +2087,16 @@ function encontrarResumen() {
     let envioCosto = 0;
     let taxFinal = 0;
     let totalFinal = 0;
+    let descuento = 0; 
     carritoDeCompras.forEach(element => {
         cantidadTotalDeitems = cantidadTotalDeitems + element.cantidad;
-        subtotalTotalDeitems = subtotalTotalDeitems + (element.cantidad * element.precio);
+        if(element.cantidad > 3) {
+            descuento = element.precio * 0.2;
+            subtotalTotalDeitems = subtotalTotalDeitems + (element.cantidad * (element.precio-descuento));
+        } else {
+            subtotalTotalDeitems = subtotalTotalDeitems + (element.cantidad * element.precio);
+        }
     });
-    
     document.querySelector('#cantidad-productos-resumen').textContent = cantidadTotalDeitems+' unidades';
     document.querySelector('#total-productos-resumen-noTax').textContent = '₡'+subtotalTotalDeitems;
     if(subtotalTotalDeitems > 60000) {
@@ -2121,7 +2292,7 @@ async function eliminarCategoria(id) {
         const data = new FormData();
         data.append('id', id);
 
-        const url = 'http://localhost:3000/api/delete-category';
+        const url = `${location.origin}/api/delete-category`;
 
         try {
             const response = await fetch(url, {
@@ -2158,8 +2329,6 @@ async function eliminarCategoria(id) {
     }
 }
 async function eliminarCategoriaa(id) {
-    
-
     const titulo = "¿Estás seguro?";
     const icon = "warning";
 
@@ -2178,7 +2347,7 @@ async function eliminarCategoriaa(id) {
         const data = new FormData();
         data.append('id', id);
 
-        const url = 'http://localhost:3000/api/delete-category-a';
+        const url = `${location.origin}/api/delete-category-a`;
 
         try {
             const response = await fetch(url, {
@@ -2218,120 +2387,115 @@ async function eliminarCategoriaa(id) {
 
 
 
+  
+  
+  
+
+
 
 const carousel = document.getElementById('products-containerx');
-  const prevBtnx = document.getElementById('prevBtnx');
-  const nextBtnx = document.getElementById('nextBtnx');
-  let isDown = false;
-  let startX;
-  let scrollLeft;
+const prevBtnx = document.getElementById('prevBtnx');
+const nextBtnx = document.getElementById('nextBtnx');
 
-  // Manejadores de eventos táctiles
-  carousel.addEventListener('touchstart', (e) => {
-    isDown = true;
-    startX = e.touches[0].pageX - carousel.offsetLeft;
-    scrollLeft = carousel.scrollLeft;
-  });
+// Manejadores de eventos táctiles y de ratón
+let isDragging = false;
+let startX;
+let scrollLeft;
 
-  carousel.addEventListener('touchmove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.touches[0].pageX - carousel.offsetLeft;
-    const walk = (x - startX) * 2; // Velocidad del scroll
-    carousel.scrollLeft = scrollLeft - walk;
-  });
+carousel.addEventListener('mousedown', handleMouseDown);
+carousel.addEventListener('mousemove', handleMouseMove);
+carousel.addEventListener('mouseup', handleMouseUp);
+carousel.addEventListener('touchstart', handleTouchStart);
+carousel.addEventListener('touchmove', handleTouchMove);
+carousel.addEventListener('touchend', handleTouchEnd);
 
-  carousel.addEventListener('touchend', () => {
-    isDown = false;
-  });
+function handleMouseDown(event) {
+  isDragging = true;
+  startX = event.pageX - carousel.offsetLeft;
+  scrollLeft = carousel.scrollLeft;
+}
 
-  // Manejadores de eventos de clic del ratón
-  carousel.addEventListener('mousedown', (e) => {
-    isDown = true;
-    startX = e.pageX - carousel.offsetLeft;
-    scrollLeft = carousel.scrollLeft;
-  });
+function handleMouseMove(event) {
+  if (!isDragging) return;
+  event.preventDefault();
+  const x = event.pageX - carousel.offsetLeft;
+  const walk = (x - startX) * 2; // Velocidad del scroll
+  carousel.scrollLeft = scrollLeft - walk;
+}
 
-  carousel.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - carousel.offsetLeft;
-    const walk = (x - startX) * 2; // Velocidad del scroll
-    carousel.scrollLeft = scrollLeft - walk;
-  });
+function handleMouseUp() {
+  isDragging = false;
+}
 
-  carousel.addEventListener('mouseup', () => {
-    isDown = false;
-  });
-  let ct = 0;
-  // Botón para desplazar a la izquierda
- // Botón para desplazar a la izquierda
+function handleTouchStart(event) {
+  isDragging = true;
+  startX = event.touches[0].pageX - carousel.offsetLeft;
+  scrollLeft = carousel.scrollLeft;
+}
+
+function handleTouchMove(event) {
+  if (!isDragging) return;
+  event.preventDefault();
+  const x = event.touches[0].pageX - carousel.offsetLeft;
+  const walk = (x - startX) * 2; // Velocidad del scroll
+  carousel.scrollLeft = scrollLeft - walk;
+}
+
+function handleTouchEnd() {
+  isDragging = false;
+}
+
+// Botones de desplazamiento
 prevBtnx.addEventListener('click', () => {
-  const scrollWidth = carousel.offsetWidth;
-  let currentScroll = carousel.scrollLeft;
-  
-  // Si el carrusel está en el principio, no se puede desplazar más a la izquierda
-  if (currentScroll === 0) return;
-
-  // Calcular la nueva posición del scroll
-  currentScroll = Math.max(0, currentScroll - scrollWidth);
-
-  // Desplazar suavemente al nuevo punto
-  carousel.scrollTo({
-    left: currentScroll,
-    behavior: 'smooth'
-  });
+  carousel.scrollLeft -= carousel.offsetWidth;
 });
 
-// Botón para desplazar a la derecha
 nextBtnx.addEventListener('click', () => {
-  const scrollWidth = carousel.offsetWidth;
-  const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-  let currentScroll = carousel.scrollLeft;
-  
-  // Si el carrusel está en el final, no se puede desplazar más a la derecha
-  if (currentScroll === maxScroll) return;
+  carousel.scrollLeft += carousel.offsetWidth;
+});
 
-  // Calcular la nueva posición del scroll
-  currentScroll = Math.min(maxScroll, currentScroll + scrollWidth);
+// Ajustar el carrusel al centro cuando se desplaza
+carousel.addEventListener('scroll', () => {
+  const centerX = carousel.offsetWidth / 2;
+  const items = carousel.querySelectorAll('.carouselx--item');
+  let minDiff = Infinity;
+  let targetIndex = 0;
 
-  // Desplazar suavemente al nuevo punto
-  carousel.scrollTo({
-    left: currentScroll,
-    behavior: 'smooth'
+  items.forEach((item, index) => {
+    const itemRect = item.getBoundingClientRect();
+    const itemCenterX = itemRect.left + itemRect.width / 2;
+    const diff = Math.abs(centerX - itemCenterX);
+
+    if (diff < minDiff) {
+      minDiff = diff;
+      targetIndex = index;
+    }
   });
+
+  const targetItem = items[targetIndex];
+  const targetItemRect = targetItem.getBoundingClientRect();
+  const targetItemCenterX = targetItemRect.left + targetItemRect.width / 2;
+  const scrollAmount = targetItemCenterX - centerX;
+  carousel.scrollLeft += scrollAmount;
 });
 
 
-  // Ajustar el carousel al centro cuando se desplaza
-  carousel.addEventListener('scroll', () => {
-    const centerX = carousel.offsetWidth / 2;
-    const items = carousel.querySelectorAll('.carouselx--item');
-    let minDiff = Infinity;
-    let targetIndex = 0;
 
-    items.forEach((item, index) => {
-      const itemRect = item.getBoundingClientRect();
-      const itemCenterX = itemRect.left + itemRect.width / 2;
-      const diff = Math.abs(centerX - itemCenterX);
 
-      if (diff < minDiff) {
-        minDiff = diff;
-        targetIndex = index;
-      }
-    });
 
-    const targetItem = items[targetIndex];
-    const targetItemRect = targetItem.getBoundingClientRect();
-    const targetItemCenterX = targetItemRect.left + targetItemRect.width / 2;
-    const scrollAmount = targetItemCenterX - centerX;
-    carousel.scrollLeft += scrollAmount;
-  });
+
+
+
+
+
+
 
   function showSelectGenre() {
     var selectGenre = document.querySelector('.select-genre');
     selectGenre.style.display = (selectGenre.style.display === 'block') ? 'none' : 'block';
   }
+
+
 
 
 
@@ -2361,6 +2525,7 @@ function handleScroll() {
     stickyBarContainer.classList.remove('top');
   }
 }
+
 let stickyElementCount = 0;
 let intervalId = null;
 
@@ -2383,7 +2548,7 @@ function showNextItem() {
   //console.log(99);
   document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.add('hidden');
   stickyElementCount++;
-  if(stickyElementCount > 2) {
+  if(stickyElementCount > 3) {
     stickyElementCount = 0;
   }
   document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.remove('hidden');

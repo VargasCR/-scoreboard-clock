@@ -85,6 +85,8 @@
             <option value="44">Oneill</option>
             <option value="45">Aurum</option>
             <option value="46">Salty Crew</option>
+            <option value="47">Rusty</option>
+            <option value="48">Neff</option>
             
         </select>
     </div>
@@ -232,6 +234,21 @@
         />
         <input type="hidden" value="0" id="new" name="new">
     </div>
+
+
+    <div class="slot" style="display: flex;align-items:center;">
+            <label for="descuento" style="flex: 0 0 6.5rem;">¿En descuento?</label>
+            <input
+                type="checkbox"
+                value="0"
+                style="flex:none;width: auto !important;"
+                onchange="handleCheckboxChange(this,'descuento')"
+                <?php echo $producto->descuento == 1 ? 'checked' : ''; ?>
+            />
+            <input type="hidden" value="<?php echo $producto->descuento ?? '0'; ?>" id="descuento" name="descuento">
+        </div>
+
+
     <div class="slot" style="display: flex;align-items:center;">
         <label for="original" style="flex: 0 0 6.5rem;">¿Producto Original?</label>
         <input

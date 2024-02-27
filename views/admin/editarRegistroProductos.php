@@ -85,7 +85,8 @@
             <option value="44" <?php if($producto->marca == '44') { echo 'selected';}?>>Oneill</option>
             <option value="45" <?php if($producto->marca == '45') { echo 'selected';}?>>Aurum</option>
             <option value="46" <?php if($producto->marca == '46') { echo 'selected';}?>>Salty Crew</option>
-            
+            <option value="47" <?php if($producto->marca == '47') { echo 'selected';}?>>Rusty</option>
+            <option value="48" <?php if($producto->marca == '48') { echo 'selected';}?>>Neff</option>
         </select>
     </div>
 
@@ -294,7 +295,19 @@
             onchange="handleCheckboxChange(this,'new')"
             <?php echo $producto->new == 1 ? 'checked' : ''; ?>
             />
-            <input type="hidden" value="<?php echo $producto->new; ?>" id="new" name="new">
+            <input type="hidden" value="<?php echo $producto->new ?? '0'; ?>" id="new" name="new">
+        </div>
+
+        <div class="slot" style="display: flex;align-items:center;">
+            <label for="descuento" style="flex: 0 0 6.5rem;">¿En descuento?</label>
+            <input
+                type="checkbox"
+                value="0"
+                style="flex:none;width: auto !important;"
+                onchange="handleCheckboxChange(this,'descuento')"
+                <?php echo $producto->descuento == 1 ? 'checked' : ''; ?>
+            />
+            <input type="hidden" value="<?php echo $producto->descuento ?? '0'; ?>" id="descuento" name="descuento">
         </div>
         
         
@@ -310,7 +323,7 @@
                 onchange="handleCheckboxChange(this,'original')"
                 <?php echo $producto->original == 1 ? 'checked' : ''; ?>
             />
-            <input type="hidden" value="<?php echo $producto->aurum; ?>" id="original" name="original">
+            <input type="hidden" value="<?php echo $producto->original ?? '0'; ?>" id="original" name="original">
         </div>
         <div class="slot" style="display: flex;align-items:center;">
             <label for="aurum" style="flex: 0 0 6.5rem;">¿Producto Aurum?</label>
@@ -321,11 +334,8 @@
                 onchange="handleCheckboxChange(this,'aurum')"
                 <?php echo $producto->aurum == 1 ? 'checked' : ''; ?>
             />
-            <input type="hidden" value="<?php echo $producto->aurum; ?>" id="aurum" name="aurum">
+            <input type="hidden" value="<?php echo $producto->aurum ?? '0'; ?>" id="aurum" name="aurum">
         </div>
-
-
-        
 
         <input type="submit" value="Guardar" class="button" style="width: 100%;">
 

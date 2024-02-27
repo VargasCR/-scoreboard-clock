@@ -22,6 +22,7 @@
     <div class="sticky-ad"><span><img src="/build/img/envios.png" alt=""></span>Envios a todo el país</div>
     <div class="sticky-ad hidden"><span><img src="/build/img/genuine.png" alt=""></span>Productos 100% genuinos</div>
     <div class="sticky-ad hidden"><span><img src="/build/img/payment.png" alt=""></span>Pago seguro</div>
+    <div class="sticky-ad hidden"><span><img src="/build/img/discount.png" alt=""></span>Compras Al Por Mayor</div>
     <button onclick="closeStickyAd()">X</button>
   </div>
 </div>
@@ -172,7 +173,7 @@
     
     
 
-<div class="carouselx">
+<div class="carouselx" id="carouselx">
   <!-- Carrusel de imágenes -->
   <div class="carouselx--wrap" id="products-containerx">
   <!-- Añade más imágenes según sea necesario -->
@@ -181,13 +182,27 @@
 
   <!-- Botones de desplazamiento -->
 </div>
-<div style="display: flex;width: 100%;align-items:center;justify-content:center;">
+<div style="display: flex;width: 100%;align-items:center;justify-content:center;" id="carouselx-controls">
   <div class="carouselx-controls">
-    <button id="prevBtnx" class="">&lt;</button>
-    <button id="nextBtnx" class="">&gt;</button>
+    <button id="prevBtnx" class="prevBtnx">&lt;</button>
+    <button id="nextBtnx" class="nextBtnx">&gt;</button>
   </div>
 </div>
 
+
+
+<div class="" id="products-container">
+
+</div>
+<div style="display: flex;width: 100%;align-items:center;justify-content:center;" id="products-controls">
+  <div class="carouselx-controls">
+    <button onclick="prevNewProduct()" id="" class="prevBtnx">&lt;</button>
+    <button onclick="nextNewProduct()" id="" class="nextBtnx">&gt;</button>
+  </div>
+</div>
+<script>
+  
+</script>
 <br>
 
 
@@ -566,6 +581,7 @@
                       <button class="botonArrow" onclick="cambiarImagenShowing(event,0)"><span class='material-symbols-outlined'>chevron_left</span></button>
                       <button class="botonArrow" onclick="cambiarImagenShowing(event,1)"><span class='material-symbols-outlined'>chevron_right</span></button>
                     </div>
+                    <img src="/build/img/discount-tag.png" class="imgTag" id="imgTag" alt="">
                     <img onclick="openFullImgModal(event)" id="img-show-product" style="width: 100% !important;" src="" alt="" srcset="">
                   </div>
                   <div style="padding: 1rem;width: 100%;">

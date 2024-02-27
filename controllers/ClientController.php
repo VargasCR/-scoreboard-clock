@@ -28,6 +28,7 @@ class ClientController {
             'isClient' => $isClient,
         ]);
     }
+
     public static function products(Router $router) {
         if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
             $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
@@ -126,6 +127,7 @@ class ClientController {
             'isClient' => $isClient,
         ]);
     }
+
     public static function about(Router $router) {
         $functions = "encontrarProductosEnCarrito();";
         $pageIndex = 3;
@@ -140,6 +142,7 @@ class ClientController {
             'isClient' => $isClient,
         ]);
     }
+
     public static function terms(Router $router) {
         $functions = "encontrarProductosEnCarrito();";
         $pageIndex = 3.5;
@@ -154,6 +157,7 @@ class ClientController {
             'isClient' => $isClient,
         ]);
     }
+
     public static function reviews(Router $router) {
         $functions = "encontrarProductosEnCarrito();";
         $pageIndex = 4;
@@ -189,14 +193,10 @@ class ClientController {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         }
-        
         $router->render('client/cart', [
             'function' => $functions,
             'pageIndex' => $pageIndex,
             'isClient' => $isClient,
         ]);
     }
-
-    
-    
 }

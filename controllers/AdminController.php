@@ -382,7 +382,7 @@ class AdminController {
         $categorias = $categoria->all();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
+            //debuguear($_POST);
             $colorFileCountValue = $_POST['colorFileCount'];
             $colorFileCountArray = explode(',', $colorFileCountValue);
            // debuguear($_FILES['imagenColor']['tmp_name']);
@@ -488,6 +488,8 @@ class AdminController {
 
                 $ColoresjsonResult = json_encode($imagenesJSON);
                 $producto->colores = $ColoresjsonResult;
+                $producto->activo = '1';
+                $producto->descuento = $_POST['descuento'];
                 $producto->save();
             }
         }
@@ -648,7 +650,10 @@ class AdminController {
                     }
                 }
                 if(empty($alerts)) {
+                    $newPrdouct = $producto->activo;
                     $producto->sync($newPrdouct);
+                    $producto->descuento = $_POST['descuento'];
+                   //debuguear($newPrdouct);
                     $producto->save();
                     header('Location: /d94a5da526ad85f8e50ca84d4be1defd?b80bb7740288fda1f201890375a60c8f='.$parametro);           
                 }
@@ -670,6 +675,7 @@ class AdminController {
         $producto->tallas = $textoNormal;
         $colores = json_decode($producto->colores, true);
         $producto->colores = $colores;
+        
         $router->render('admin/editarRegistroProductos', [
             'producto' => $producto,
             'alerts' => $alerts,
