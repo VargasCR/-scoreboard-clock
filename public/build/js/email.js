@@ -3,7 +3,9 @@ async function findMessageContact(event) {
     const nombre = document.querySelector('#name').value;
     const correo = document.querySelector('#email').value;
     const mensaje = document.querySelector('#message').value;
-    if(nombre != '' && correo != '' && mensaje != '') {
+    const notrobot = document.querySelector('#notrobot').checked;
+    console.log(notrobot);
+    if(nombre != '' && correo != '' && mensaje != '' && notrobot == true) {
         await sendEmail(mensaje,'tiendaatlantic1@gmail.com','atlanticatienda33@gmail.com','Mensaje de Contacto');
         document.querySelector('#name').value = '';
         document.querySelector('#email').value = '';
