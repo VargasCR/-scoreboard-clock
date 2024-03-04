@@ -668,7 +668,7 @@ async function createProduct() {
                 modalImg.src = this.src;
                 originalBodyOverflow = document.body.style.overflow;
                 document.body.style.overflow = 'hidden';
-                imageZoom("myModal-img", "myresult");
+                    imageZoom("myModal-img", "myresult");
                 }
         
             contenedorImagen.appendChild(contenedorBotones);
@@ -2556,12 +2556,6 @@ function showNextItem() {
 }
 // Agregar evento de desplazamiento a la ventana
 window.addEventListener('scroll', handleScroll);
-
-
-
-
-
-
 
 
   let intervalPopupId = null;

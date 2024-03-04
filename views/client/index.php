@@ -366,6 +366,7 @@
       <div class="slidem"><span><img src="/build/img/logos/44.png" alt=""></span></div>
       <div class="slidem"><span><img src="/build/img/logos/45.png" alt=""></span></div>
       <div class="slidem"><span><img src="/build/img/logos/46.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/47.png" alt=""></span></div>
       
     </div>
   </div>
