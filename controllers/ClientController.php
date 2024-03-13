@@ -28,6 +28,23 @@ class ClientController {
             'isClient' => $isClient,
         ]);
     }
+    public static function rueda(Router $router) {
+        $functions = "";
+        $pageIndex = 0;
+        $isClient = true;
+      //  $imgsa = new ImgPopUp();
+      //  $queryImgs = $imgsa::all();
+      //  debuguear($queryImgs);
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
+        
+        $router->render('client/rueda', [
+            'function' => $functions,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
+    }
 
     public static function products(Router $router) {
         if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {

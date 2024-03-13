@@ -9,10 +9,33 @@ use Model\User;
 use Model\Producto;
 use Model\Suscriptor;
 use Model\ImgPopUp;
+use Model\DiscountCode;
 
 class APIController {
     
+    public static function findDiscountCode() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // echo json_encode('result');
+            //$result = 'hecho';
+            $result = DiscountCode::findCode($_POST['code']);
+            //echo $result;
+            echo json_encode($result);
+        }
+    }
+    public static function activarDiscountCode() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // echo json_encode('result');
+            //$result = 'hecho';
+            
+            $result = DiscountCode::find($_POST['id']);
+            $ticket = new DiscountCode();
+            $ticket->sync($result);
+            $ticket->activado = '1';
+            $ticket->save();
+            echo json_encode($ticket);
 
+        }
+    }
 
 public static function changeProductState() {
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -40,6 +63,7 @@ public static function findPopUpImg() {
         echo json_encode($result);
     }
 }
+
 
 public static function findProduct() {
     if($_SERVER['REQUEST_METHOD'] === 'POST') {

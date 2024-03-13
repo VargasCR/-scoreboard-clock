@@ -133,13 +133,15 @@ class ActiveRecord {
         $offset = ($page - 1) * $perPage;
 
         // Construir la consulta SQL con la cláusula LIMIT y OFFSET
-        $query = "SELECT * FROM " . static::$table . " LIMIT $perPage OFFSET $offset";
+        $query = "SELECT * FROM " . static::$table . " ORDER BY id DESC LIMIT $perPage OFFSET $offset";
+
         
         // Ejecutar la consulta SQL
         $result = self::querySQL($query);
 
         return $result;
     }
+
     
     public static function findTimes($id, $fechaDesde, $fechaHasta) {
         $query = "SELECT * FROM " . static::$table . " WHERE idempleado = $id AND fechaEntrada BETWEEN '$fechaDesde' AND '$fechaHasta' AND fechaSalida != '2000-01-01';";
@@ -433,5 +435,18 @@ class ActiveRecord {
 
         return $jsonResult;
     }
-
+    public static function findCode($code) {
+        $query = "SELECT * FROM " . static::$table . " WHERE code = ?";
+        $stmt = self::$db->prepare($query);
+        $stmt->bind_param('s', $code);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        // Manejo de resultados
+        $rows = [];
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+        
+        return $rows;
+    }
 }

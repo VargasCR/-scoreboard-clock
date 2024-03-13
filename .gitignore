@@ -3,4 +3,4 @@ vendor
 .DS_Store
 includes/.env
 apuntes.txt
-/src/
+src

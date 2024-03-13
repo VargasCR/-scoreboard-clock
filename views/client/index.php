@@ -36,24 +36,15 @@
     <!-- Banner Starts Here -->
     <div class="banner header-text">
       <div class="owl-banner owl-carousel">
-        <div class="banner-item-01">
+        <!--<div class="banner-item-01">
           <div class="text-content">
-           <!-- <h1 style="color:#fff;">PIDE TUS TENIS CON</h1> -->
-           <div style="width: 100%;display:flex;justify-content:center;align-items:center;flex-direction: column;">
-            <style>
-              
-
-            </style>
-            <img class="imgheader" src="/build/img/pidetusteniscon.png" alt="" style="">
-            <img class="imgheader" src="/build/img/atlanticTienda.png" alt="" style="margin-top:1.5rem;">
-           
-            <a style="margin:1rem 0 0 0;" class="seemore gold-effect" href="/products-male"><span style="font-weight: 300;">VER MAS</span></a>
-          
+            <div style="width: 100%;display:flex;justify-content:center;align-items:center;flex-direction: column;">
+              <img class="imgheader" src="/build/img/pidetusteniscon.png" alt="" style="">
+              <img class="imgheader" src="/build/img/atlanticTienda.png" alt="" style="margin-top:1.5rem;">
+              <a style="margin:1rem 0 0 0;" class="seemore gold-effect" href="/products-male"><span style="font-weight: 300;">VER MAS</span></a>
+            </div>
           </div>
-
-            <!--<h1 style="color:#fff;display:-webkit-inline-box;"><img style="width: 3rem;" src="/build/img/atlantic-ico-a.png" alt="">TLANTIC TIENDA</h1>-->
-          </div>
-        </div>
+        </div>-->
         <div class="banner-item-02">
           <div class="text-content" style="height: 100%;">
           <div class="header-banner-container">
@@ -367,10 +358,55 @@
       <div class="slidem"><span><img src="/build/img/logos/45.png" alt=""></span></div>
       <div class="slidem"><span><img src="/build/img/logos/46.png" alt=""></span></div>
       <div class="slidem"><span><img src="/build/img/logos/47.png" alt=""></span></div>
+      <div class="slidem"><span><img src="/build/img/logos/48.png" alt=""></span></div>
       
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+<!--
+<br>
+<br>
+<div class="section-heading">
+  <h2>Descuentos</h2>
+</div>
+<link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+
+
+<div style="display: flex;justify-content:center;align-items:center;">
+  <div class="wrapper-spin">
+    <div class="container-spin">
+      <canvas id="wheel-spin"></canvas>
+      <button id="spin-btn">GIRAR</button>
+      <img class="img-arrow" style="width: 80px;" src="/build/img/arrow.png" alt="spinner arrow" />
+    </div>
+    <div id="final-value-spin">
+      <p>Click en el centro para GIRAR</p>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"></script>
+
+-->
+
+
+
+
+
 
 
     <div class="send-message">

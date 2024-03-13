@@ -25,6 +25,8 @@ $router->post('/api/585017aa4ee7d08060322deb77c9d74d', [APIController::class,'de
 $router->post('/api/55e926765c284cd9da07aea89bc9f753', [APIController::class,'changeProductState']);
 
 
+$router->post('/api/ca9cfb11a71112c25d9e5de085a6217b', [APIController::class,'findDiscountCode']);
+$router->post('/api/a27647d858aa93c09fc6a365b9054742', [APIController::class,'activarDiscountCode']);
 
 
 
@@ -36,6 +38,7 @@ $router->get('/sitemap', [SitemapController::class,'index']);
 
 $router->get('/', [ClientController::class,'index']);
 $router->get('/products', [ClientController::class,'products']);
+$router->get('/rueda', [ClientController::class,'rueda']);
 $router->get('/products-male', [ClientController::class,'productsMale']);
 $router->get('/products-female', [ClientController::class,'productsFemale']);
 
