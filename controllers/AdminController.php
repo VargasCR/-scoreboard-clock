@@ -650,7 +650,8 @@ class AdminController {
                     }
                 }
                 if(empty($alerts)) {
-                    $newPrdouct = $producto->activo;
+                    $newPrdouct->activo = $producto->activo;
+                    //debuguear($newPrdouct);
                     $producto->sync($newPrdouct);
                     $producto->descuento = $_POST['descuento'];
                    //debuguear($newPrdouct);

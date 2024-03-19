@@ -89,6 +89,7 @@
             <option value="48" <?php if($producto->marca == '48') { echo 'selected';}?>>Neff</option>
             <option value="49" <?php if($producto->marca == '49') { echo 'selected';}?>>4ever</option>
             <option value="50" <?php if($producto->marca == '50') { echo 'selected';}?>>Psycho Sixteen</option>
+            <option value="51" <?php if($producto->marca == '51') { echo 'selected';}?>>Pura Vida</option>
         </select>
     </div>
 

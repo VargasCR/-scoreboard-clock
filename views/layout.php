@@ -48,6 +48,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <link href="/build/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <meta property="og:title" content="Tienda Atlantic - Tu destino de compras en línea en Costa Rica">
+    <meta property="og:description" content="Bienvenido a Tienda Atlantic, tu destino de compras en línea en Costa Rica. Encuentra una amplia selección de productos de alta calidad y disfruta de una experiencia de compra conveniente y segura.">
+    <meta property="og:image" content="https://tiendaatlanticcr.com/build/img/favicon.png">
+    <meta property="og:url" content="https://tiendaatlanticcr.com/">
+    <meta property="og:type" content="website">
+
     <?php if($pageIndex == 7) {
       echo '<link rel="stylesheet" href="/build/css/app.css">';
       }?>
@@ -108,9 +115,9 @@ if($pageIndex != 15) {
               <li class="nav-item ' . ($pageIndex == 1.5 ? 'active' : '') . '">
                 <a class="nav-link" href="/products-female">Mujer</a>
               </li>
-              <li class="nav-item ' . ($pageIndex == 2 ? 'active' : '') . '">
+              <!--<li class="nav-item ' . ($pageIndex == 2 ? 'active' : '') . '">
                 <a class="nav-link" href="/products-aurum">Aurum</a>
-              </li>
+              </li>-->
               <li class="nav-item ' . ($pageIndex == 3 ? 'active' : '') . '">
                 <a class="nav-link" href="/about">Nosotros</a>
               </li>
