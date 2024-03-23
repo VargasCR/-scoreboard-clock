@@ -52,6 +52,7 @@ $router->get('/cart', [ClientController::class,'cart']);
 $router->post('/api/lastest-products',[APIController::class,'lastestProducts']);
 $router->post('/api/find-product',[APIController::class,'findProduct']);
 $router->post('/api/find-products',[APIController::class,'findproducts']);
+$router->post('/api/find-products-words',[APIController::class,'findProductsWords']);
 $router->post('/api/delete-product', [APIController::class,'deleteProduct']);
 $router->get('/api/delete-product', [APIController::class,'deleteProduct']);
 

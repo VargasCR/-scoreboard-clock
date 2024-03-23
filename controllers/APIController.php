@@ -12,7 +12,20 @@ use Model\ImgPopUp;
 use Model\DiscountCode;
 
 class APIController {
-    
+
+    public static function findProductsWords() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $palabras = $_POST['palabras'];
+            $genero = $_POST['genero'];
+            if($palabras != '') {
+                $result = Producto::findProductWord($palabras,$genero);
+            } else {
+                $result = Producto::findAllWhereAND('genero',$genero,'activo','1');
+            }
+            echo json_encode($result);
+        }
+    }
+
     public static function findDiscountCode() {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             // echo json_encode('result');
@@ -72,6 +85,7 @@ public static function findProduct() {
         echo json_encode($result);
     }
 }
+
 public static function findproducts() {
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $class = $_POST['class'];

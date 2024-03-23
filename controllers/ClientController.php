@@ -71,15 +71,17 @@ class ClientController {
     }
 
     public static function productsMale(Router $router) {
-        $urlParamPage = $_GET['4014baac2e585d86e97c81beb778c6c8'];
+        $urlParamPage = $_GET['89759e1284e2479b991d2669de104942'];
         //debuguear($urlParamPage);
 
-        if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4']) && !isset($_GET['4014baac2e585d86e97c81beb778c6c8'])) {
-            $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
-            $functions = "buscar('".$urlParam."','0');";
-            //debuguear('a');
+        if(isset($_GET['4014baac2e585d86e97c81beb778c6c8'])) {
+            $urlParam = $_GET['4014baac2e585d86e97c81beb778c6c8'];
+            $functions = "encontrarPaginaDesdeUrl('".$urlParam."','".$urlParamPage."');";
+            //debuguear($functions);
         } else {
-            $functions = "buscar('0','0');";
+            $functions = "findWords('');";
+            //debuguear($functions);
+
         }
         //debuguear($_GET['ea170e2cafb1337755c8b3d5ae4437f4']);
         $pageIndex = 1;
@@ -89,21 +91,27 @@ class ClientController {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         }
+        $genero = '0';
         //debuguear($urlParam);
         $router->render('client/products', [
             'function' => $functions,
             'categorias' => $categorias,
             'pageIndex' => $pageIndex,
             'isClient' => $isClient,
+            'genero' => $genero
         ]);
     }
     public static function productsFemale(Router $router) {
-        if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
-            $urlParam = $_GET['ea170e2cafb1337755c8b3d5ae4437f4'];
-            $functions = "buscar('".$urlParam."','1');";
+        $urlParamPage = $_GET['89759e1284e2479b991d2669de104942'];
+        if(isset($_GET['4014baac2e585d86e97c81beb778c6c8'])) {
+            $urlParam = $_GET['4014baac2e585d86e97c81beb778c6c8'];
+            $functions = "encontrarPaginaDesdeUrl('".$urlParam."','".$urlParamPage."');";
+            //debuguear($functions);
         } else {
-            $functions = "buscar('0','1');";
+            $functions = "findWords('');";
+            //debuguear($functions);
         }
+        $genero = '1';
         //debuguear($_GET['ea170e2cafb1337755c8b3d5ae4437f4']);
         $pageIndex = 1.5;
         $isClient = true;
@@ -118,6 +126,7 @@ class ClientController {
             'categorias' => $categorias,
             'pageIndex' => $pageIndex,
             'isClient' => $isClient,
+            'genero' => $genero
         ]);
     }
 

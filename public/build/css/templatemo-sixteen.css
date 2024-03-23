@@ -2535,10 +2535,15 @@ iframe {
 
   .custom-select-container {
 	position: unset;
-	width: 200px;
+	width: 40%;
 	margin-top: 2rem;
   }
-
+  @media (max-width: 768px) {
+	.custom-select-container {
+		width: 90%;
+		
+	}
+}
   .custom-select {
 	appearance: none;
 	-webkit-appearance: none;

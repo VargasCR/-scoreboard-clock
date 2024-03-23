@@ -6,49 +6,14 @@
 
 
 <input type="hidden" value="1" id="page-category">
+<input type="hidden" value="<?php echo $genero; ?>" id="page-genre">
 <input type="hidden" value="3" id="selecter-used">
 <div style="width: 100%;display:flex;justify-content:center;align-items:center;">
-    <div class="custom-select-container" id="custom-select-container">
-        <div style="display: flex;">
-            <button id="selecter" class="custom-select" onclick="toggleOptions()">
-                <div style="display: flex;justify-content:center;align-items:center;">
-                    <p style="line-height: 0;margin:0;color:white;" id="select-text">
-                    <?php if(isset($_GET['ea170e2cafb1337755c8b3d5ae4437f4'])) {
-                      foreach ($categorias as $categoria) { 
-                        if($categoria->id == $_GET['ea170e2cafb1337755c8b3d5ae4437f4']) {
-                          echo $categoria->nombre;
-                          break;
-                        }
-                        
-                      } 
-                    } else {
-                      echo 'Todos los productos';
-                    }?>
-                  </p>
-                    <span id="select-simbol" style="line-height: 0;margin:0;color:white;">&#9660;</span>
-                </div>
-            </button>
-        </div>
-        <div class="custom-select-options" id="optionsContainer" style="z-index: 9999;">
-            <?php foreach ($categorias as $categoria) { 
-              if($pageIndex == 1) { ?>
-                    <div class="custom-option" onclick="cambiarCategoria('<?= $categoria->id ?>', '<?= $categoria->nombre ?>','0')"><?= $categoria->nombre ?></div>
-                    <?php } else {  
-                      ?>
-                    <div class="custom-option" onclick="cambiarCategoria('<?= $categoria->id ?>', '<?= $categoria->nombre ?>','1')"><?= $categoria->nombre ?></div>
-                  <?php } ?> 
-              
-            <?php } ?>
-        </div>
-    </div>
+  <div class="custom-select-container" id="custom-select-container">
+    <h3 style="width: 100%;text-align:center;margin:0;">BUSCAR</h3>
+    <input id="inputPalabras" type="text" placeholder="Palabras de busqueda..." class="form-control" style="width: 100%;margin-top:0;">
+  </div>
 </div>
-
-<script>
-  var optionsContainer = document.getElementById('optionsContainer');
-  optionsContainer.style.display = 'none';
-</script>
-
-
   <!-- Carrusel de imágenes -->
   <div class="products-container" id="products-containerx">
   <!-- Añade más imágenes según sea necesario -->

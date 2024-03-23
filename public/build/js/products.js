@@ -17,7 +17,7 @@ let cantidadDePaginas = 0;
 let buscandoCategoria = '0';
 let carritoDeCompras = [];
 let showingImgModal = 0;
-
+let productos=[];
 function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
@@ -1058,9 +1058,11 @@ try {
         document.addEventListener('click', function (event) {
             if (!event.target.closest('.custom-select-container')) {
                 isOpen = false;
-                optionsContainer.style.display = 'none'; // Cambiado de 'maxHeight' a 'display'
+                if(optionsContainer != null) {
+                    optionsContainer.style.display = 'none'; // Cambiado de 'maxHeight' a 'display'
+                }
                 document.querySelector('#custom-select-container').style.position = 'unset';
-                document.querySelector('#select-simbol').innerHTML = `&#9660;`;
+                //document.querySelector('#select-simbol').innerHTML = `&#9660;`;
             }
         });
     }
@@ -1086,14 +1088,17 @@ function toggleOptions(t) {
 }
 
 
-async function buscar(w,t) {
-    //alert(t);
-    const productsItems = encontrarProductos();
 
-    const productosFiltrados = await filtrarPorCategoria(w,t,'0');
+
+async function buscar(w) {
+   // alert(t);
+    
+    const productsItems = encontrarProductos();
+    
+    const productosFiltrados = w;
     
     cantidadDeProductos = productosFiltrados.length;
-    buscandoCategoria = w;
+    //buscandoCategoria = w;
     
     cantidadDeProductos = productosFiltrados.length;
     cantidadDePaginas = cantidadDeProductos / 4;
@@ -1537,11 +1542,13 @@ function cambiarImagenShowing(event, clase) {
     
 }
 
-async function encontrarPaginaDesdeUrl(category,page) {
 
-}
 
 async function encontrarPagina(n) {
+    
+    if(n == null) {
+
+    }
     paginaActual = document.getElementById(n).value;
     btnSelected = n;
     document.querySelectorAll('.btn-nav').forEach(element => {
@@ -1549,13 +1556,13 @@ async function encontrarPagina(n) {
     });
     document.querySelector('#'+n).classList.add('btn-nav-active');
     if(document.querySelector('#pageindex').value == '1') {
-        buscar(buscandoCategoria,'0');
+        buscar(productos);
     }
     if(document.querySelector('#pageindex').value == '1.5') {
-        buscar(buscandoCategoria,'1');
+        buscar(productos);
     }
     if(document.querySelector('#pageindex').value == '2') {
-        buscarA(buscandoCategoria);
+        buscarA(productos);
     }
 
     var urlString = window.location.href;
@@ -1563,7 +1570,7 @@ async function encontrarPagina(n) {
     var params = new URLSearchParams(url.search);
 
     // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
-    var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
+    var param1Value = params.get("89759e1284e2479b991d2669de104942");
 
     //console.log(param1Value);
 
@@ -1571,7 +1578,7 @@ async function encontrarPagina(n) {
 
 
     if (param1Value != null) {
-        var lastSearchParams = "&ea170e2cafb1337755c8b3d5ae4437f4=" + param1Value;
+        var lastSearchParams = "&89759e1284e2479b991d2669de104942=" + param1Value;
     } else {
         var lastSearchParams = "";
     }
@@ -1584,8 +1591,6 @@ async function encontrarPagina(n) {
 
     // Concatenamos todos los parámetros y actualizamos la URL
     history.pushState(null, "", pathname + newSearchParams + lastSearchParams + hash);
-
-
 }
 
 async function siguientePagina() {
@@ -1627,22 +1632,22 @@ async function siguientePagina() {
         }
         if(document.querySelector('#pageindex').value == '1') {
 
-            buscar(buscandoCategoria,'0');
+            buscar(productos,'0');
         }
         if(document.querySelector('#pageindex').value == '1.5') {
 
-            buscar(buscandoCategoria,'1');
+            buscar(productos,'1');
         }
         if(document.querySelector('#pageindex').value == '2') {
 
-            buscarA(buscandoCategoria);
+            buscarA(productos);
         }
         var urlString = window.location.href;
         var url = new URL(urlString);
         var params = new URLSearchParams(url.search);
 
         // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
-        var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
+        var param1Value = params.get("89759e1284e2479b991d2669de104942");
 
         //console.log(param1Value);
 
@@ -1650,7 +1655,7 @@ async function siguientePagina() {
 
 
         if (param1Value != null) {
-            var lastSearchParams = "&ea170e2cafb1337755c8b3d5ae4437f4=" + param1Value;
+            var lastSearchParams = "&89759e1284e2479b991d2669de104942=" + param1Value;
         } else {
             var lastSearchParams = "";
         }
@@ -1704,22 +1709,22 @@ async function retrocederPagina() {
     }
         if(document.querySelector('#pageindex').value == '1') {
 
-            buscar(buscandoCategoria,'0');
+            buscar(productos,'0');
         }
         if(document.querySelector('#pageindex').value == '1.5') {
 
-            buscar(buscandoCategoria,'1');
+            buscar(productos,'1');
         }
         if(document.querySelector('#pageindex').value == '2') {
 
-            buscarA(buscandoCategoria);
+            buscarA(productos);
         }
         var urlString = window.location.href;
         var url = new URL(urlString);
         var params = new URLSearchParams(url.search);
 
         // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
-        var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
+        var param1Value = params.get("89759e1284e2479b991d2669de104942");
 
         //console.log(param1Value);
 
@@ -1727,7 +1732,7 @@ async function retrocederPagina() {
 
 
         if (param1Value != null) {
-            var lastSearchParams = "&ea170e2cafb1337755c8b3d5ae4437f4=" + param1Value;
+            var lastSearchParams = "&89759e1284e2479b991d2669de104942=" + param1Value;
         } else {
             var lastSearchParams = "";
         }
@@ -2201,10 +2206,10 @@ async function enviarInfoCliente() {
                         
 }
 // Función para ir al inicio de la página
-function goToTop() {
-    // Utiliza window.scrollTo para desplazar la página al principio
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+    function goToTop() {
+        // Utiliza window.scrollTo para desplazar la página al principio
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
   async function borrarProducto(id) {
     Swal.fire({
@@ -2446,13 +2451,16 @@ function handleTouchEnd() {
 }
 
 // Botones de desplazamiento
-prevBtnx.addEventListener('click', () => {
-  carousel.scrollLeft -= carousel.offsetWidth;
-});
+if(prevBtnx != null) {
+    prevBtnx.addEventListener('click', () => {
+        carousel.scrollLeft -= carousel.offsetWidth;
+    });
+    nextBtnx.addEventListener('click', () => {
+        carousel.scrollLeft += carousel.offsetWidth;
+    });
+}
 
-nextBtnx.addEventListener('click', () => {
-  carousel.scrollLeft += carousel.offsetWidth;
-});
+
 
 // Ajustar el carrusel al centro cuando se desplaza
 carousel.addEventListener('scroll', () => {
@@ -2509,21 +2517,32 @@ let showSticky = localStorage.getItem('showSticky');
 
 
 // Obtener la posición inicial de la barra
-const stickyBarTopOffset = stickyBar.offsetTop;
+try {
+    
+    const stickyBarTopOffset = stickyBar.offsetTop;
+} catch (error) {
+    
+}
 
 // Función para manejar el evento de desplazamiento
 function handleScroll() {
-  // Obtener la posición de desplazamiento actual
-  const scrollPosition = window.scrollY;
-
-  // Si la posición de desplazamiento es mayor que la posición inicial de la barra, agregar la clase 'top'; de lo contrario, eliminarla
-  if (scrollPosition >= stickyBarTopOffset) {
-    stickyBar.classList.add('top');
-    stickyBarContainer.classList.add('top');
-  } else {
-    stickyBar.classList.remove('top');
-    stickyBarContainer.classList.remove('top');
-  }
+    try {
+        console.log(stickyBarTopOffsets);
+        // Obtener la posición de desplazamiento actual
+        const scrollPosition = window.scrollY;
+      
+        // Si la posición de desplazamiento es mayor que la posición inicial de la barra, agregar la clase 'top'; de lo contrario, eliminarla
+        if (scrollPosition >= stickyBarTopOffset) {
+          stickyBar.classList.add('top');
+          stickyBarContainer.classList.add('top');
+        } else {
+          stickyBar.classList.remove('top');
+          stickyBarContainer.classList.remove('top');
+        }
+    } catch (error) {
+        
+    }
+   
 }
 
 let stickyElementCount = 0;
@@ -2543,17 +2562,21 @@ function closeStickyAd() {
   }
   stickyBarContainer.classList.add('hidden');
 }
-
-function showNextItem() {
-  //console.log(99);
-  document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.add('hidden');
-  stickyElementCount++;
-  if(stickyElementCount > 3) {
-    stickyElementCount = 0;
-  }
-  document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.remove('hidden');
-  
+try {
+    function showNextItem() {
+        //console.log(99);
+        document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.add('hidden');
+        stickyElementCount++;
+        if(stickyElementCount > 3) {
+          stickyElementCount = 0;
+        }
+        document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.remove('hidden');
+        
+      }
+} catch (error) {
+    
 }
+
 // Agregar evento de desplazamiento a la ventana
 window.addEventListener('scroll', handleScroll);
 
@@ -2751,3 +2774,131 @@ function openFullImgModal(event) {
 
 
 
+  const genre = document.querySelector('#page-genre').value;
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    
+
+    
+});
+// Obtenemos el elemento de entrada de texto
+var input = document.getElementById('inputPalabras');
+
+// Agregamos un event listener para el evento 'input'
+if(input) {
+  input.addEventListener('input', function() {
+    // Llamamos a la función que quieres que se ejecute en cada cambio
+    //paginaActual = 1;
+    findWords();
+  });
+}
+// Definimos la función que se ejecutará en cada cambio
+async function findWords(findingPage) {
+    
+    // Obtenemos el valor actual del campo de entrada
+    var textoIngresado = input.value.trim();
+    //console.log("Texto ingresado:", textoIngresado);
+    const data = new FormData();
+    data.append('palabras', textoIngresado);
+    data.append('genero', genre);
+    
+    //console.log(genre);
+    const url = `${location.origin}/api/find-products-words`;
+    const response = await fetch(url, {
+        method: 'POST',
+        body: data
+    });
+    productos = await response.json();
+
+    document.querySelectorAll('.btn-nav').forEach(element => {
+        element.classList.remove('btn-nav-active');
+    });
+    
+    //console.log('findingPage');
+    var newSearchParams = "?4014baac2e585d86e97c81beb778c6c8=1&89759e1284e2479b991d2669de104942="+encodeURIComponent(textoIngresado);
+    var pathname = window.location.pathname;
+    var hash = window.location.hash;
+    // Concatenamos todos los parámetros y actualizamos la URL
+    history.pushState(null, "", pathname + newSearchParams + hash);
+    paginaActual = 1;
+    btnSelected = 'btn-nav-0';
+    document.querySelector('#btn-nav-0').value = '1';
+    document.querySelector('#btn-nav-0').innerText = '1';
+    document.querySelector('#btn-nav-1').value = '2';
+    document.querySelector('#btn-nav-1').innerText = '2';
+    document.querySelector('#btn-nav-2').value = '3';
+    document.querySelector('#btn-nav-2').innerText = '3';
+    document.querySelector('#btn-nav-0').classList.add('btn-nav-active');
+    buscar(productos);
+}
+
+async function encontrarPaginaDesdeUrl(page,word) {
+    var textoIngresado = decodeURIComponent(word);
+    document.querySelector('#inputPalabras').value = textoIngresado;
+    console.log(word);
+    //console.log("Texto ingresado:", textoIngresado);
+    const data = new FormData();
+    data.append('palabras', textoIngresado);
+    data.append('genero', genre);
+
+    //console.log(genre);
+    const url = `${location.origin}/api/find-products-words`;
+    const response = await fetch(url, {
+        method: 'POST',
+        body: data
+    });
+    productos = await response.json();
+    cantidadDeProductos = productos.length;
+    cantidadDePaginas = Math.ceil(cantidadDeProductos / 4);
+    let pageDiscounting = page;
+    paginaActual = page;
+    document.querySelectorAll('.btn-nav').forEach(element => {
+        element.classList.remove('btn-nav-active');
+    });
+    if(page >= 3) {
+        for (let index = 0; index < 3; index++) {
+            document.querySelector('#btn-nav-'+(2-index)).value = pageDiscounting - index;
+            document.querySelector('#btn-nav-'+(2-index)).innerText = pageDiscounting - index;
+            if(index == 2) {
+                document.querySelector('#btn-nav-2').classList.add('btn-nav-active');
+                btnSelected = 'btn-nav-2';
+            }
+        }
+    } else if(page == 2 && cantidadDePaginas == 2) {
+        document.querySelector('#btn-nav-0').value = '1';
+        document.querySelector('#btn-nav-0').innerText = '1';
+        document.querySelector('#btn-nav-1').value = '2';
+        document.querySelector('#btn-nav-1').innerText = '2';
+        document.querySelector('#btn-nav-2').value = '3';
+        document.querySelector('#btn-nav-2').innerText = '3';
+        document.querySelector('#btn-nav-1').classList.add('btn-nav-active');
+        btnSelected = 'btn-nav-1';
+    } else if(page == 2 && cantidadDePaginas > 2) {
+        document.querySelector('#btn-nav-0').value = '1';
+        document.querySelector('#btn-nav-0').innerText = '1';
+        document.querySelector('#btn-nav-1').value = '2';
+        document.querySelector('#btn-nav-1').innerText = '2';
+        document.querySelector('#btn-nav-2').value = '3';
+        document.querySelector('#btn-nav-2').innerText = '3';
+        document.querySelector('#btn-nav-1').classList.add('btn-nav-active');
+        btnSelected = 'btn-nav-1';
+    } else if(page == 1 && cantidadDePaginas == 2) {
+        document.querySelector('#btn-nav-0').value = '1';
+        document.querySelector('#btn-nav-0').innerText = '1';
+        document.querySelector('#btn-nav-1').value = '2';
+        document.querySelector('#btn-nav-1').innerText = '2';
+        document.querySelector('#btn-nav-0').classList.add('btn-nav-active');
+    } else if(page == 1 && cantidadDePaginas == 1) {
+        document.querySelector('#btn-nav-0').value = '1';
+        document.querySelector('#btn-nav-0').innerText = '1';
+        document.querySelector('#btn-nav-0').classList.add('btn-nav-active');
+    } else {
+        document.querySelector('#btn-nav-0').classList.add('btn-nav-active');
+        
+    }
+    alert(cantidadDePaginas)
+
+    // Obtenemos el valor actual del campo de entrada
+    
+    buscar(productos);
+}

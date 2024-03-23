@@ -114,6 +114,15 @@ class ActiveRecord {
         $result = self::querySQL($query);
         return $result;
     }
+    public static function findProductWord($palabra,$genero) {
+        $query = "SELECT * FROM " . static::$table." WHERE 
+        (`titulo` LIKE '%".$palabra."%' OR 
+        `shortDesc` LIKE '%".$palabra."%' OR 
+        `desc` LIKE '%".$palabra."%' OR 
+        CAST(precio AS CHAR) LIKE '%".$palabra."%') AND `activo` = 1 AND `genero` = ".$genero."";
+        $result = self::querySQL($query);
+        return $result;
+    }
     
     public static function counter() {
         //$query = "SELECT COUNT(*) as 'total' FROM " . static::$table.";";
