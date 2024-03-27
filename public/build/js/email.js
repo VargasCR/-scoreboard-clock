@@ -26,7 +26,10 @@ async function findMessageContact(event) {
         
     }
 }
-
+async function findMessageContact() {
+    const mensaje = "Botón whatsapp clickeado";
+    await sendEmail(mensaje,'tiendaatlantic1@gmail.com','atlanticatienda33@gmail.com','Botón whatsapp clickeado');
+}
 
 
 async function sendEmail(body,to,from,subject,alertMessage='Mensaje enviado\n ¡Muchas Gracias',r) {

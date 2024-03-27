@@ -1649,7 +1649,7 @@ iframe {
     background-color: transparent; /* Color de fondo del botón */
     padding: 0px;
     border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave */
+     
   }
 
   .whatsapp-float img {
@@ -2119,7 +2119,7 @@ iframe {
 	background: transparent;
 	cursor: pointer;
 	box-shadow: transparent;
-	border: 1px solid #ffffff80;
+	border: transparent;
 	transition: 0.5s ease;
 	user-select: none;
   }
@@ -3758,4 +3758,8 @@ font-size: 18px;
 		right: -5%;
 		width: 40px !important;
 	}
+}
+
+a[href="https://elfsight.com/google-reviews-widget/?utm_source=websites&utm_medium=clients&utm_content=google-reviews&utm_term=localhost&utm_campaign=free-widget"] {
+    display: none !important;
 }

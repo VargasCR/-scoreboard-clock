@@ -84,12 +84,13 @@
                             </div>
                             <ul>
                                 <li><a href="/">Principal</a></li>
-                                <li><a href="/products">Productos</a></li>
-                                <li><a href="/products-aurum">Aurum</a></li>
+                                <li><a href="/products-male">Hombres</a></li>
+                                <li><a href="/products-female">Mujeres</a></li>
                                 <li><a href="/about">Nosotros</a></li>
                                 <li><a href="/reviews">Reseñas</a></li>
-                                <li><a href="/contact">Contactar</a></li>
-                            </ul>
+                                <li><a href="/terms">Términos</a></li>
+                              </ul>
+                              <lu><a style="color:white" href="/contact">CONTACTANOS</a></lu>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-50">

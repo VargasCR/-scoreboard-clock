@@ -150,8 +150,10 @@
 
         
             <div class="whatsapp-float iluminationbutton">
-              <a href="https://wa.me/50684126742" target="_blank" title="Chatea con nosotros en WhatsApp">
-                <img src="/build/img/whatsapp-icon.png" alt="WhatsApp Icon">
+              <a href="https://wa.me/50684126742" target="_blank" title="WhatsApp" style="border:none;box-shadow:transparent !important;">
+                <button onclick="sendAlert()" style="background-color:transparent !important;border:none;">
+                  <img src="/build/img/whatsapp-icon.png" alt="WhatsApp Icon">
+                </button>
               </a>
             </div>
 
@@ -181,12 +183,13 @@
                             </div>
                             <ul>
                                 <li><a href="/">Principal</a></li>
-                                <li><a href="/products">Productos</a></li>
-                                <li><a href="/products-aurum">Aurum</a></li>
+                                <li><a href="/products-male">Hombres</a></li>
+                                <li><a href="/products-female">Mujeres</a></li>
                                 <li><a href="/about">Nosotros</a></li>
                                 <li><a href="/reviews">Reseñas</a></li>
-                                <li><a href="/contact">Contactar</a></li>
-                            </ul>
+                                <li><a href="/terms">Términos</a></li>
+                              </ul>
+                              <lu><a style="color:white" href="/contact">CONTACTANOS</a></lu>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
