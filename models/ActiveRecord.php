@@ -1,5 +1,6 @@
 <?php
 namespace Model;
+
 class ActiveRecord {
 
     // Base DE DATOS
@@ -97,6 +98,7 @@ class ActiveRecord {
         $result = '';
         if(!is_null($this->id)) {
             // actualizar
+            
             $result = $this->update();
         } else {
             // Creando un nuevo registro
@@ -108,11 +110,48 @@ class ActiveRecord {
     // Todos los registros
     public static function all() {
         $query = "SELECT * FROM " . static::$table;
+        //debuguear($query);
         $result = self::querySQL($query);
+        return $result;
+    }
+    public static function findProductWord($palabra,$genero) {
+        $query = "SELECT * FROM " . static::$table." WHERE 
+        (`titulo` LIKE '%".$palabra."%' OR 
+        `shortDesc` LIKE '%".$palabra."%' OR 
+        `desc` LIKE '%".$palabra."%' OR 
+        CAST(precio AS CHAR) LIKE '%".$palabra."%') AND `activo` = 1 AND `genero` = ".$genero."";
+        $result = self::querySQL($query);
+        return $result;
+    }
+    
+    public static function counter() {
+        //$query = "SELECT COUNT(*) as 'total' FROM " . static::$table.";";
+        $query = "SELECT * FROM " . static::$table.";";
+        $result = self::querySQL($query);
+        //debuguear($result);
+        return count($result);
+    }
+
+
+    public static function allFromPage($page = 1, $perPage = 10) {
+        // Asegurarse de que el número de página y los resultados por página sean valores positivos
+        $page = max(1, $page);
+        $perPage = max(1, $perPage);
+
+        // Calcular el punto de inicio basado en la página actual y la cantidad de resultados por página
+        $offset = ($page - 1) * $perPage;
+
+        // Construir la consulta SQL con la cláusula LIMIT y OFFSET
+        $query = "SELECT * FROM " . static::$table . " ORDER BY id DESC LIMIT $perPage OFFSET $offset";
+
         
+        // Ejecutar la consulta SQL
+        $result = self::querySQL($query);
+
         return $result;
     }
 
+    
     public static function findTimes($id, $fechaDesde, $fechaHasta) {
         $query = "SELECT * FROM " . static::$table . " WHERE idempleado = $id AND fechaEntrada BETWEEN '$fechaDesde' AND '$fechaHasta' AND fechaSalida != '2000-01-01';";
         $result = self::querySQL($query);
@@ -144,11 +183,60 @@ class ActiveRecord {
         self::$db->query($query);
         return true;
     }
-
+/* 
+0 new products
+1 all products
+2 aurum products
+*/
+/* 
+0 new products
+1 all products
+2 aurum products
+*/
     public static function findAllWhere($column,$value) {
+
+        $query = "SELECT * FROM " . static::$table . " WHERE $column = $value OR genero = '2'";
+        $result = self::querySQL($query);
+        return $result;
+    }
+    public static function findAllWhereA($column,$value) {
+
         $query = "SELECT * FROM " . static::$table . " WHERE $column = $value";
         $result = self::querySQL($query);
-       // debuguear(array_shift( $result ));
+        return $result;
+    }
+    public static function findAllCatWhere($column,$value) {
+
+        $query = "SELECT * FROM " . static::$table . " WHERE $column = $value OR id = '0'";
+        $result = self::querySQL($query);
+        return $result;
+    }
+    public static function findAllWhereAND($column1,$value1,$column2,$value2) {
+        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 && $column2 = $value2 OR genero = '2'";
+       // debuguear($query);
+        $result = self::querySQL($query);
+
+        return $result;
+    }
+    public static function findAllWhereANDAND($column1,$value1,$column2,$value2,$column3,$value3) {
+        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 && $column2 = $value2 && $column3 = $value3 OR genero = '2'";
+       // debuguear($query);
+        $result = self::querySQL($query);
+
+        return $result;
+    }
+    public static function findAllWhereAAND($column1,$value1,$column2,$value2) {
+        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 && $column2 = $value2";
+       // debuguear($query);
+        $result = self::querySQL($query);
+
+        return $result;
+    }
+    public static function findAllWhereOR($column1,$value1,$column2,$value2) {
+        $query = "SELECT * FROM " . static::$table . " WHERE $column1 = $value1 OR $column2 = $value2";
+        //debuguear($query);
+        $result = self::querySQL($query);
+
         return $result;
     }
     
@@ -232,11 +320,16 @@ class ActiveRecord {
         $property = $this->sanitizeProperty();
         //INSERT INTO `atlantic_employes`.`empleado` (`dni`, `nombre`, `apellido`, `fechaInicio`, `fechaFinal`, `pass`, `admin`) VALUES ('207460889', 'Javier', 'Vargas', '2023-12-28', '2023-12-31', '$2y$10$251NtURafzzA94CBpWcsp.VEDcpRx/dJtciXsiutOg5Fly.T6UU/y', '0');
         // Insertar en la base de datos
-        $query = "INSERT INTO " . static::$table . " ( ";
-        $query .= join(', ', array_keys($property));
-        $query .= " ) VALUES ('"; 
-        $query .= join("', '", array_values($property));
-        $query .= "')";
+        // Build the SQL query
+    $columns = array_map(function ($column) {
+        return "`$column`";
+    }, array_keys($property));
+
+    $query = "INSERT INTO " . static::$table . " (";
+    $query .= implode(', ', $columns);
+    $query .= ") VALUES ('";
+    $query .= implode("', '", array_values($property));
+    $query .= "')";
         //debuguear($query);
         // Resultado de la consulta
         $result = self::$db->query($query);
@@ -258,15 +351,16 @@ class ActiveRecord {
         // Iterar para ir agregando cada campo de la BD
         $values = [];
         foreach($property as $key => $value) {
-            $values[] = "{$key}='{$value}'";
+            $values[] = "`{$key}`='{$value}'";
         }
         //debuguear($property);
         // Consulta SQL
         $query = "UPDATE " . static::$table ." SET ";
-        $query .=  join(', ', $values );
+        $query .=  join(', ', $values);
         $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "' ";
         $query .= " LIMIT 1 "; 
 
+       // debuguear($query);
         // Actualizar BD
         $result = self::$db->query($query);
         return $result;
@@ -276,15 +370,17 @@ class ActiveRecord {
             $this->deleteImage();
         }
         if ($image) {
-            $this->image = $image;
+            $this->imagen = $image;
         }
     }
-    public function deleteImage() {
-        $isPicture = file_exists(IMAGE_FOLDER . $this->image);
+
+    public function deleteImage($imagen) {
+        $isPicture = file_exists(IMAGE_FOLDER . $imagen);
             if($isPicture) {
-                unlink(IMAGE_FOLDER . $this->image);
+                unlink(IMAGE_FOLDER . $imagen);
             }
     }
+
     // Eliminar un Registro por su ID
     public function delete() {
         $query = "DELETE FROM "  . static::$table . " WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
@@ -317,4 +413,49 @@ class ActiveRecord {
         return$result;
     }
 
+
+
+
+
+    public function restaurarAJSON($jsonResult) {
+        // Restaurar el JSON a un array
+        $arrayRestaurado = json_decode($jsonResult, true);
+
+        return $arrayRestaurado;
+    }
+
+    public function convertirTextAJSON($texto) {
+        // Dividir el texto en líneas
+        $lineas = explode("\n", $texto);
+
+        // Crear un array para almacenar la información
+        $informacion = [];
+
+        // Analizar cada línea y extraer la información
+        foreach ($lineas as $linea) {
+            $linea = trim($linea);
+            if (!empty($linea)) {
+                $informacion[] = $linea;
+            }
+        }
+
+        // Convertir el array en formato JSON
+        $jsonResult = json_encode($informacion, JSON_PRETTY_PRINT);
+
+        return $jsonResult;
+    }
+    public static function findCode($code) {
+        $query = "SELECT * FROM " . static::$table . " WHERE code = ?";
+        $stmt = self::$db->prepare($query);
+        $stmt->bind_param('s', $code);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        // Manejo de resultados
+        $rows = [];
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+        
+        return $rows;
+    }
 }

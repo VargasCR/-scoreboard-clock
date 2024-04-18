@@ -2,7 +2,7 @@
 define("TEMPLATES_URL", __DIR__ . '/templates');
 define('FUNCTIONS_URL', __DIR__ . 'functions.php');
 define('IMAGE_FOLDER', $_SERVER['DOCUMENT_ROOT'] . '/images/');
-
+define('REPORT_BASE_FOLDER', $_SERVER['DOCUMENT_ROOT'] . '/build/report/');
 function debuguear($variable) : string {
     echo "<pre>";
     var_dump($variable);

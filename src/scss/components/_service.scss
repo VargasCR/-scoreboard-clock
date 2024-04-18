@@ -32,3 +32,13 @@
             display: inline-block;
             width: 100%;
         }
+
+        .productContainer {
+            width: 20% ;
+            @include m.tablet {
+                width: 25% !important;
+                display: flex;
+                
+            }
+        }
+        

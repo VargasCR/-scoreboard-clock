@@ -1,7 +1,9 @@
 <!--Fecha Entrada	Fecha Salida	Hora Entrada	Hora Salida -->
+<br>
 
-<div>
-    <form method="POST">
+<h2 style="color: black;">Editar Registro de Horas</h2>
+<div class="form-admin-edit-container" style="">
+    <form method="POST" class="form-admin-edit">
         <div class="slot">
             <label for="fechaEntrada">Fecha de Entrada</label>
             <input
@@ -38,8 +40,16 @@
                 value="<?php echo s($registro->horaSalida); ?>"
             />
         </div>
-        <input type="submit" value="GUARGAR">
-        <a type="submit" href="/2885991af6301511c3ec390fec3fbceb?id=<?php echo $_GET['uid'] ?>">Volver</a>
+        <input class="button" type="submit" value="Guardar">
+        <a class="button" type="submit" href="<?php
+                if(isset($_SERVER['HTTP_REFERER'])) {
+                    echo $_SERVER['HTTP_REFERER'];
+                } else {
+                    // Si la página anterior no está disponible, redirigir a una página predeterminada
+                    echo "/2885991af6301511c3ec390fec3fbceb?id=".$_GET['uid'];
+                }
+            ?>">Volver</a>
+        
     </form>
 </div>
 

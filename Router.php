@@ -20,7 +20,8 @@ class Router
     public function checkRoutes()
     {
         session_start();
-        $currentUrl = strtok($_SERVER['REQUEST_URI'],'?' ?? '/');
+        //debuguear('currentUrla');
+        $currentUrl = strtok($_SERVER['REQUEST_URI'], '?') ?? '/';
         //$currentUrl = $_SERVER['PATH_INFO'] ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -35,7 +36,55 @@ class Router
             // Call user fn va a llamar una función cuando no sabemos cual sera
             call_user_func($fn, $this); // This es para pasar argumentos
         } else {
-            echo "Página No Encontrada o Ruta no válida";
+            //echo "Página No Encontrada o Ruta no válida";
+            echo "<!DOCTYPE html>
+            <html lang='es'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Error 404 - Página No Encontrada</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        color: #333;
+                        margin: 0;
+                        padding: 0;
+                        text-align: center;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 100px auto;
+                        padding: 20px;
+                        background-color: #fff;
+                        border-radius: 8px;
+                        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                    }
+                    h1 {
+                        color: #555;
+                    }
+                    p {
+                        margin-bottom: 20px;
+                    }
+                    a {
+                        color: #007bff;
+                        text-decoration: none;
+                    }
+                    a:hover {
+                        text-decoration: underline;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                <img src='/build/img/marca/atlantic.png' alt='' width='200px'>
+                    <h1>Error 404 - Página No Encontrada</h1>
+                    <p>La página que estás buscando no se ha encontrado o la ruta no es válida.</p>
+                    <p><a href='/'>Volver a la página de inicio</a></p>
+                </div>
+            </body>
+            </html>
+            ";
         }
     }
 

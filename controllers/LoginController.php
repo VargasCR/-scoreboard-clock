@@ -1,17 +1,17 @@
 <?php
 namespace Controllers;
 
-use Classes\Email;
 use Model\User;
 use MVC\Router;
 use Intervention\Image\ImageManagerStatic as Image;
-use Model\PassToken;
 use Model\Registro;
 
 class LoginController {
 
     public static function login(Router $router) {
-        
+        $pageIndex = 7;
+        $isClient = false;
+        //$alertlink = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $auth = new User($_POST);
             $alerts = $auth->validateLogin();
@@ -48,7 +48,7 @@ class LoginController {
                                 //$registro->horaSalida = null;
                                 $registro->save();
                                 //debuguear($user);
-                                header('Location: /?2d5278b057566a696ccff8d31ae5895b=3547d44613ce711ad7e2bc1808012b23&07cc694b9b3fc636710fa08b6922c42b='.$HoraActual);
+                                header('Location: /login?2d5278b057566a696ccff8d31ae5895b=3547d44613ce711ad7e2bc1808012b23&07cc694b9b3fc636710fa08b6922c42b='.$HoraActual);
                                 //User::setAlert('success', 'Hora de Entrada REGISTRADA '.$registro->horaEntrada);
                             } else {
                                 $registro->id = $fechasEncontradas->id;
@@ -60,11 +60,11 @@ class LoginController {
                                     //debuguear($registro);
                                     $registro->save();
                                     //User::setAlert('success', 'Usuario encontrado');
-                                    header('Location: /?2d5278b057566a696ccff8d31ae5895b=cd5cedd385ce4e84e8405997c37a8e3d&07cc694b9b3fc636710fa08b6922c42b='.$HoraActual);
+                                    header('Location: /login?2d5278b057566a696ccff8d31ae5895b=cd5cedd385ce4e84e8405997c37a8e3d&07cc694b9b3fc636710fa08b6922c42b='.$HoraActual);
                                     //User::setAlert('success', 'Hora de Salida REGISTRADA '.$registro->horaSalida);
                                     //debuguear($fechasEncontradas->horaSalida);
                                 } else {
-                                    header('Location: /?2d5278b057566a696ccff8d31ae5895b=4a0fa8dde5c48a5e6718f1068b0bfdf8');
+                                    header('Location: /login?2d5278b057566a696ccff8d31ae5895b=4a0fa8dde5c48a5e6718f1068b0bfdf8');
                                     //User::setAlert('error', 'Horario ya registrado, contacte al administrador');
                                 }
                             }
@@ -77,25 +77,32 @@ class LoginController {
                         }
                         
                     } else {
-                    header('Location: /?2d5278b057566a696ccff8d31ae5895b=4a0fa8dde5c48a5e6718f1068b0bfdf7');
+                    header('Location: /login?2d5278b057566a696ccff8d31ae5895b=4a0fa8dde5c48a5e6718f1068b0bfdf7');
                     User::setAlert('error', 'Usuario no encontrado');
                 }
             }
         }
         $alerts = User::getAlert();
         $router->render('auth/login', [
-            'alerts' => $alerts
+            'alerts' => $alerts,
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+            //'alertlink'=>$alertlink
         ]);
     }
 
     public static function logout() {
         session_start();
         $_SESSION = [];
-        header('Location: /');
+        header('Location: /login');
     }
    
     public static function singup(Router $router) {
         isAdmin();
+        $pageIndex = 7;
+        $isClient = false;
+        $users = null; // Initialize $users
+        $alerts = null; // Initialize $alerts
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $users = new User($_POST);
             //$users->sync($_POST);
@@ -107,25 +114,10 @@ class LoginController {
                 if($solved->num_rows) {
                     $alerts = User::getAlert();
                 } else {
-                    
-                    //hashear pass
-                    //el usuario no esta registrado
                     $users->hashPassword();
-                    //$NewToken = new PassToken();
-                    //$NewToken->createToken();
+                    
                     $solved = $users->save();
-                    //debuguear($users);
                     
-                   // $userCreated = $users->where("dni",$users->dni);
-                    //$NewToken->userID = $userCreated->id;
-                    
-                    //debuguear($NewToken);
-                    //$NewToken->save();
-                    
-                    //$email = new Email($users->email,$users->name,$NewToken->token);
-                    //$email->sendConfirm();
-
-                    //crear usuario
                    
                     if($solved) {
                         header('Location: /78e731027d8fd50ed642340b7c9a63b3');
@@ -136,13 +128,20 @@ class LoginController {
         }
         $router->render('auth/sing-up', [
             'users' => $users,
-            'alerts' => $alerts
+            'alerts' => $alerts,
+            'isClient' => $isClient,
+            'pageIndex' => $pageIndex,
         ]);
     }
 
     public static function message(Router $router) {
         isAdmin();
-        $router->render('auth/message');
+        $pageIndex = 7;
+        $isClient = false;
+        $router->render('auth/message',[
+            'pageIndex' => $pageIndex,
+            'isClient' => $isClient,
+        ]);
     }
 
     

@@ -9,6 +9,7 @@ html {
 }
 body {
     min-height: 100%;
+    max-width: 100%;
     @include m.tablet {
         height: 100%;
     }
@@ -22,6 +23,10 @@ body {
 *, *:before, *:after {
     box-sizing: inherit;
 }
+body {
+    overflow-x: hidden !important;
+  }
+  
 .main-content {
     padding: 0rem 2rem;
     @include m.tablet {
@@ -47,10 +52,10 @@ main, section,footer,header {
 }
 a {
     text-decoration: none;
-    color: v.$darkgray !important;
+   // color: v.$darkgray !important;
 }
 p,h1,h2,h4,span {
-    color: v.$darkgray !important;
+    //color: v.$darkgray !important;
 }
 img {
     max-width: 100%;

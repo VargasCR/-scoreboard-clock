@@ -120,5 +120,18 @@ right: 0;
     max-height: 2rem;
   }
  
+  .form-container-admin {
+    
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .form-container-admin-1 {
+    margin: 1rem 0;
+    width: 100%;
+    @include m.tablet {
+      width: 50%;
+    }
   
-  
+  }
