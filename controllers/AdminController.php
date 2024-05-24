@@ -13,6 +13,7 @@ use Model\Suscriptor;
 use Model\ImgPopUp;
 
 class AdminController {
+
     public static function menuPopUp( Router $router ) {
         $pageIndex = 7;
         $isClient = false;
@@ -429,9 +430,6 @@ class AdminController {
                     }
                     
                 }
-              //  debuguear($_POST['original']);
-                //debuguear($ruta_marca_de_agua);
-                
                 $imagenes = json_encode($imagenesJSON);
                 $producto->setImage($imagenes);
                 $tallasArray = explode(',', $_POST['tallas']);

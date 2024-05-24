@@ -23,50 +23,35 @@ function isMobileDevice() {
   }
 function eliminarPrincipalEditSlot(indice,item,event) {
     event.preventDefault();
-    //return;
-    //alert();
     const index = indice;
     const img = item;
     var slotAEliminar = document.getElementById(indice);
-    //var imgValue = document.getElementById('imgp-' + slotId).getAttribute('value');
     imagenesAEliminar.push(item);
-   // console.log(imagenesAEliminar);
-    //console.log(item);
     document.querySelector('#imagenesEliminar').value = imagenesAEliminar;
-    ////console.log(imgValue);
-  //  return;
     if (slotAEliminar) {
         slotAEliminar.remove();
     }
 
 }
+
 function changeSize(x) {
-    //alert(x);
     const tallas = document.querySelectorAll('.talla-button');
-    
     tallas.forEach(talla => {
         talla.classList.remove('talla-button-selected');
     });
-
     document.querySelector('#t-'+x).classList.add('talla-button-selected');
     document.querySelector('#talla-id').value = x;
 }
+
 function changeColor(x,img) {
-    
-    //console.log(x);
-//alert('');
     showingImgModal = 0;
     const colores = document.querySelectorAll('.color-button');
-   
     colores.forEach(color => {
         color.classList.remove('color-button-selected');
     });
-    //console.log(JSON.parse(img)[showingImgModal]);
-    //console.log(showingImgModal);
     document.querySelector('#c-'+x).classList.add('color-button-selected');
     document.querySelector('#color-id').value = x;
     document.querySelector('#image-id').value = JSON.parse(img)[showingImgModal];
-   // console.log(img);
     document.querySelector('#imgs-url').value = img;
     document.querySelector('#img-show-product').src = '/images/'+JSON.parse(img)[showingImgModal];
     if(JSON.parse(img).length > 1) {
@@ -74,18 +59,13 @@ function changeColor(x,img) {
             element.classList.remove('hidden');
         });
     } else {
-        //alert('');
-        
         document.querySelectorAll('.botonArrow').forEach(element => {
             element.classList.add('hidden');
         });
-        
     }
 }
 
 async function filtrarPorCategoria(categoria,tipo,aurum) {
-    
-    //alert(tipo);
     if(document.querySelector('#page-category').value == 1) {
         if(categoria == '0') {
             const data = new FormData();
@@ -98,7 +78,6 @@ async function filtrarPorCategoria(categoria,tipo,aurum) {
                 body: data
             });
             const productos = await response.json();
-            ////console.log(productos);
             return productos;
         } else {
             const data = new FormData();
@@ -112,26 +91,19 @@ async function filtrarPorCategoria(categoria,tipo,aurum) {
             });
             return await response.json();
         }
-
     } else if(document.querySelector('#page-category').value == 2){
         if(categoria == '0') {
             const data = new FormData();
             data.append('class', '1');
-            
             const url = `${location.origin}/api/find-products`;
             const response = await fetch(url, {
                 method: 'POST',
                 body: data
             });
             const productsAurumL = await response.json();
-            ////console.log(productsAurumL);
             return productsAurumL;
         } else {
-            //console.log(categoria);
-            //alert(categoria);
             const data = new FormData();
-            
-            
             data.append('class', '1');
             data.append('categoria', categoria);
             const url = `${location.origin}/api/find-products`;
@@ -139,92 +111,64 @@ async function filtrarPorCategoria(categoria,tipo,aurum) {
                 method: 'POST',
                 body: data
             });
-            
             const productsAurumL = await response.json();
             return productsAurumL.filter(producto => producto.category == categoria);
         }
-
-
-       
     }
 }
-let mostrandoProducto = [];
 
+let mostrandoProducto = [];
 
 async function showFloatingWindow(cod) {
     document.querySelector('#product-id').value = cod;
-    
-    
     const coloresContainer = document.querySelector('#colores-container');
     const tallaContainer = document.querySelector('#tallas-container');
     const precioContainer = document.querySelector('#precio-container');
     const descContainer = document.querySelector('#desc-container');
-    
-    
     const data = new FormData();
-
     data.append('id', cod);
     const url = `${location.origin}/api/find-product`;
     const response = await fetch(url, {
         method: 'POST',
         body: data
     });
-    
     const producto = await response.json();
-    //let producto = encontrarProductoPorCodigo(cod);
-    ////console.log(producto.desc);
     mostrandoProducto = producto;
-   // return;
-
     if(producto.descuento == '1') {
         const imgTag = document.querySelector('#imgTag').classList.remove('hidden');
     } else {  
         const imgTag = document.querySelector('#imgTag').classList.add('hidden');
     }
     const descriptions = JSON.parse(producto.desc);
-    ////console.log(JSON.parse(producto.imagen)[0]);
     await limpiarProductoTallaColor();
     document.querySelector('#img-show-product').src = '/images/' + JSON.parse(producto.imagen)[0];
-    //console.log(JSON.parse(producto.imagen).length);
     if(JSON.parse(producto.imagen).length > 1) {
         document.querySelectorAll('.botonArrow').forEach(element => {
             element.classList.remove('hidden');
         });
     } else {
-        //alert('');
-        
         document.querySelectorAll('.botonArrow').forEach(element => {
             element.classList.add('hidden');
         });
-        
     }
     const textoPrecio = document.createElement('P');
     precioContainer.appendChild(textoPrecio);
     textoPrecio.textContent = '₡'+producto.precio;
-
     JSON.parse(producto.desc).forEach(text => {
         const textoDesc = document.createElement('P');
         textoDesc.textContent = text;
-        //////console.log(textoDesc);
         descContainer.appendChild(textoDesc);
     });
-    
     JSON.parse(producto.colores).forEach(function (color, index) {
-        //console.log(JSON.stringify(color.imagen));
         const button = document.createElement('button');
-        //button.textContent = color.color;
         button.className = 'color-button';
         button.id = 'c-'+index;
-        
         button.style.backgroundColor = color.rgb;
-        //button.style.color = color.rgb;  // Puedes cambiar esto si quieres un color de texto específico
         button.onclick = function () {
             changeColor(index,JSON.stringify(color.imagen));
         };
         coloresContainer.appendChild(button);
     });
-    
-    //////console.log(producto.tallas);
     JSON.parse(producto.tallas).forEach(function (talla, index) {
         const button = document.createElement('button');
         button.className = 'talla-button';
@@ -240,7 +184,6 @@ async function showFloatingWindow(cod) {
     document.querySelector('#myModal').style.display = 'flex';
     setTimeout(() => {
         document.querySelector('#myModal').classList.add('fadeEaseIn');
-
         document.querySelector('#myModal').style.opacity = 1;
     }, 300);
 }
@@ -249,7 +192,6 @@ function agregarLabelYInput(contenedor, labelText, inputName) {
     var label = document.createElement("label");
     label.setAttribute("for", inputName);
     label.textContent = labelText;
-
     var input = document.createElement("input");
     input.setAttribute("type", "text");
     input.setAttribute("id", inputName);
@@ -257,36 +199,29 @@ function agregarLabelYInput(contenedor, labelText, inputName) {
     input.setAttribute("placeholder", labelText + " del producto");
     input.setAttribute("value", "");
     input.style.margin = "0.5rem 0 0 0";
-
-    // Agregar label e input al contenedor
     contenedor.appendChild(label);
     contenedor.appendChild(input);
 }
-
 
 let coloresAgregados = [];
 let conteoDeColores = 0;
 
 function encontrarTotalColores() {
-   // alert();
     conteoDeColores = document.querySelector('#cantColores').value;
-   // console.log(conteoDeColores);
 }
+
 let imageJsonCount = 1;
+
 function agregarColor(event) {
-    //alert("Botón clickeado");
     event.preventDefault();
     conteoDeColores++;
     coloresAgregados.push(conteoDeColores);
-    // Crear un nuevo div con la clase "slot"
     var nuevoSlot = document.createElement("div");
     nuevoSlot.id = 'c-'+conteoDeColores;
     nuevoSlot.classList.add("slot");
     nuevoSlot.style.backgroundColor = "#eaeaea";
     nuevoSlot.style.padding = "1rem";
     nuevoSlot.style.margin = "1rem 0 0 0";
-    
-    // Agregar botón de eliminación
     var deleteSlot = document.createElement("div");
     deleteSlot.style.width = '100%';
     deleteSlot.style.textAlign = 'right';
@@ -298,104 +233,65 @@ function agregarColor(event) {
         event.preventDefault();
         eliminarSlot(this.value,event);
     });
-
     deleteSlot.appendChild(eliminarBoton);
     nuevoSlot.appendChild(deleteSlot);
-
-
-    // Crear etiquetas e inputs para nombre del color, color en formato rgb, e imagen del producto
     agregarLabelYInput(nuevoSlot, "Nombre del color", "color");
     agregarLabelYInput(nuevoSlot, "Color en formato rgb", "rgb");
-
     var labelImagen = document.createElement("label");
     labelImagen.setAttribute("for", "imagenColor");
     labelImagen.textContent = "Imagen del producto";
-
     var inputImagen = document.createElement("input");
     inputImagen.setAttribute("type", "file");
     inputImagen.setAttribute("class", "imagenColor");
     inputImagen.setAttribute("name", "imagenColor_"+imageJsonCount+"[]");
     inputImagen.setAttribute("value", imageJsonCount);
-    // Obtén el valor actual del input hidden
     var colorFileCountValue = document.querySelector('#colorFileCount').value;
-
-    // Agrega otro elemento al valor existente como si fuera un array
     var nuevoElemento = 'nuevoElemento';
     if(colorFileCountValue != '') {
-
         var nuevoValor = colorFileCountValue + ',' + imageJsonCount;
-        
     } else {
-        //imageJsonCount = '0';
         var nuevoValor = imageJsonCount;
     }
-
-    // Actualiza el valor del input hidden
     document.querySelector('#colorFileCount').value = nuevoValor;
-    //console.log(nuevoValor);
-
     inputImagen.setAttribute("accept", "image/*");
     inputImagen.multiple = true;
     imageJsonCount++;
-//alert(imageJsonCount);
-    // Agregar elementos al nuevoSlot
     nuevoSlot.appendChild(labelImagen);
     nuevoSlot.appendChild(inputImagen);
-
-    // Agregar el nuevoSlot al contenedorSlots
     document.getElementById("colores-contenedor").appendChild(nuevoSlot);
-
 }
 
 function eliminarSlot(slotId,event) {
     event.preventDefault();
-    //console.log(slotId);
-
-    // Obtén el valor actual del input hidden
     var colorFileCountValue = document.querySelector('#colorFileCount').value;
-
-    // Convierte la cadena en un array utilizando la coma como separador
     var arrayDeValores = colorFileCountValue.split(',');
-
-    // Encuentra y elimina el elemento deseado del array
     var index = arrayDeValores.indexOf(slotId.toString());
     if (index !== -1) {
         arrayDeValores.splice(index, 1);
     }
-
-    // Actualiza el valor del input hidden con el nuevo array
     document.querySelector('#colorFileCount').value = arrayDeValores.join(',');
-
-
-
     var slotAEliminar = document.getElementById('c-' + slotId);
     if (slotAEliminar) {
         slotAEliminar.remove();
     }
 }
+
 let imagenesAEliminar = [];
 let coloresAEliminar = [];
 function eliminarEditSlot(slotId,event,values,index) {
     event.preventDefault();
     const valuesArray = values.split(', ');
-    //console.log(valuesArray);
     valuesArray.forEach(element => {
         imagenesAEliminar.push(element);
-        
     });
-    //console.log(imagenesAEliminar);
     coloresAEliminar.push(index);
-
     var slotAEliminar = document.getElementById(slotId);
-
     document.querySelector('#imagenesEliminar').value = JSON.stringify(imagenesAEliminar);
     document.querySelector('#IndexColoresEliminar').value = coloresAEliminar;
-
     if (slotAEliminar) {
         slotAEliminar.remove();
     }
 }
-
 
 async function agregarAlCarrito() {
     document.querySelector('#myModal').style.zIndex = '100';
@@ -440,8 +336,6 @@ async function agregarAlCarrito() {
         });
         return;
     }
-    
-    
     carritoDeCompras.find(function(product) {
         if (product.codigo === codigo
             && product.talla === talla
@@ -466,26 +360,19 @@ async function agregarAlCarrito() {
         }
     });
     const data = new FormData();
-
     data.append('id', codigo);
     const url = `${location.origin}/api/find-product`;
     const response = await fetch(url, {
         method: 'POST',
         body: data
     });
-    
     const producto = await response.json();
-
-
-
-
     if(producto != null && encontrado == false) {
         producto.cantidad = 1;
         producto.color = color;
         producto.talla = talla;
         producto.imagen = imagen;
         carritoDeCompras.push(producto);
-       // ////console.log(carritoDeCompras);
         localStorage.setItem('carritoDeComprasLista', JSON.stringify(carritoDeCompras));
         encontrarProductosEnCarrito();
         Swal.fire({
@@ -502,7 +389,6 @@ async function agregarAlCarrito() {
 }
 
 function encontrarProductosEnCarrito() {
-    //alert()
     let datosGuardados = localStorage.getItem('carritoDeComprasLista');
     let datosRecuperados = JSON.parse(datosGuardados);
     try {
@@ -518,24 +404,18 @@ function encontrarProductosEnCarrito() {
     } catch (error) {
         
     }
-
-
     if(datosRecuperados != null) {
         carritoDeCompras = datosRecuperados;
     } else {
         datosRecuperados = [];
         carritoDeCompras = [];
     }
-    //////console.log(datosRecuperados);
     if(datosRecuperados.length > 0) {
         document.querySelector('#floating-cart-btn').classList.remove('hidden')
-        //document.querySelector('#cart-count').innerText = datosRecuperados.length;
     } else {
         document.querySelector('#floating-cart-btn').classList.add('hidden')
     }
 }
-
-
 
 function encontrarProductoPorCodigo(codigo) {
     let productosSeleccionados = [];
@@ -552,17 +432,14 @@ function encontrarProductoPorCodigo(codigo) {
 }
 
 function closeOnOutsideClick(event) {
-    var modal = document.getElementById("myModal");
+    const modal = document.getElementById("myModal");
     if (event.target === modal) {
         closeFloatingWindow();
     }
 }
 
 function closeFloatingWindow() {
-    var modal = document.querySelector('#myModal');
-    
-    
-    
+    const modal = document.querySelector('#myModal');
     document.querySelector('#product-id').value = '-1';
     document.querySelector('#talla-id').value = '-1';
     document.querySelector('#color-id').value = '-1';
@@ -571,7 +448,6 @@ function closeFloatingWindow() {
         modal.classList.remove('fadeEaseIn');
         modal.classList.add('fadeEase');
         modal.style.opacity = 0;
-
     }, 300);
     setTimeout(() => {
         modal.style.display = 'none';
@@ -582,7 +458,6 @@ let originalBodyOverflow = null;
 let showingProductIndex = 0;
 
 function nextNewProduct() {
-    //alert();
     console.log(showingProductIndex);
     document.querySelectorAll('.productContainerNew')[showingProductIndex].classList.add('hidden');
     showingProductIndex++;
@@ -601,207 +476,63 @@ function prevNewProduct() {
     document.querySelectorAll('.productContainerNew')[showingProductIndex].classList.remove('hidden');
 }
 
-
 async function createProduct() {
     let countItem = 0;
-
     const url = `${location.origin}/api/lastest-products`;
     const response = await fetch(url, {
         method: 'POST',
     });
-
     const result = await response.json();
     if (isMobileDevice()) {
         document.querySelector('#carouselx').classList.add('hidden');
         document.querySelector('#carouselx-controls').classList.add('hidden');
-        // Es un dispositivo móvil
         result.forEach((product,index) => {
-            console.log(index);
             const productContainer = document.createElement("div");
             productContainer.classList.add('productContainerNew');
-        
             const productItem = document.createElement("div");
             productItem.className = "product-item";
             productItem.style.margin = "0.5rem";
-            
             productItem.id = 'p-'+product.codigo;
             productItem.value = 0;
             productItem.setAttribute('showingImg', 0);
-        
             const contenedorImagen = document.createElement("div");
             contenedorImagen.id = "contenedorImagen";
-        
             const contenedorBotones = document.createElement("div");
             contenedorBotones.id = "contenedorBotones";
-
             const botonIzquierdo = document.createElement("button");
             botonIzquierdo.className = "botonArrow";
             botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
-            
             botonIzquierdo.onclick = function() {
                 cambiarImagen(event,product.codigo,product.imagen,0);
             };
-        
             const botonDerecho = document.createElement("button");
             botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
             botonDerecho.className = "botonArrow";
-            
             botonDerecho.onclick = function() {
                 cambiarImagen(event,product.codigo,product.imagen,1);
             };
-        
             if(JSON.parse(product.imagen).length > 1) {
                 contenedorBotones.appendChild(botonIzquierdo);
                 contenedorBotones.appendChild(botonDerecho);
             }
-        
             const imagenPrincipal = document.createElement("img");
             imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
             imagenPrincipal.alt = "";
             imagenPrincipal.id = 'img-'+product.codigo;
-    
-            imagenPrincipal.onclick = function(){
-                // Get the modal
-                const modal = document.getElementById("myModal-modal");
-                const modalImg = document.getElementById("myModal-img");
-                modal.style.display = "block";
-                modalImg.src = this.src;
-                originalBodyOverflow = document.body.style.overflow;
-                document.body.style.overflow = 'hidden';
-                    imageZoom("myModal-img", "myresult");
-                }
-        
-            contenedorImagen.appendChild(contenedorBotones);
-            contenedorImagen.appendChild(imagenPrincipal);
-    
-    
-    
-            if(product.descuento == '1') {
-                const imgDiscount = document.createElement('img');
-                imgDiscount.src = '/build/img/discount-tag.png';
-                imgDiscount.classList.add('imgTag');
-                contenedorImagen.appendChild(imgDiscount);
-            }
-    
-            const downContent = document.createElement("div");
-            downContent.className = "down-content";
-        
-            const productName = document.createElement("h4");
-            productName.style.textAlign = "left";
-            productName.style.fontSize = "16px";
-            productName.textContent = product.titulo;
-        
-            const priceContainer = document.createElement("div");
-            priceContainer.style.display = "flex";
-            priceContainer.style.justifyContent = "space-between";
-            priceContainer.style.alignItems = "center";
-        
-            const productPrice = document.createElement("h6");
-            productPrice.style.margin = "0 !important";
-            productPrice.textContent = '₡' + product.precio;
-            productPrice.style.fontSize = '14px';
-        
-            const addToCartButton = document.createElement("div");
-            addToCartButton.className = "buttonadd";
-            addToCartButton.onclick = function() {
-                showFloatingWindow(product.codigo);
-            };
-        
-            const buttonWrapper = document.createElement("div");
-            buttonWrapper.className = "button-wrapper";
-        
-            const textDiv = document.createElement("div");
-            textDiv.className = "text";
-            textDiv.textContent = "🛒";
-    
-            textDiv.onclick = function() {
-                    showFloatingWindow(product.codigo);
-                };
-        
-            const iconSpan = document.createElement("span");
-            iconSpan.className = "icon";
-            const pTag = document.createElement("p");
-            pTag.style.color = "white";
-            pTag.textContent = "AGREGAR";
-            pTag.style.margin = "0px";
-            pTag.style.fontSize = '8px';
-            iconSpan.appendChild(pTag);
-        
-            buttonWrapper.appendChild(textDiv);
-            buttonWrapper.appendChild(iconSpan);
-            addToCartButton.appendChild(buttonWrapper);
-        
-            priceContainer.appendChild(productPrice);
-            priceContainer.appendChild(addToCartButton);
-        
-            downContent.appendChild(productName);
-            downContent.appendChild(priceContainer);
-        
-            productItem.appendChild(contenedorImagen);
-            productItem.appendChild(downContent);
-            if(index != 0) {
-                productContainer.classList.add('hidden');
-            }
-            productContainer.appendChild(productItem);
-            //productContainerSlider.appendChild(productContainer);
-                
-            const productsContainer = document.querySelector("#products-container");
-            productsContainer.appendChild(productContainer);
-        });
-    } else {
-        document.querySelector('#products-container').classList.add('hidden');
-        document.querySelector('#products-controls').classList.add('hidden');
-        // Es un dispositivo de escritorio
-        result.forEach(product => {
-            //console.log(result);
-            const productContainerSlider = document.createElement("div");
-            productContainerSlider.classList.add('carouselx--item');
-            
-            const productContainer = document.createElement("div");
-            productContainer.classList.add('productContainerNew');
-        
-            const productItem = document.createElement("div");
-            productItem.className = "product-item";
-            productItem.style.margin = "0.5rem";
-            
-            productItem.id = 'p-'+product.codigo;
-            productItem.value = 0;
-            productItem.setAttribute('showingImg', 0);
-        
-            const contenedorImagen = document.createElement("div");
-            contenedorImagen.id = "contenedorImagen";
-        
-            const contenedorBotones = document.createElement("div");
-            contenedorBotones.id = "contenedorBotones";
-
-            const botonIzquierdo = document.createElement("button");
-            botonIzquierdo.className = "botonArrow";
-            botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
-            
-            botonIzquierdo.onclick = function() {
-                cambiarImagen(event,product.codigo,product.imagen,0);
-            };
-        
-            const botonDerecho = document.createElement("button");
-            botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
-            botonDerecho.className = "botonArrow";
-            
-            botonDerecho.onclick = function() {
-                cambiarImagen(event,product.codigo,product.imagen,1);
-            };
-        
-            if(JSON.parse(product.imagen).length > 1) {
-                contenedorBotones.appendChild(botonIzquierdo);
-                contenedorBotones.appendChild(botonDerecho);
-            }
-        
-            const imagenPrincipal = document.createElement("img");
-            imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
-            imagenPrincipal.alt = "";
-            imagenPrincipal.id = 'img-'+product.codigo;
-    
-            imagenPrincipal.onclick = function(){
-                // Get the modal
+            const previewBoton = document.createElement("button");
+            previewBoton.style.width = '3rem';
+            previewBoton.style.height = '3rem';
+            previewBoton.style.backgroundColor = 'transparent';
+            previewBoton.style.position = 'absolute';
+            previewBoton.style.top = '0';
+            previewBoton.style.right = '50%';
+            previewBoton.style.border = 'none';
+            previewBoton.classList.add('previewBoton');
+            previewBoton.src = "/images/" + JSON.parse(product.imagen)[0];
+            const previewIMG = document.createElement("img");
+            previewIMG.src = "/build/img/preview.png";
+            previewBoton.appendChild(previewIMG);
+            previewBoton.onclick = function(){
                 const modal = document.getElementById("myModal-modal");
                 const modalImg = document.getElementById("myModal-img");
                 modal.style.display = "block";
@@ -809,55 +540,43 @@ async function createProduct() {
                 originalBodyOverflow = document.body.style.overflow;
                 document.body.style.overflow = 'hidden';
                 imageZoom("myModal-img", "myresult");
-                }
-        
+            }
+            contenedorImagen.appendChild(previewBoton);
             contenedorImagen.appendChild(contenedorBotones);
             contenedorImagen.appendChild(imagenPrincipal);
-    
-    
-    
             if(product.descuento == '1') {
                 const imgDiscount = document.createElement('img');
                 imgDiscount.src = '/build/img/discount-tag.png';
                 imgDiscount.classList.add('imgTag');
                 contenedorImagen.appendChild(imgDiscount);
             }
-    
             const downContent = document.createElement("div");
             downContent.className = "down-content";
-        
             const productName = document.createElement("h4");
             productName.style.textAlign = "left";
             productName.style.fontSize = "16px";
             productName.textContent = product.titulo;
-        
             const priceContainer = document.createElement("div");
             priceContainer.style.display = "flex";
             priceContainer.style.justifyContent = "space-between";
             priceContainer.style.alignItems = "center";
-        
             const productPrice = document.createElement("h6");
             productPrice.style.margin = "0 !important";
             productPrice.textContent = '₡' + product.precio;
             productPrice.style.fontSize = '14px';
-        
             const addToCartButton = document.createElement("div");
             addToCartButton.className = "buttonadd";
             addToCartButton.onclick = function() {
                 showFloatingWindow(product.codigo);
             };
-        
             const buttonWrapper = document.createElement("div");
             buttonWrapper.className = "button-wrapper";
-        
             const textDiv = document.createElement("div");
             textDiv.className = "text";
             textDiv.textContent = "🛒";
-    
             textDiv.onclick = function() {
-                    showFloatingWindow(product.codigo);
-                };
-        
+                showFloatingWindow(product.codigo);
+            };
             const iconSpan = document.createElement("span");
             iconSpan.className = "icon";
             const pTag = document.createElement("p");
@@ -866,87 +585,181 @@ async function createProduct() {
             pTag.style.margin = "0px";
             pTag.style.fontSize = '8px';
             iconSpan.appendChild(pTag);
-        
             buttonWrapper.appendChild(textDiv);
             buttonWrapper.appendChild(iconSpan);
             addToCartButton.appendChild(buttonWrapper);
-        
             priceContainer.appendChild(productPrice);
             priceContainer.appendChild(addToCartButton);
-        
             downContent.appendChild(productName);
             downContent.appendChild(priceContainer);
-        
+            productItem.appendChild(contenedorImagen);
+            productItem.appendChild(downContent);
+            if(index != 0) {
+                productContainer.classList.add('hidden');
+            }
+            productContainer.appendChild(productItem);
+            const productsContainer = document.querySelector("#products-container");
+            productsContainer.appendChild(productContainer);
+        });
+    } else {
+        document.querySelector('#products-container').classList.add('hidden');
+        document.querySelector('#products-controls').classList.add('hidden');
+        result.forEach(product => {
+            const productContainerSlider = document.createElement("div");
+            productContainerSlider.classList.add('carouselx--item');
+            const productContainer = document.createElement("div");
+            productContainer.classList.add('productContainerNew');
+            const productItem = document.createElement("div");
+            productItem.className = "product-item";
+            productItem.style.margin = "0.5rem";
+            productItem.id = 'p-'+product.codigo;
+            productItem.value = 0;
+            productItem.setAttribute('showingImg', 0);
+            const contenedorImagen = document.createElement("div");
+            contenedorImagen.id = "contenedorImagen";
+            const contenedorBotones = document.createElement("div");
+            contenedorBotones.id = "contenedorBotones";
+            const botonIzquierdo = document.createElement("button");
+            botonIzquierdo.className = "botonArrow";
+            botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
+            botonIzquierdo.onclick = function() {
+                cambiarImagen(event,product.codigo,product.imagen,0);
+            };
+            const botonDerecho = document.createElement("button");
+            botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
+            botonDerecho.className = "botonArrow";
+            botonDerecho.onclick = function() {
+                cambiarImagen(event,product.codigo,product.imagen,1);
+            };
+            if(JSON.parse(product.imagen).length > 1) {
+                contenedorBotones.appendChild(botonIzquierdo);
+                contenedorBotones.appendChild(botonDerecho);
+            }
+            const imagenPrincipal = document.createElement("img");
+            imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
+            imagenPrincipal.alt = "";
+            imagenPrincipal.id = 'img-'+product.codigo;
+            const previewBoton = document.createElement("button");
+            previewBoton.style.width = '3rem';
+            previewBoton.style.height = '3rem';
+            previewBoton.style.backgroundColor = 'transparent';
+            previewBoton.style.position = 'absolute';
+            previewBoton.style.top = '0';
+            previewBoton.style.right = '50%';
+            previewBoton.style.border = 'none';
+            previewBoton.classList.add('previewBoton');
+            previewBoton.src = "/images/" + JSON.parse(product.imagen)[0];
+            const previewIMG = document.createElement("img");
+            previewIMG.src = "/build/img/preview.png";
+            previewBoton.appendChild(previewIMG);
+            previewBoton.onclick = function(){
+                const modal = document.getElementById("myModal-modal");
+                const modalImg = document.getElementById("myModal-img");
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                originalBodyOverflow = document.body.style.overflow;
+                document.body.style.overflow = 'hidden';
+                imageZoom("myModal-img", "myresult");
+            }
+            contenedorImagen.appendChild(previewBoton);
+            contenedorImagen.appendChild(contenedorBotones);
+            contenedorImagen.appendChild(imagenPrincipal);
+            if(product.descuento == '1') {
+                const imgDiscount = document.createElement('img');
+                imgDiscount.src = '/build/img/discount-tag.png';
+                imgDiscount.classList.add('imgTag');
+                contenedorImagen.appendChild(imgDiscount);
+            }
+            const downContent = document.createElement("div");
+            downContent.className = "down-content";
+            const productName = document.createElement("h4");
+            productName.style.textAlign = "left";
+            productName.style.fontSize = "16px";
+            productName.textContent = product.titulo;
+            const priceContainer = document.createElement("div");
+            priceContainer.style.display = "flex";
+            priceContainer.style.justifyContent = "space-between";
+            priceContainer.style.alignItems = "center";
+            const productPrice = document.createElement("h6");
+            productPrice.style.margin = "0 !important";
+            productPrice.textContent = '₡' + product.precio;
+            productPrice.style.fontSize = '14px';
+            const addToCartButton = document.createElement("div");
+            addToCartButton.className = "buttonadd";
+            addToCartButton.onclick = function() {
+                showFloatingWindow(product.codigo);
+            };
+            const buttonWrapper = document.createElement("div");
+            buttonWrapper.className = "button-wrapper";
+            const textDiv = document.createElement("div");
+            textDiv.className = "text";
+            textDiv.textContent = "🛒";
+            textDiv.onclick = function() {
+                showFloatingWindow(product.codigo);
+            };
+            const iconSpan = document.createElement("span");
+            iconSpan.className = "icon";
+            const pTag = document.createElement("p");
+            pTag.style.color = "white";
+            pTag.textContent = "AGREGAR";
+            pTag.style.margin = "0px";
+            pTag.style.fontSize = '8px';
+            iconSpan.appendChild(pTag);
+            buttonWrapper.appendChild(textDiv);
+            buttonWrapper.appendChild(iconSpan);
+            addToCartButton.appendChild(buttonWrapper);
+            priceContainer.appendChild(productPrice);
+            priceContainer.appendChild(addToCartButton);
+            downContent.appendChild(productName);
+            downContent.appendChild(priceContainer);
             productItem.appendChild(contenedorImagen);
             productItem.appendChild(downContent);
             productContainer.appendChild(productItem);
             productContainerSlider.appendChild(productContainer);
-                
             const productsContainer = document.querySelector("#products-containerx");
             productsContainer.appendChild(productContainerSlider);
         });
     }
-    
     encontrarProductosEnCarrito();
 }
-
 
 function imageZoom(imgID, resultID) {
     var img, lens, result, cx, cy;
     img = document.getElementById(imgID);
     result = document.getElementById(resultID);
-    /* Create lens: */
     lens = document.createElement("DIV");
     lens.setAttribute("class", "img-zoom-lens");
-    /* Insert lens: */
     img.parentElement.insertBefore(lens, img);
-    /* Calculate the ratio between result DIV and lens: */
     cx = result.offsetWidth / lens.offsetWidth;
     cy = result.offsetHeight / lens.offsetHeight;
-    /* Set background properties for the result DIV */
     result.style.backgroundImage = "url('" + img.src + "')";
     result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
-    /* Execute a function when someone moves the cursor over the image, or the lens: */
     lens.addEventListener("mousemove", moveLens);
     img.addEventListener("mousemove", moveLens);
-    /* And also for touch screens: */
     lens.addEventListener("touchmove", moveLens);
     img.addEventListener("touchmove", moveLens);
     function moveLens(e) {
       var pos, x, y;
-      /* Prevent any other actions that may occur when moving over the image */
       e.preventDefault();
-      /* Get the cursor's x and y positions: */
       pos = getCursorPos(e);
-      /* Calculate the position of the lens: */
       x = pos.x - (lens.offsetWidth / 2);
-     // y = pos.y +80;
       y = pos.y - (lens.offsetHeight / 2);
-      //console.log('y: '+y);
-      //console.log(lens.offsetHeight);
-      /* Prevent the lens from being positioned outside the image: */
       if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
       if (x < 0) {x = 0;}
       if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
       if (y < 0) {y = 0;}
-      /* Set the position of the lens: */
       lens.style.left = x + "px";
       lens.style.top = y + "px";
-      /* Display what the lens "sees": */
       result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
     }
     function getCursorPos(e) {
       var a, x = 0, y = 0;
       e = e || window.event;
-      /* Get the x and y positions of the image: */
       a = img.getBoundingClientRect();
-      /* Calculate the cursor's x and y coordinates, relative to the image: */
       x = e.pageX - a.left;
       y = e.pageY - a.top;
-      /* Consider any page scrolling: */
       x = x - window.pageXOffset;
       y = y - window.pageYOffset;
-      //console.log(y);
       return {x : x, y : y};
     }
 }
@@ -958,32 +771,17 @@ function closeModalImg() {
 }
 
 function limpiarProductos(products) {
-    //const items = document.querySelectorAll('.productContainer');
-    //return items;
     products.forEach(element => {
         element.remove();
     });
-    /*
-    const productsContainer = document.querySelector('#products-containerx');
-    // Elimina todos los elementos hijos
-    while (productsContainer.firstChild) {
-        productsContainer.removeChild(productsContainer.firstChild);
-    }*/
-    
 }
+
 function encontrarProductos() {
     const items = document.querySelectorAll('.productContainer');
     items.forEach(element => {
         element.style.opacity = '0';
     });
     return items;
-    /*
-    const productsContainer = document.querySelector('#products-containerx');
-    // Elimina todos los elementos hijos
-    while (productsContainer.firstChild) {
-        productsContainer.removeChild(productsContainer.firstChild);
-    }*/
-    
 }
 
 function limpiarProductoTallaColor() {
@@ -991,8 +789,6 @@ function limpiarProductoTallaColor() {
     const tallaContainer = document.querySelector('#tallas-container');
     const precioContainer = document.querySelector('#precio-container');
     const descContainer = document.querySelector('#desc-container');
-
-    // Elimina todos los elementos hijos
     while (colorContainer.firstChild) {
         colorContainer.removeChild(colorContainer.firstChild);
     }
@@ -1009,8 +805,6 @@ function limpiarProductoTallaColor() {
 
 function limpiarProductosCarrito() {
     const productsContainer = document.querySelector('#shopping-cart-products-container');
-
-    // Elimina todos los elementos hijos
     while (productsContainer.firstChild) {
         productsContainer.removeChild(productsContainer.firstChild);
     }
@@ -1033,12 +827,10 @@ function cambiarCategoria(w,t,g) {
         element.classList.remove('btn-nav-active');
     });
     document.getElementById('btn-nav-0').classList.add('btn-nav-active');
-
     var urlString = window.location.href;
     var url = new URL(urlString);
     var params = new URLSearchParams(url.search);
     var param1Value = params.get("ea170e2cafb1337755c8b3d5ae4437f4");
-    
     if(param1Value != null) {
 
     }
@@ -1054,15 +846,13 @@ try {
     if (document.querySelector('#selecter-used').value == '3') {
         var optionsContainer = document.getElementById('optionsContainer');
         var isOpen = false;
-
         document.addEventListener('click', function (event) {
             if (!event.target.closest('.custom-select-container')) {
                 isOpen = false;
                 if(optionsContainer != null) {
-                    optionsContainer.style.display = 'none'; // Cambiado de 'maxHeight' a 'display'
+                    optionsContainer.style.display = 'none'; 
                 }
                 document.querySelector('#custom-select-container').style.position = 'unset';
-                //document.querySelector('#select-simbol').innerHTML = `&#9660;`;
             }
         });
     }
@@ -1070,10 +860,9 @@ try {
 
 }
 
-
 function toggleOptions(t) {
     isOpen = !isOpen;
-    optionsContainer.style.display = isOpen ? 'inline-table' : 'none'; // Cambiado de 'maxHeight' a 'display'
+    optionsContainer.style.display = isOpen ? 'inline-table' : 'none'; 
     if (t != null) {
         document.querySelector('#select-text').textContent = `${t}`;
     }
@@ -1084,22 +873,12 @@ function toggleOptions(t) {
         document.querySelector('#select-simbol').innerHTML = `&#9660;`;
         document.querySelector('#custom-select-container').style.position = 'unset';
     }
-    
 }
 
-
-
-
 async function buscar(w) {
-   // alert(t);
-    
     const productsItems = encontrarProductos();
-    
     const productosFiltrados = w;
-    
     cantidadDeProductos = productosFiltrados.length;
-    //buscandoCategoria = w;
-    
     cantidadDeProductos = productosFiltrados.length;
     cantidadDePaginas = cantidadDeProductos / 4;
     document.querySelector('#btn-nav-2').classList.remove('hidden');
@@ -1116,7 +895,6 @@ async function buscar(w) {
     const indexDesde = (4 * paginaActual) - 4;
     const indexHasta = 4 * paginaActual;
     productosSeleccionados = productosFiltrados.slice(indexDesde, indexHasta);
-
     if (w == '0') {
 
     } else if(cantidadDeProductos == 0) {
@@ -1130,104 +908,90 @@ async function buscar(w) {
         return;
     }
     productosSeleccionados.forEach(product => {
-       
-
-
         const productContainer = document.createElement("div");
         productContainer.classList.add('productContainer');
-    
         const productItem = document.createElement("div");
         productItem.className = "product-item";
         productItem.style.margin = "0.5rem";
-       
         productItem.id = 'p-'+product.codigo;
         productItem.value = 0;
         productItem.setAttribute('showingImg', 0);
-    
         const contenedorImagen = document.createElement("div");
         contenedorImagen.id = "contenedorImagen";
-        
         const contenedorBotones = document.createElement("div");
         contenedorBotones.id = "contenedorBotones";
-        
-        
         const botonIzquierdo = document.createElement("button");
         botonIzquierdo.className = "botonArrow";
         botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
-        
         botonIzquierdo.onclick = function() {
             cambiarImagen(event,product.codigo,product.imagen,0);
         };
-    
         const botonDerecho = document.createElement("button");
         botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
         botonDerecho.className = "botonArrow";
-       
         botonDerecho.onclick = function() {
             cambiarImagen(event,product.codigo,product.imagen,1);
         };
-    
         if(JSON.parse(product.imagen).length > 1) {
             contenedorBotones.appendChild(botonIzquierdo);
             contenedorBotones.appendChild(botonDerecho);
         }
-    
         const imagenPrincipal = document.createElement("img");
         imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
         imagenPrincipal.alt = "";
         imagenPrincipal.id = 'img-'+product.codigo;
-    
-        imagenPrincipal.onclick = function(){
-            // Get the modal
-            
+        const previewBoton = document.createElement("button");
+        previewBoton.style.width = '3rem';
+        previewBoton.style.height = '3rem';
+        previewBoton.style.backgroundColor = 'transparent';
+        previewBoton.style.position = 'absolute';
+        previewBoton.style.top = '0';
+        previewBoton.style.right = '50%';
+        previewBoton.style.border = 'none';
+        previewBoton.classList.add('previewBoton');
+        previewBoton.src = "/images/" + JSON.parse(product.imagen)[0];
+        const previewIMG = document.createElement("img");
+        previewIMG.src = "/build/img/preview.png";
+        previewBoton.appendChild(previewIMG);
+        previewBoton.onclick = function(){
             const modal = document.getElementById("myModal-modal");
             const modalImg = document.getElementById("myModal-img");
-            //console.log(modal);
             modal.style.display = "block";
             modalImg.src = this.src;
             originalBodyOverflow = document.body.style.overflow;
             document.body.style.overflow = 'hidden';
             imageZoom("myModal-img", "myresult");
         }
-
+        contenedorImagen.appendChild(previewBoton);
         contenedorImagen.appendChild(contenedorBotones);
         contenedorImagen.appendChild(imagenPrincipal);
-    
         const downContent = document.createElement("div");
         downContent.className = "down-content";
-    
         const productName = document.createElement("h4");
         productName.style.textAlign = "left";
         productName.style.fontSize = "16px";
         productName.textContent = product.titulo;
-    
         const priceContainer = document.createElement("div");
         priceContainer.style.display = "flex";
         priceContainer.style.justifyContent = "space-between";
         priceContainer.style.alignItems = "center";
-    
         const productPrice = document.createElement("h6");
         productPrice.style.margin = "0 !important";
         productPrice.textContent = '₡' + product.precio;
         productPrice.style.fontSize = '14px';
-    
         const addToCartButton = document.createElement("div");
         addToCartButton.className = "buttonadd";
         addToCartButton.onclick = function() {
             showFloatingWindow(product.codigo);
         };
-    
         const buttonWrapper = document.createElement("div");
         buttonWrapper.className = "button-wrapper";
-    
         const textDiv = document.createElement("div");
         textDiv.className = "text";
         textDiv.textContent = "🛒";
-
         textDiv.onclick = function() {
-                showFloatingWindow(product.codigo);
-           };
-    
+            showFloatingWindow(product.codigo);
+        };
         const iconSpan = document.createElement("span");
         iconSpan.className = "icon";
         const pTag = document.createElement("p");
@@ -1236,40 +1000,28 @@ async function buscar(w) {
         pTag.style.margin = "0px";
         pTag.style.fontSize = '8px';
         iconSpan.appendChild(pTag);
-    
         buttonWrapper.appendChild(textDiv);
         buttonWrapper.appendChild(iconSpan);
         addToCartButton.appendChild(buttonWrapper);
-    
         priceContainer.appendChild(productPrice);
         priceContainer.appendChild(addToCartButton);
-    
         downContent.appendChild(productName);
         downContent.appendChild(priceContainer);
-    
         productItem.appendChild(contenedorImagen);
         productItem.appendChild(downContent);
         productContainer.appendChild(productItem);
-        
-           
         const productsContainer = document.querySelector("#products-containerx");
         productsContainer.appendChild(productContainer);
     });
-    
     await limpiarProductos(productsItems);
     encontrarProductosEnCarrito();
 }
 
 async function buscarA(w,t) {
-    
     const productsItems = encontrarProductos();
-    
-
     const productosFiltrados = await filtrarPorCategoria(w,t,'1');
-    
     cantidadDeProductos = productosFiltrados.length;
     buscandoCategoria = w;
-    
     cantidadDeProductos = productosFiltrados.length;
     cantidadDePaginas = cantidadDeProductos / 4;
     document.querySelector('#btn-nav-2').classList.remove('hidden');
@@ -1286,7 +1038,6 @@ async function buscarA(w,t) {
     const indexDesde = (4 * paginaActual) - 4;
     const indexHasta = 4 * paginaActual;
     productosSeleccionados = productosFiltrados.slice(indexDesde, indexHasta);
-
     if (w == '0') {
 
     } else if(cantidadDeProductos == 0) {
@@ -1300,99 +1051,88 @@ async function buscarA(w,t) {
     productosSeleccionados.forEach(product => {
         const productContainer = document.createElement("div");
         productContainer.classList.add('productContainer');
-    
         const productItem = document.createElement("div");
         productItem.className = "product-item";
         productItem.style.margin = "0.5rem";
-       
         productItem.id = 'p-'+product.codigo;
         productItem.value = 0;
         productItem.setAttribute('showingImg', 0);
-    
         const contenedorImagen = document.createElement("div");
         contenedorImagen.id = "contenedorImagen";
-        
         const contenedorBotones = document.createElement("div");
         contenedorBotones.id = "contenedorBotones";
-        
-        
         const botonIzquierdo = document.createElement("button");
         botonIzquierdo.className = "botonArrow";
         botonIzquierdo.innerHTML = "<span class='material-symbols-outlined'>chevron_left</span>";
-        
         botonIzquierdo.onclick = function() {
             cambiarImagen(event,product.codigo,product.imagen,0);
         };
-    
         const botonDerecho = document.createElement("button");
         botonDerecho.innerHTML = "<span class='material-symbols-outlined'>chevron_right</span>";
         botonDerecho.className = "botonArrow";
-       
         botonDerecho.onclick = function() {
             cambiarImagen(event,product.codigo,product.imagen,1);
         };
-    
         if(JSON.parse(product.imagen).length > 1) {
             contenedorBotones.appendChild(botonIzquierdo);
             contenedorBotones.appendChild(botonDerecho);
         }
-    
         const imagenPrincipal = document.createElement("img");
         imagenPrincipal.src = "/images/" + JSON.parse(product.imagen)[0];
         imagenPrincipal.alt = "";
         imagenPrincipal.id = 'img-'+product.codigo;
-    
-        imagenPrincipal.onclick = function(){
-            // Get the modal
-            
+        const previewBoton = document.createElement("button");
+        previewBoton.style.width = '3rem';
+        previewBoton.style.height = '3rem';
+        previewBoton.style.backgroundColor = 'transparent';
+        previewBoton.style.position = 'absolute';
+        previewBoton.style.top = '0';
+        previewBoton.style.right = '50%';
+        previewBoton.style.border = 'none';
+        previewBoton.classList.add('previewBoton');
+        previewBoton.src = "/images/" + JSON.parse(product.imagen)[0];
+        const previewIMG = document.createElement("img");
+        previewIMG.src = "/build/img/preview.png";
+        previewBoton.appendChild(previewIMG);
+        previewBoton.onclick = function(){
             const modal = document.getElementById("myModal-modal");
             const modalImg = document.getElementById("myModal-img");
-            //console.log(modal);
             modal.style.display = "block";
             modalImg.src = this.src;
             originalBodyOverflow = document.body.style.overflow;
             document.body.style.overflow = 'hidden';
             imageZoom("myModal-img", "myresult");
         }
-
+        contenedorImagen.appendChild(previewBoton);
         contenedorImagen.appendChild(contenedorBotones);
         contenedorImagen.appendChild(imagenPrincipal);
-    
         const downContent = document.createElement("div");
         downContent.className = "down-content";
-    
         const productName = document.createElement("h4");
         productName.style.textAlign = "left";
         productName.style.fontSize = "16px";
         productName.textContent = product.titulo;
-    
         const priceContainer = document.createElement("div");
         priceContainer.style.display = "flex";
         priceContainer.style.justifyContent = "space-between";
         priceContainer.style.alignItems = "center";
-    
         const productPrice = document.createElement("h6");
         productPrice.style.margin = "0 !important";
         productPrice.textContent = '₡' + product.precio;
         productPrice.style.fontSize = '14px';
-    
         const addToCartButton = document.createElement("div");
         addToCartButton.className = "buttonadd";
         addToCartButton.onclick = function() {
             showFloatingWindow(product.codigo);
         };
-    
         const buttonWrapper = document.createElement("div");
         buttonWrapper.className = "button-wrapper";
-    
         const textDiv = document.createElement("div");
         textDiv.className = "text";
         textDiv.textContent = "🛒";
-
         textDiv.onclick = function() {
-                showFloatingWindow(product.codigo);
-           };
-    
+            showFloatingWindow(product.codigo);
+        };
         const iconSpan = document.createElement("span");
         iconSpan.className = "icon";
         const pTag = document.createElement("p");
@@ -1401,44 +1141,28 @@ async function buscarA(w,t) {
         pTag.style.margin = "0px";
         pTag.style.fontSize = '8px';
         iconSpan.appendChild(pTag);
-    
         buttonWrapper.appendChild(textDiv);
         buttonWrapper.appendChild(iconSpan);
         addToCartButton.appendChild(buttonWrapper);
-    
         priceContainer.appendChild(productPrice);
         priceContainer.appendChild(addToCartButton);
-    
         downContent.appendChild(productName);
         downContent.appendChild(priceContainer);
-    
         productItem.appendChild(contenedorImagen);
         productItem.appendChild(downContent);
         productContainer.appendChild(productItem);
-        
-           
         const productsContainer = document.querySelector("#products-containerx");
         productsContainer.appendChild(productContainer);
     });
-    
     await limpiarProductos(productsItems);
     encontrarProductosEnCarrito();
 }
 
-
-
-
-
 function cambiarImagen(event, codigo, imagenes, clase) {
-    //console.log('codigo:'+codigo);
-    //console.log('imagenes'+imagenes);
-    //console.log('clase'+clase);
-    
     event.preventDefault();
     const imgContainer = document.querySelector('#p-' + codigo);
     const imgElmt = document.querySelector('#img-' + codigo);
     let imgIndex = parseInt(imgContainer.getAttribute('showingimg'));
-
     if (clase == 1) {
         imgIndex++;
         if (JSON.parse(imagenes).length == imgIndex) {
@@ -1450,42 +1174,22 @@ function cambiarImagen(event, codigo, imagenes, clase) {
             imgIndex = JSON.parse(imagenes).length - 1;
         }
     }
-
-    // Quitar la clase de transición al inicio
     imgElmt.style.transition = 'none';
-
-    // Cambiar la opacidad a 0 (inicio del desvanecimiento)
     imgElmt.style.opacity = 0;
-
-    // Esperar un pequeño tiempo para que la opacidad llegue a 0
     setTimeout(() => {
-        // Cambiar la imagen
         document.querySelector('#img-' + codigo).src = "/images/" + JSON.parse(imagenes)[imgIndex];
-
-        // Aplicar la transición nuevamente (esto provocará el cambio suave)
         imgElmt.style.transition = 'opacity 0.5s ease-in-out';
-
-        // Resetear la opacidad a 1 (fin del desvanecimiento)
         imgElmt.style.opacity = 1;
     }, 50);
-
-    // Actualizar el atributo "showingimg" en el contenedor de la imagen
     imgContainer.setAttribute('showingimg', imgIndex);
 }
 
-
-
 function cambiarImagenShowing(event, clase) {
     event.preventDefault();
-    
-    //document.querySelector('#imgs-url').value
     const cod = document.querySelector('#product-id').value;
-    
-    
     const colorSelected = document.querySelector('#color-id').value;
     if(colorSelected == '-1') {
         if(clase == 1) {
-            //console.log(mostrandoProducto.imagen);
             showingImgModal++;
             if(JSON.parse(mostrandoProducto.imagen).length == showingImgModal) {
                 showingImgModal = 0;
@@ -1498,19 +1202,13 @@ function cambiarImagenShowing(event, clase) {
         }
         document.querySelector('#img-show-product').classList.remove('fadeEaseIn');
         document.querySelector('#img-show-product').classList.add('fadeEase');
-        document.querySelector('#img-show-product').style.opacity = 0; // Inicio de la transición
-        
+        document.querySelector('#img-show-product').style.opacity = 0;
         setTimeout(() => {
             document.querySelector('#img-show-product').src = "/images/" +JSON.parse(mostrandoProducto.imagen)[showingImgModal];
         }, 300);
-        
     } else {
-        //alert(showingImgModal);
-        //showingImgModal = 0;
         const imgs = JSON.parse(document.querySelector('#imgs-url').value);
-        //console.log(imgs);
         if(clase == 1) {
-            //console.log(mostrandoProducto.imagen);
             showingImgModal++;
             if(imgs.length == showingImgModal) {
                 showingImgModal = 0;
@@ -1527,25 +1225,15 @@ function cambiarImagenShowing(event, clase) {
         setTimeout(() => {
             document.querySelector('#img-show-product').src = "/images/" +imgs[showingImgModal];
         }, 300);
-        
-        
-        
-            
-        
-    
     }
     setTimeout(() => {
         document.querySelector('#img-show-product').classList.remove('fadeEase');
         document.querySelector('#img-show-product').classList.add('fadeEaseIn');
         document.querySelector('#img-show-product').style.opacity = 1;   
     }, 500);
-    
 }
 
-
-
 async function encontrarPagina(n) {
-    
     if(n == null) {
 
     }
@@ -1564,32 +1252,18 @@ async function encontrarPagina(n) {
     if(document.querySelector('#pageindex').value == '2') {
         buscarA(productos);
     }
-
     var urlString = window.location.href;
     var url = new URL(urlString);
     var params = new URLSearchParams(url.search);
-
-    // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
     var param1Value = params.get("89759e1284e2479b991d2669de104942");
-
-    //console.log(param1Value);
-
-    // Definimos el valor de "paginaActual"
-
-
     if (param1Value != null) {
         var lastSearchParams = "&89759e1284e2479b991d2669de104942=" + param1Value;
     } else {
         var lastSearchParams = "";
     }
-
-    // Definimos el nuevo parámetro "4014baac2e585d86e97c81beb778c6c8" con el valor de "paginaActual"
     var newSearchParams = "?4014baac2e585d86e97c81beb778c6c8=" + paginaActual;
-
     var pathname = window.location.pathname;
     var hash = window.location.hash;
-
-    // Concatenamos todos los parámetros y actualizamos la URL
     history.pushState(null, "", pathname + newSearchParams + lastSearchParams + hash);
 }
 
@@ -1600,22 +1274,17 @@ async function siguientePagina() {
         const nodeList = document.querySelectorAll('.btn-nav-number');
         const arrayButtons = Array.from(nodeList);
         if(paginaActual > 3) {
-            //alert(paginaActual);
             arrayButtons.forEach(element => {
                 element.value = ((paginaActual - RestandoValor)) + 1;
                 element.innerText = ((paginaActual - RestandoValor)) + 1;
-                //////console.log(((paginaActual - RestandoValor)) + 1);
                 RestandoValor--;
             })
         }
-        
         document.querySelectorAll('.btn-nav').forEach(element => {
             element.classList.remove('btn-nav-active');
         });
-
         switch (btnSelected) {
             case 'btn-nav-0':
-                
                 document.querySelector('#btn-nav-1').classList.add('btn-nav-active');
                 btnSelected = 'btn-nav-1';
                 break;
@@ -1631,42 +1300,26 @@ async function siguientePagina() {
                 break;
         }
         if(document.querySelector('#pageindex').value == '1') {
-
             buscar(productos,'0');
         }
         if(document.querySelector('#pageindex').value == '1.5') {
-
             buscar(productos,'1');
         }
         if(document.querySelector('#pageindex').value == '2') {
-
             buscarA(productos);
         }
         var urlString = window.location.href;
         var url = new URL(urlString);
         var params = new URLSearchParams(url.search);
-
-        // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
         var param1Value = params.get("89759e1284e2479b991d2669de104942");
-
-        //console.log(param1Value);
-
-        // Definimos el valor de "paginaActual"
-
-
         if (param1Value != null) {
             var lastSearchParams = "&89759e1284e2479b991d2669de104942=" + param1Value;
         } else {
             var lastSearchParams = "";
         }
-
-        // Definimos el nuevo parámetro "4014baac2e585d86e97c81beb778c6c8" con el valor de "paginaActual"
         var newSearchParams = "?4014baac2e585d86e97c81beb778c6c8=" + paginaActual;
-
         var pathname = window.location.pathname;
         var hash = window.location.hash;
-
-        // Concatenamos todos los parámetros y actualizamos la URL
         history.pushState(null, "", pathname + newSearchParams + lastSearchParams + hash);
 
     }
@@ -1679,14 +1332,11 @@ async function retrocederPagina() {
         let RestandoValor = 1;
         const nodeList = document.querySelectorAll('.btn-nav-number');
         const arrayButtons = Array.from(nodeList);
-        
-        //alert(paginaActual);
         arrayButtons.forEach(element => {
             element.value = (paginaActual - RestandoValor)+1;
             element.innerText = (paginaActual - RestandoValor)+1;
             RestandoValor--;
         })
-
     }
     document.querySelectorAll('.btn-nav').forEach(element => {
         element.classList.remove('btn-nav-active');
@@ -1722,38 +1372,23 @@ async function retrocederPagina() {
         var urlString = window.location.href;
         var url = new URL(urlString);
         var params = new URLSearchParams(url.search);
-
-        // Obtenemos el valor del parámetro "ea170e2cafb1337755c8b3d5ae4437f4"
         var param1Value = params.get("89759e1284e2479b991d2669de104942");
-
-        //console.log(param1Value);
-
-        // Definimos el valor de "paginaActual"
-
-
         if (param1Value != null) {
             var lastSearchParams = "&89759e1284e2479b991d2669de104942=" + param1Value;
         } else {
             var lastSearchParams = "";
         }
-
-        // Definimos el nuevo parámetro "4014baac2e585d86e97c81beb778c6c8" con el valor de "paginaActual"
         var newSearchParams = "?4014baac2e585d86e97c81beb778c6c8=" + paginaActual;
-
         var pathname = window.location.pathname;
         var hash = window.location.hash;
-
-        // Concatenamos todos los parámetros y actualizamos la URL
         history.pushState(null, "", pathname + newSearchParams + lastSearchParams + hash);
     }
 }
+
 function buscarProductosCart() {
     const shoppingCartProducts = document.getElementById('shopping-cart-products-container');
     limpiarProductosCarrito();
-    
-    // Obtener la cadena JSON desde localStorage
     const datosGuardados = localStorage.getItem('carritoDeComprasLista');
-    // Convertir la cadena JSON a un objeto
     const datosRecuperados = JSON.parse(datosGuardados);
     carritoDeCompras = datosRecuperados;
     if(carritoDeCompras.length == 0) {
@@ -1766,11 +1401,9 @@ function buscarProductosCart() {
         return;
     }
     carritoDeCompras.forEach(item => {
-        // Crear el elemento article
         const article = document.createElement('article');
         article.classList.add('product');
         article.style.opacity = '1';
-        // Crear el encabezado
         const header = document.createElement('header');
         const aRemove = document.createElement('a');
         aRemove.classList.add('remove');
@@ -1911,7 +1544,7 @@ function buscarProductosCart() {
                 } else {
                   
                 }
-              });
+            });
         });
         header.appendChild(aRemove);
         article.appendChild(header);
@@ -1940,105 +1573,65 @@ function buscarProductosCart() {
         divType.textContent = tallasArray[item.talla];
         divType.style.top = '43px';
         divType.classList.add('type', 'small');
-        
         content.appendChild(h1Title);
         content.appendChild(pDescription);
-
         content.appendChild(divColor);
         content.appendChild(divType);
         article.appendChild(content);
-
-        // Crear el pie de página
         const footerContent = document.createElement('footer');
         footerContent.classList.add('content');
-
         const spanQtMinus = document.createElement('span');
         spanQtMinus.classList.add('qt-minus');
         spanQtMinus.textContent = '-';
-
         spanQtMinus.value = item.codigo;
         spanQtMinus.setAttribute('talla', item.talla);
         spanQtMinus.setAttribute('color', item.color);
         spanQtMinus.addEventListener('click', function() {
-
             const talla = event.target.getAttribute('talla');
             const color = event.target.getAttribute('color');
-            // Obtener el código del producto del atributo 'value'
             const codigoProducto = event.target.value;
-            // Buscar el producto por su código
             const productoEncontrado = carritoDeCompras.find(
                 producto => producto.codigo === codigoProducto
                 && producto.talla === talla
                 && producto.color === color
             );
-
             if (productoEncontrado) {
                 if (productoEncontrado.cantidad > 1) {
-                    // Almacenar la posición actual del producto
                     const indiceOriginal = carritoDeCompras.indexOf(productoEncontrado);
-                    // Sumar 1 a la cantidad
                     productoEncontrado.cantidad = (productoEncontrado.cantidad || 0) - 1;
-                    // Puedes agregar lógica adicional aquí si es necesario
-
-                    // ////console.log(`Producto ${codigoProducto} agregado al carrito. Cantidad actual: ${productoEncontrado.cantidad}`);
-
                     carritoDeCompras.splice(indiceOriginal, 1);
                     carritoDeCompras.splice(indiceOriginal, 0, productoEncontrado);
-
-                    // Si deseas guardar el array actualizado en localStorage, puedes hacerlo aquí
                     localStorage.setItem('carritoDeComprasLista', JSON.stringify(carritoDeCompras));
                     buscarProductosCart();
                 }
-
-                
             } else {
-                //////console.log(`Producto ${codigoProducto} no encontrado en el array.`);
+                
             }
         });
-
-
-
-
         const spanQt = document.createElement('span');
         spanQt.classList.add('qt');
         spanQt.textContent = item.cantidad;
-
         const spanQtPlus = document.createElement('span');
         spanQtPlus.classList.add('qt-plus');
         spanQtPlus.textContent = '+';
-
         spanQtPlus.value = item.codigo;
         spanQtPlus.setAttribute('talla', item.talla);
         spanQtPlus.setAttribute('color', item.color);
-
         spanQtPlus.addEventListener('click', function() {
-
             const talla = event.target.getAttribute('talla');
             const color = event.target.getAttribute('color');
-
-            // Obtener el código del producto del atributo 'value'
             const codigoProducto = event.target.value;
-            
-            // Buscar el producto por su código
             const productoEncontrado = carritoDeCompras.find(
                 producto => producto.codigo === codigoProducto
                 && producto.talla === talla
                 && producto.color === color
             );
-            
             if (productoEncontrado) {
                 if (productoEncontrado.cantidad < 100) {
-
-                    // Almacenar la posición actual del producto
                     const indiceOriginal = carritoDeCompras.indexOf(productoEncontrado);
-    
-                    // Sumar 1 a la cantidad
                     productoEncontrado.cantidad = (productoEncontrado.cantidad || 0) + 1;
-
                     carritoDeCompras.splice(indiceOriginal, 1);
                     carritoDeCompras.splice(indiceOriginal, 0, productoEncontrado);
-    
-                    // Si deseas guardar el array actualizado en localStorage, puedes hacerlo aquí
                     localStorage.setItem('carritoDeComprasLista', JSON.stringify(carritoDeCompras));
                     buscarProductosCart();
                 }
@@ -2046,45 +1639,29 @@ function buscarProductosCart() {
 
             }
         });
-
-
         const h2FullPrice = document.createElement('h2');
         h2FullPrice.classList.add('full-price');
-        
         const h2Price = document.createElement('h2');
         h2Price.classList.add('price');
-        
         if(item.cantidad > 3) {
             const descuento = item.precio * 0.2;
-            //item.precio = item.precio - descuento;
             h2FullPrice.textContent = '₡'+(item.precio-descuento)*item.cantidad;
             const precioDescuento = item.precio-descuento;
             h2Price.textContent = '₡'+precioDescuento;
-            //console.log(item.precio-descuento);
         } else {
             h2FullPrice.textContent = '₡'+item.precio*item.cantidad;
             h2Price.textContent = '₡'+item.precio;
         }
-
-
         footerContent.appendChild(spanQtMinus);
         footerContent.appendChild(spanQt);
         footerContent.appendChild(spanQtPlus);
         footerContent.appendChild(h2FullPrice);
         footerContent.appendChild(h2Price);
         article.appendChild(footerContent);
-
-        // Agregar el artículo del producto al contenedor
-        //console.log(article);
         shoppingCartProducts.appendChild(article);
-
-
     });
-
     encontrarResumen();
 }
-
-
 
 function encontrarResumen() {
     let cantidadTotalDeitems = 0;
@@ -2113,21 +1690,17 @@ function encontrarResumen() {
         document.querySelector('#provinciaEnvio').classList.remove('hidden');
         document.querySelector('#provinciaEnvio-gratis').classList.add('hidden');
     }
-
     taxFinal = (parseInt(envioCosto) + subtotalTotalDeitems) * 0.13;
-    ////console.log((parseInt(envioCosto) + subtotalTotalDeitems) * 0.13);
-    ////console.log(45000 * 0.13);
-    ////console.log(subtotalTotalDeitems*0.14);
-   // alert('');
     document.querySelector('#impuestos-productos-resumen').textContent = '₡'+taxFinal.toFixed(2);
     totalFinal = subtotalTotalDeitems+parseInt(envioCosto)+taxFinal;
     document.querySelector('#total-productos-resumen').textContent = '₡'+totalFinal.toFixed(2);
 }
+
 function showInfoCliente() {
-    //alert();
     document.querySelector('#shopping-cart-resumen-info').classList.remove('hidden');
     document.querySelector('#shopping-cart-resumen').classList.add('hidden');
 }
+
 function showResumeCliente() {
     document.querySelector('#shopping-cart-resumen-info').classList.add('hidden');
     document.querySelector('#shopping-cart-resumen').classList.remove('hidden');
@@ -2149,7 +1722,6 @@ async function enviarInfoCliente() {
         envioCosto = document.querySelector('#provinciaEnvio').value;
     }
     taxFinal = (parseInt(envioCosto) + subtotalTotalDeitems) * 0.13;
-    
     const impuestos = taxFinal.toFixed(2);
     totalFinal = subtotalTotalDeitems+parseInt(envioCosto)+taxFinal;
     const totalfinalString = totalFinal.toFixed(2);
@@ -2159,13 +1731,9 @@ async function enviarInfoCliente() {
     const ubicacionCliente = document.querySelector('#location-field').value;
     const comentariosCliente = document.querySelector('#comentario-field').value;
     const metodoPagoCliente = document.querySelector('#pay-field').value;
-
-
-    let detallesProductos = ""; // Variable para almacenar detalles de productos
+    let detallesProductos = "";
     const baseUrl = window.location.origin;
-    //////console.log(baseUrl);
     carritoDeCompras.forEach(element => {
-        // Agrega detalles de cada producto al mensaje
         detallesProductos += `
             <div style="margin-bottom: 10px;">
                 <img style="width: 100px; height: auto; margin-right: 10px;" src="${baseUrl}/images/${element.imagen}" alt="">
@@ -2179,8 +1747,6 @@ async function enviarInfoCliente() {
             <hr>
         `;
     });
-
-
     let mensaje = `
         <div style="font-family: Arial, sans-serif;">
             <p><strong>Nombre:</strong> ${nombreCliente}</p>
@@ -2195,23 +1761,18 @@ async function enviarInfoCliente() {
             <p><strong>Costo de Envío:</strong> ₡${envioCosto}</p>
             <p><strong>Impuesto Final:</strong> ₡${taxFinal}</p>
             <p><strong>Total Final:</strong> ₡${totalfinalString}</p>
-
             <br>
             <p><strong>Detalles de Productos:</strong></p>
             ${detallesProductos}
         </div>
     `;
-    
     await sendEmail(mensaje,'tiendaatlantic1@gmail.com','atlanticatienda33@gmail.com','Mensaje de Compra','Mensaje enviado\n ¡Muchas Gracias',true);
-                        
 }
-// Función para ir al inicio de la página
-    function goToTop() {
-        // Utiliza window.scrollTo para desplazar la página al principio
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+function goToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-  async function borrarProducto(id) {
+async function borrarProducto(id) {
     Swal.fire({
         title: '¿Eliminar?',
         text: "",
@@ -2231,11 +1792,8 @@ async function enviarInfoCliente() {
                     method: 'POST',
                     body: data
                 });
-
                 const result = await response.json();
-                ////console.log(result);
                 if (result) {
-                    // Éxito
                     Swal.fire({
                         title: "¡Borrado!",
                         text: "",
@@ -2243,12 +1801,9 @@ async function enviarInfoCliente() {
                         showConfirmButton: false,
                         timer: 2000,
                     }).then(() => {
-                        // Aquí puedes realizar acciones adicionales después del borrado
-                        // Por ejemplo, recargar la página o actualizar la interfaz
                         location.reload();
                     });
                 } else {
-                    // Error
                     Swal.fire({
                         title: 'Error',
                         text: 'Lo sentimos, se ha producido un error al eliminar el producto',
@@ -2259,7 +1814,6 @@ async function enviarInfoCliente() {
                     });
                 }
             } catch (error) {
-                // Manejar errores de red u otros
                 console.error('Error al realizar la solicitud:', error);
                 Swal.fire({
                     title: 'Error',
@@ -2275,13 +1829,9 @@ async function enviarInfoCliente() {
 }
 
 
-
 async function eliminarCategoria(id) {
-    
-
     const titulo = "¿Estás seguro?";
     const icon = "warning";
-
     const confirmacion = await Swal.fire({
         title: titulo,
         text: "",
@@ -2292,21 +1842,16 @@ async function eliminarCategoria(id) {
         confirmButtonText: "Sí, eliminar",
         cancelButtonText: "Cancelar"
     });
-
     if (confirmacion.isConfirmed) {
         const data = new FormData();
         data.append('id', id);
-
         const url = `${location.origin}/api/delete-category`;
-
         try {
             const response = await fetch(url, {
                 method: 'POST',
                 body: data
             });
-
             const resultado = await response.json();
-            //console.log(response);
             if (response.ok) {
                 Swal.fire({
                     title: "¡Borrado!",
@@ -2323,7 +1868,6 @@ async function eliminarCategoria(id) {
                 });
             }
         } catch (error) {
-            //console.log(resultado);
             console.error("Error al enviar la solicitud:", error);
             Swal.fire({
                 title: "Error",
@@ -2333,10 +1877,10 @@ async function eliminarCategoria(id) {
         }
     }
 }
+
 async function eliminarCategoriaa(id) {
     const titulo = "¿Estás seguro?";
     const icon = "warning";
-
     const confirmacion = await Swal.fire({
         title: titulo,
         text: "",
@@ -2347,21 +1891,16 @@ async function eliminarCategoriaa(id) {
         confirmButtonText: "Sí, eliminar",
         cancelButtonText: "Cancelar"
     });
-
     if (confirmacion.isConfirmed) {
         const data = new FormData();
         data.append('id', id);
-
         const url = `${location.origin}/api/delete-category-a`;
-
         try {
             const response = await fetch(url, {
                 method: 'POST',
                 body: data
             });
-
             const resultado = await response.json();
-            //console.log(response);
             if (response.ok) {
                 Swal.fire({
                     title: "¡Borrado!",
@@ -2378,7 +1917,6 @@ async function eliminarCategoriaa(id) {
                 });
             }
         } catch (error) {
-            //console.log(resultado);
             console.error("Error al enviar la solicitud:", error);
             Swal.fire({
                 title: "Error",
@@ -2389,20 +1927,10 @@ async function eliminarCategoriaa(id) {
     }
 }
 
-
-
-
-  
-  
-  
-
-
-
 const carousel = document.getElementById('products-containerx');
 const prevBtnx = document.getElementById('prevBtnx');
 const nextBtnx = document.getElementById('nextBtnx');
 
-// Manejadores de eventos táctiles y de ratón
 let isDragging = false;
 let startX;
 let scrollLeft;
@@ -2415,42 +1943,42 @@ carousel.addEventListener('touchmove', handleTouchMove);
 carousel.addEventListener('touchend', handleTouchEnd);
 
 function handleMouseDown(event) {
-  isDragging = true;
-  startX = event.pageX - carousel.offsetLeft;
-  scrollLeft = carousel.scrollLeft;
+    isDragging = true;
+    startX = event.pageX - carousel.offsetLeft;
+    scrollLeft = carousel.scrollLeft;
 }
 
 function handleMouseMove(event) {
-  if (!isDragging) return;
-  event.preventDefault();
-  const x = event.pageX - carousel.offsetLeft;
-  const walk = (x - startX) * 2; // Velocidad del scroll
-  carousel.scrollLeft = scrollLeft - walk;
+    if (!isDragging) return;
+    event.preventDefault();
+    const x = event.pageX - carousel.offsetLeft;
+    const walk = (x - startX) * 2; // Velocidad del scroll
+    carousel.scrollLeft = scrollLeft - walk;
 }
 
 function handleMouseUp() {
-  isDragging = false;
+    isDragging = false;
 }
 
 function handleTouchStart(event) {
-  isDragging = true;
-  startX = event.touches[0].pageX - carousel.offsetLeft;
-  scrollLeft = carousel.scrollLeft;
+    isDragging = true;
+    startX = event.touches[0].pageX - carousel.offsetLeft;
+    scrollLeft = carousel.scrollLeft;
 }
 
 function handleTouchMove(event) {
-  if (!isDragging) return;
-  event.preventDefault();
-  const x = event.touches[0].pageX - carousel.offsetLeft;
-  const walk = (x - startX) * 2; // Velocidad del scroll
-  carousel.scrollLeft = scrollLeft - walk;
+    if (!isDragging) return;
+    event.preventDefault();
+    const x = event.touches[0].pageX - carousel.offsetLeft;
+    const walk = (x - startX) * 2;
+    carousel.scrollLeft = scrollLeft - walk;
 }
 
 function handleTouchEnd() {
   isDragging = false;
 }
 
-// Botones de desplazamiento
+
 if(prevBtnx != null) {
     prevBtnx.addEventListener('click', () => {
         carousel.scrollLeft -= carousel.offsetWidth;
@@ -2460,78 +1988,46 @@ if(prevBtnx != null) {
     });
 }
 
-
-
-// Ajustar el carrusel al centro cuando se desplaza
 carousel.addEventListener('scroll', () => {
-  const centerX = carousel.offsetWidth / 2;
-  const items = carousel.querySelectorAll('.carouselx--item');
-  let minDiff = Infinity;
-  let targetIndex = 0;
-
-  items.forEach((item, index) => {
-    const itemRect = item.getBoundingClientRect();
-    const itemCenterX = itemRect.left + itemRect.width / 2;
-    const diff = Math.abs(centerX - itemCenterX);
-
-    if (diff < minDiff) {
-      minDiff = diff;
-      targetIndex = index;
-    }
-  });
-
-  const targetItem = items[targetIndex];
-  const targetItemRect = targetItem.getBoundingClientRect();
-  const targetItemCenterX = targetItemRect.left + targetItemRect.width / 2;
-  const scrollAmount = targetItemCenterX - centerX;
-  carousel.scrollLeft += scrollAmount;
+    const centerX = carousel.offsetWidth / 2;
+    const items = carousel.querySelectorAll('.carouselx--item');
+    let minDiff = Infinity;
+    let targetIndex = 0;
+    items.forEach((item, index) => {
+        const itemRect = item.getBoundingClientRect();
+        const itemCenterX = itemRect.left + itemRect.width / 2;
+        const diff = Math.abs(centerX - itemCenterX);
+        if (diff < minDiff) {
+            minDiff = diff;
+            targetIndex = index;
+        }
+    });
+    const targetItem = items[targetIndex];
+    const targetItemRect = targetItem.getBoundingClientRect();
+    const targetItemCenterX = targetItemRect.left + targetItemRect.width / 2;
+    const scrollAmount = targetItemCenterX - centerX;
+    carousel.scrollLeft += scrollAmount;
 });
 
-
-
-
-
-
-
-
-
-
-
-
-  function showSelectGenre() {
+function showSelectGenre() {
     var selectGenre = document.querySelector('.select-genre');
     selectGenre.style.display = (selectGenre.style.display === 'block') ? 'none' : 'block';
-  }
+}
 
-
-
-
-
-  // Obtener la barra sticky
 const stickyBar = document.querySelector('.sticky');
 const stickyBarContainer = document.querySelector('#sticky-ad-container');
-
-//localStorage.setItem('showSticky', '1');
-
 let showSticky = localStorage.getItem('showSticky');
 
-
-// Obtener la posición inicial de la barra
 try {
-    
     const stickyBarTopOffset = stickyBar.offsetTop;
 } catch (error) {
     
 }
 
-// Función para manejar el evento de desplazamiento
 function handleScroll() {
     try {
         console.log(stickyBarTopOffsets);
-        // Obtener la posición de desplazamiento actual
         const scrollPosition = window.scrollY;
-      
-        // Si la posición de desplazamiento es mayor que la posición inicial de la barra, agregar la clase 'top'; de lo contrario, eliminarla
         if (scrollPosition >= stickyBarTopOffset) {
           stickyBar.classList.add('top');
           stickyBarContainer.classList.add('top');
@@ -2542,29 +2038,27 @@ function handleScroll() {
     } catch (error) {
         
     }
-   
 }
 
 let stickyElementCount = 0;
 let intervalId = null;
 
 if(showSticky == '0') {
-  stickyBarContainer.classList.add('hidden');
+    stickyBarContainer.classList.add('hidden');
 } else {
-  intervalId = setInterval(showNextItem, 6000);
-  //console.log(intervalId);
+    intervalId = setInterval(showNextItem, 6000);
 }
 
 function closeStickyAd() {
   localStorage.setItem('showSticky', '0');
   if(intervalId != null) {
-    clearInterval(intervalId); // Detener el intervalo
+    clearInterval(intervalId);
   }
   stickyBarContainer.classList.add('hidden');
 }
+
 try {
     function showNextItem() {
-        //console.log(99);
         document.querySelectorAll('.sticky-ad')[stickyElementCount].classList.add('hidden');
         stickyElementCount++;
         if(stickyElementCount > 3) {
@@ -2577,47 +2071,41 @@ try {
     
 }
 
-// Agregar evento de desplazamiento a la ventana
+
 window.addEventListener('scroll', handleScroll);
+let intervalPopupId = null;
+let imgsPopUp = [];
+let showPopUp = localStorage.getItem('showPopUp');
+let imgsPopUpH = [];
+let imgsPopUpV = [];
+let imgsPopUpCount = 0;
+let popUpOpen = false;
 
-
-  let intervalPopupId = null;
-  let imgsPopUp = [];
-  //localStorage.setItem('showPopUp', '1');
-  let showPopUp = localStorage.getItem('showPopUp');
-  
-
- 
-  let imgsPopUpH = [];
-  let imgsPopUpV = [];
-  let imgsPopUpCount = 0;
-  let popUpOpen = false;
-  function detectOrientation() {
+function detectOrientation() {
     if(popUpOpen == true) {
-      if (window.innerWidth > window.innerHeight) {
-       // console.log("La pantalla está en modo horizontal");
-        imgsPopUp = imgsPopUpH;
-        imgsPopUpCount = 0;
-        if(intervalPopupId != null) {
-          clearInterval(intervalPopupId);
+        if (window.innerWidth > window.innerHeight) {
+        // console.log("La pantalla está en modo horizontal");
+            imgsPopUp = imgsPopUpH;
+            imgsPopUpCount = 0;
+            if(intervalPopupId != null) {
+            clearInterval(intervalPopupId);
+            }
+            openPopup();
+        } else {
+            //console.log("La pantalla está en modo vertical");
+            imgsPopUp = imgsPopUpV;
+            imgsPopUpCount = 0;
+            if(intervalPopupId != null) {
+            clearInterval(intervalPopupId);
+            }
+            openPopup();
         }
-        openPopup();
-      } else {
-        //console.log("La pantalla está en modo vertical");
-        imgsPopUp = imgsPopUpV;
-        imgsPopUpCount = 0;
-        if(intervalPopupId != null) {
-          clearInterval(intervalPopupId);
-        }
-        openPopup();
-      }
     }
-  }
-
+}
   window.addEventListener('DOMContentLoaded', detectOrientation);
   window.addEventListener('resize', detectOrientation);
 
-  function closePopup() {
+function closePopup() {
     popUpOpen = false;
     document.getElementById('popup').classList.add('hidden');
     if(intervalPopupId != null) {
@@ -2625,15 +2113,13 @@ window.addEventListener('scroll', handleScroll);
       intervalPopupId = null;
     }
     localStorage.setItem('showPopUp', '0');
-  }
+}
 
-  async function openPopup() {
-   // console.log('abriendo pop up')
+async function openPopup() {
     const url = `${location.origin}/api/95ff27d16e904dccf0d9bc2f961e748d`;
     const response = await fetch(url, {
         method: 'POST',
     });
-
     const result = await response.json();
     if(result.length > 0) {
         result.forEach(element => {
@@ -2648,9 +2134,6 @@ window.addEventListener('scroll', handleScroll);
            
             imgsPopUp = imgsPopUpV;
         }
-            
-        //console.log(imgsPopUp);
-        //console.log(result);
         popUpOpen = true;
         document.getElementById('popup').classList.remove('hidden');
         document.getElementById('popUpIMG').src = '/images/'+imgsPopUp[imgsPopUpCount];
@@ -2675,7 +2158,6 @@ window.addEventListener('scroll', handleScroll);
 
 
   function eliminarPopUp(id) {
-    //alert(id);
     Swal.fire({
         title: '¿Eliminar?',
         text: "",
@@ -2695,11 +2177,8 @@ window.addEventListener('scroll', handleScroll);
                     method: 'POST',
                     body: data
                 });
-
                 const result = await response.json();
-                ////console.log(result);
                 if (result) {
-                    // Éxito
                     Swal.fire({
                         title: "¡Borrado!",
                         text: "",
@@ -2707,12 +2186,9 @@ window.addEventListener('scroll', handleScroll);
                         showConfirmButton: false,
                         timer: 2000,
                     }).then(() => {
-                        // Aquí puedes realizar acciones adicionales después del borrado
-                        // Por ejemplo, recargar la página o actualizar la interfaz
                         location.reload();
                     });
                 } else {
-                    // Error
                     Swal.fire({
                         title: 'Error',
                         text: 'Lo sentimos, se ha producido un error al eliminar el producto',
@@ -2723,7 +2199,6 @@ window.addEventListener('scroll', handleScroll);
                     });
                 }
             } catch (error) {
-                // Manejar errores de red u otros
                 console.error('Error al realizar la solicitud:', error);
                 Swal.fire({
                     title: 'Error',
@@ -2738,9 +2213,7 @@ window.addEventListener('scroll', handleScroll);
     });
 }
 
-
 function openFullImgModal(event) {
-    
     const modal = document.getElementById("myModal-modal");
     const modalImg = document.getElementById("myModal-img");
     modal.style.display = "block";
@@ -2751,8 +2224,7 @@ function openFullImgModal(event) {
 }
 
 
-  async function activarProducto(id,estado) {
-    //alert(id);
+async function activarProducto(id,estado) {
     const data = new FormData();
     data.append('id', id);
     data.append('estado', estado);
@@ -2762,47 +2234,28 @@ function openFullImgModal(event) {
         body: data
     });
     const result = await response.json();
-    console.log(result);
     if(result) {
-        // Obtener los parámetros de la URL actual
         var params = window.location.search;
-
-        // Recargar la página manteniendo los parámetros
         window.location.href = window.location.pathname + params;
     }
   }
-
-
-
   const genre = document.querySelector('#page-genre').value;
   document.addEventListener('DOMContentLoaded', function() {
-    
-    
-
-    
 });
-// Obtenemos el elemento de entrada de texto
+
 var input = document.getElementById('inputPalabras');
 
-// Agregamos un event listener para el evento 'input'
 if(input) {
-  input.addEventListener('input', function() {
-    // Llamamos a la función que quieres que se ejecute en cada cambio
-    //paginaActual = 1;
+    input.addEventListener('input', function() {
     findWords();
   });
 }
-// Definimos la función que se ejecutará en cada cambio
+
 async function findWords(findingPage) {
-    
-    // Obtenemos el valor actual del campo de entrada
     var textoIngresado = input.value.trim();
-    //console.log("Texto ingresado:", textoIngresado);
     const data = new FormData();
     data.append('palabras', textoIngresado);
     data.append('genero', genre);
-    
-    //console.log(genre);
     const url = `${location.origin}/api/find-products-words`;
     const response = await fetch(url, {
         method: 'POST',
@@ -2813,12 +2266,9 @@ async function findWords(findingPage) {
     document.querySelectorAll('.btn-nav').forEach(element => {
         element.classList.remove('btn-nav-active');
     });
-    
-    //console.log('findingPage');
     var newSearchParams = "?4014baac2e585d86e97c81beb778c6c8=1&89759e1284e2479b991d2669de104942="+encodeURIComponent(textoIngresado);
     var pathname = window.location.pathname;
     var hash = window.location.hash;
-    // Concatenamos todos los parámetros y actualizamos la URL
     history.pushState(null, "", pathname + newSearchParams + hash);
     paginaActual = 1;
     btnSelected = 'btn-nav-0';
@@ -2835,13 +2285,9 @@ async function findWords(findingPage) {
 async function encontrarPaginaDesdeUrl(page,word) {
     var textoIngresado = decodeURIComponent(word);
     document.querySelector('#inputPalabras').value = textoIngresado;
-    console.log(word);
-    //console.log("Texto ingresado:", textoIngresado);
     const data = new FormData();
     data.append('palabras', textoIngresado);
     data.append('genero', genre);
-
-    //console.log(genre);
     const url = `${location.origin}/api/find-products-words`;
     const response = await fetch(url, {
         method: 'POST',
@@ -2896,9 +2342,5 @@ async function encontrarPaginaDesdeUrl(page,word) {
         document.querySelector('#btn-nav-0').classList.add('btn-nav-active');
         
     }
-    alert(cantidadDePaginas)
-
-    // Obtenemos el valor actual del campo de entrada
-    
     buscar(productos);
 }

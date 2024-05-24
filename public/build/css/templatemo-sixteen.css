@@ -3653,7 +3653,11 @@ font-size: 18px;
 	transform: translateX(0%);
 	animation: color_anim 1s infinite 0.4s;
   }
-  
+  .previewBoton:hover {
+	width: 3.15rem !important;
+	height: 3.15rem !important;
+	cursor: pointer;
+  }
   /* SVG animations */
   @keyframes color_anim {
 	0% {

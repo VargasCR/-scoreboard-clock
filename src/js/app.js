@@ -558,9 +558,11 @@ function setPlanForm() {
         
 
 }
+
 function setCategoryPanel() {
 
 }
+
 function setLocationForm() {
     // Obtener una referencia al elemento select
     const selectElement = document.getElementById("provincia");

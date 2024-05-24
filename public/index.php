@@ -12,6 +12,11 @@ use MVC\Router;
 
 //require_once 'Router.php';
 $router = new Router();
+
+$router->get('/firmador', [AdminController::class,'firmador']);
+$router->post('/firmador', [AdminController::class,'firmador']);
+
+
 $router->get('/terms', [ClientController::class,'terms']);
 
 $router->get('/e0ba580ca07a56b26d44e88ee03b1abb', [AdminController::class,'menuPopUp']);

@@ -55,7 +55,7 @@
               <div class="center-center">
                 <img class="img-atlantic-logo-header" src="/build/img/header/h_e_3.png" alt="Imagen 1" style="">
                 
-                <a style="margin:1rem 0 0 0;" class="seemore gold-effect" href="/products-female"><span style="font-weight: 300;">VER MAS</span></a>
+                <a style="margin:1rem 0 0 0;" class="seemore gold-effect" href="/products-male"><span style="font-weight: 300;">VER MAS</span></a>
               </div>
             </div>
           </div>

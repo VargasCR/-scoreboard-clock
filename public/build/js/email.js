@@ -26,7 +26,8 @@ async function findMessageContact(event) {
         
     }
 }
-async function findMessageContact() {
+ 
+async function sendAlert() {
     const mensaje = "Botón whatsapp clickeado";
     await sendEmail(mensaje,'tiendaatlantic1@gmail.com','atlanticatienda33@gmail.com','Botón whatsapp clickeado');
 }
@@ -98,7 +99,7 @@ async function sendSuscribeEmail() {
     }
 }
 async function borrarSuscriptor(id) {
-    alert(id);
+    //alert(id);
 
     const titulo = "¿Estás seguro?";
     const icon = "warning";

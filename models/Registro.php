@@ -1,5 +1,8 @@
 <?php
 namespace Model;
+
+use DateInterval;
+use DateTime;
 use setasign\Fpdi\Fpdi;
 class Registro extends ActiveRecord {
     // Base de Datos
@@ -26,6 +29,29 @@ class Registro extends ActiveRecord {
  
     }
     
+
+    public function calcularHorasTrabajadasLocal($fechaEntrada, $horaEntrada, $fechaSalida, $horaSalida)
+{
+    $fechaEntradaObj = new DateTime($fechaEntrada . ' ' . $horaEntrada);
+    $fechaSalidaObj = new DateTime($fechaSalida . ' ' . $horaSalida);
+
+    // Verificar si la fecha de salida es menor que la fecha de entrada (al día siguiente)
+    if ($fechaSalidaObj < $fechaEntradaObj) {
+        // Sumar un día a la fecha de salida
+        $fechaSalidaObj->add(new DateInterval('P1D'));
+    }
+
+    // Calcular la diferencia de tiempo normalmente
+    $intervalo = $fechaEntradaObj->diff($fechaSalidaObj);
+
+    // Convertir días a horas
+    $horas = $intervalo->days * 24 + $intervalo->h;
+    $minutos = $intervalo->i;
+    
+    return ['horas' => $horas, 'minutos' => $minutos];
+}
+
+
     public function crearPDFreport($registros,$empleado,$totalSalario,$totalHoras) {
         //debuguear($totalSalario);
         // Array de registros
@@ -40,7 +66,7 @@ class Registro extends ActiveRecord {
 
         // Encabezado
         $pdf->SetFont('Arial', 'B', 11);
-        $pdf->MultiCell(0, 6, utf8_decode('Nombre de empleado: '.$empleado->nombre.' '.$empleado->apellido));
+        $pdf->MultiCell(0, 6, 'Nombre de empleado: '.$empleado->nombre.' '.$empleado->apellido);
         $pdf->MultiCell(0, 6, 'Cedula: '.$empleado->dni);
         $pdf->MultiCell(0, 6, 'Pago x hora: c'.$empleado->salario);
         $pdf->MultiCell(0, 6, '');
@@ -62,34 +88,21 @@ class Registro extends ActiveRecord {
            $total_horas = 0;
            //$pdf->Cell(25, 10, $registro->id, 1);
            //$pdf->Cell(25, 10, $registro->idempleado, 1);
-           
+           $total_horas = self::calcularHorasTrabajadasLocal($registro->fechaEntrada, $registro->horaEntrada, $registro->fechaSalida, $registro->horaSalida);
            
            $pdf->SetX(40); // Modifica el valor según sea necesario para centrar la tabla
-            // Separar horas y minutos de la hora de entrada
-            $entrada_parts = explode(':', $registro->horaEntrada);
-            $entrada_horas = intval($entrada_parts[0]);
-            $entrada_minutos = intval($entrada_parts[1]);
-
-            // Separar horas y minutos de la hora de salida
-            $salida_parts = explode(':', $registro->horaSalida);
-            $salida_horas = intval($salida_parts[0]);
-            $salida_minutos = intval($salida_parts[1]);
-
-            // Calcular la diferencia de tiempo en minutos
-            $diferencia_minutos = ($salida_horas * 60 + $salida_minutos) - ($entrada_horas * 60 + $entrada_minutos);
-
-            // Convertir la diferencia de minutos a horas
-            $diferencia_horas = number_format($diferencia_minutos / 60, 3);
-
-            // Sumar la diferencia al total de horas trabajadas
-            $total_horas += $diferencia_horas;
-
+           if($total_horas['minutos'] > 0){
+               $horas_totales = $total_horas['horas'].' horas y '.$total_horas['minutos'].' minutos';
+           } else {
+            $horas_totales = $total_horas['horas'].' horas';
+           }
+          // debuguear($horas_totales);
             
             $pdf->Cell(30, 10, $registro->fechaEntrada, 1);
             $pdf->Cell(25, 10, $registro->horaEntrada, 1);
             $pdf->Cell(30, 10, $registro->fechaSalida, 1);
             $pdf->Cell(25, 10, $registro->horaSalida, 1);
-            $pdf->Cell(30, 10, $total_horas, 1);
+            $pdf->Cell(30, 10, $horas_totales, 1);
             //$pdf->Cell(20, 10, $registro->horasExtra, 1);
             $pdf->Ln();
         }
