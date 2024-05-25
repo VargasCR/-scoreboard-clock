@@ -2243,16 +2243,20 @@ async function activarProducto(id,estado) {
   document.addEventListener('DOMContentLoaded', function() {
 });
 
-var input = document.getElementById('inputPalabras');
+/*
 
-if(input) {
-    input.addEventListener('input', function() {
+var inputd = document.getElementById('inputPalabras');
+
+if(inputd) {
+    inputd.addEventListener('input', function() {
     findWords();
   });
 }
-
-async function findWords(findingPage) {
-    var textoIngresado = input.value.trim();
+*/
+async function findWords() {
+    const inputd = document.getElementById('inputPalabras');
+    const textoIngresado = inputd.value;
+    //console.log(textoIngresado)
     const data = new FormData();
     data.append('palabras', textoIngresado);
     data.append('genero', genre);
@@ -2262,7 +2266,6 @@ async function findWords(findingPage) {
         body: data
     });
     productos = await response.json();
-
     document.querySelectorAll('.btn-nav').forEach(element => {
         element.classList.remove('btn-nav-active');
     });

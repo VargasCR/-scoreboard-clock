@@ -11,7 +11,7 @@
 <div style="width: 100%;display:flex;justify-content:center;align-items:center;">
   <div class="custom-select-container" id="custom-select-container">
     <h3 style="width: 100%;text-align:center;margin:0;">BUSCAR</h3>
-    <input id="inputPalabras" type="text" placeholder="Palabras de busqueda..." class="form-control" style="width: 100%;margin-top:0;">
+    <input oninput="findWords()" id="inputPalabras" type="text" placeholder="Palabras de busqueda..." class="form-control" style="width: 100%;margin-top:0;">
   </div>
 </div>
   <!-- Carrusel de imágenes -->
