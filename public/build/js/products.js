@@ -2239,8 +2239,10 @@ async function activarProducto(id,estado) {
         window.location.href = window.location.pathname + params;
     }
   }
-  const genre = document.querySelector('#page-genre').value;
+
+  
   document.addEventListener('DOMContentLoaded', function() {
+
 });
 
 /*
@@ -2255,6 +2257,7 @@ if(inputd) {
 */
 async function findWords() {
     const inputd = document.getElementById('inputPalabras');
+    const genre = document.querySelector('#page-genre').value;
     const textoIngresado = inputd.value;
     //console.log(textoIngresado)
     const data = new FormData();
