@@ -1373,7 +1373,5 @@ function showResume() {
         if (result.isConfirmed) {
             createToken()
         }
-      })
- }
-
-
+    })
+}

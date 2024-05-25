@@ -607,6 +607,7 @@ async function createProduct() {
         result.forEach(product => {
             const productContainerSlider = document.createElement("div");
             productContainerSlider.classList.add('carouselx--item');
+            productContainerSlider.classList.add('carouselxItem');
             const productContainer = document.createElement("div");
             productContainer.classList.add('productContainerNew');
             const productItem = document.createElement("div");
@@ -721,6 +722,7 @@ async function createProduct() {
         });
     }
     encontrarProductosEnCarrito();
+    hiddeNewProducts();
 }
 
 function imageZoom(imgID, resultID) {
@@ -1927,88 +1929,88 @@ async function eliminarCategoriaa(id) {
     }
 }
 
-const carousel = document.getElementById('products-containerx');
-const prevBtnx = document.getElementById('prevBtnx');
-const nextBtnx = document.getElementById('nextBtnx');
-
-let isDragging = false;
-let startX;
-let scrollLeft;
-
-carousel.addEventListener('mousedown', handleMouseDown);
-carousel.addEventListener('mousemove', handleMouseMove);
-carousel.addEventListener('mouseup', handleMouseUp);
-carousel.addEventListener('touchstart', handleTouchStart);
-carousel.addEventListener('touchmove', handleTouchMove);
-carousel.addEventListener('touchend', handleTouchEnd);
-
-function handleMouseDown(event) {
-    isDragging = true;
-    startX = event.pageX - carousel.offsetLeft;
-    scrollLeft = carousel.scrollLeft;
-}
-
-function handleMouseMove(event) {
-    if (!isDragging) return;
-    event.preventDefault();
-    const x = event.pageX - carousel.offsetLeft;
-    const walk = (x - startX) * 2; // Velocidad del scroll
-    carousel.scrollLeft = scrollLeft - walk;
-}
-
-function handleMouseUp() {
-    isDragging = false;
-}
-
-function handleTouchStart(event) {
-    isDragging = true;
-    startX = event.touches[0].pageX - carousel.offsetLeft;
-    scrollLeft = carousel.scrollLeft;
-}
-
-function handleTouchMove(event) {
-    if (!isDragging) return;
-    event.preventDefault();
-    const x = event.touches[0].pageX - carousel.offsetLeft;
-    const walk = (x - startX) * 2;
-    carousel.scrollLeft = scrollLeft - walk;
-}
-
-function handleTouchEnd() {
-  isDragging = false;
-}
 
 
-if(prevBtnx != null) {
-    prevBtnx.addEventListener('click', () => {
-        carousel.scrollLeft -= carousel.offsetWidth;
+
+    //carouselx--item
+/*
+    let isDragging = false;
+    let startX;
+    let scrollLeft;
+
+    carousel.addEventListener('mousedown', handleMouseDown);
+    carousel.addEventListener('mousemove', handleMouseMove);
+    carousel.addEventListener('mouseup', handleMouseUp);
+    carousel.addEventListener('touchstart', handleTouchStart);
+    carousel.addEventListener('touchmove', handleTouchMove);
+    carousel.addEventListener('touchend', handleTouchEnd);
+
+    function handleMouseDown(event) {
+        isDragging = true;
+        startX = event.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+    }
+
+    function handleMouseMove(event) {
+        if (!isDragging) return;
+        event.preventDefault();
+        const x = event.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 2; // Ajusta la velocidad del scroll
+        carousel.scrollLeft = scrollLeft - walk;
+    }
+
+    function handleMouseUp() {
+        isDragging = false;
+    }
+
+    function handleTouchStart(event) {
+        isDragging = true;
+        startX = event.touches[0].pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+    }
+
+    function handleTouchMove(event) {
+        if (!isDragging) return;
+        event.preventDefault();
+        const x = event.touches[0].pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 2; // Ajusta la velocidad del scroll
+        carousel.scrollLeft = scrollLeft - walk;
+    }
+
+    function handleTouchEnd() {
+        isDragging = false;
+    }
+
+    if (prevBtnx != null && nextBtnx != null) {
+        prevBtnx.addEventListener('click', () => {
+            carousel.scrollLeft -= carousel.offsetWidth;
+        });
+        nextBtnx.addEventListener('click', () => {
+            carousel.scrollLeft += carousel.offsetWidth;
+        });
+    }
+
+    carousel.addEventListener('scroll', () => {
+        const centerX = carousel.offsetWidth / 2;
+        const items = carousel.querySelectorAll('.carouselx--item');
+        let minDiff = Infinity;
+        let targetIndex = 0;
+        items.forEach((item, index) => {
+            const itemRect = item.getBoundingClientRect();
+            const itemCenterX = itemRect.left + itemRect.width / 2;
+            const diff = Math.abs(centerX - itemCenterX);
+            if (diff < minDiff) {
+                minDiff = diff;
+                targetIndex = index;
+            }
+        });
+        const targetItem = items[targetIndex];
+        const targetItemRect = targetItem.getBoundingClientRect();
+        const targetItemCenterX = targetItemRect.left + targetItemRect.width / 2;
+        const scrollAmount = targetItemCenterX - centerX;
+        carousel.scrollLeft += scrollAmount;
     });
-    nextBtnx.addEventListener('click', () => {
-        carousel.scrollLeft += carousel.offsetWidth;
-    });
-}
-
-carousel.addEventListener('scroll', () => {
-    const centerX = carousel.offsetWidth / 2;
-    const items = carousel.querySelectorAll('.carouselx--item');
-    let minDiff = Infinity;
-    let targetIndex = 0;
-    items.forEach((item, index) => {
-        const itemRect = item.getBoundingClientRect();
-        const itemCenterX = itemRect.left + itemRect.width / 2;
-        const diff = Math.abs(centerX - itemCenterX);
-        if (diff < minDiff) {
-            minDiff = diff;
-            targetIndex = index;
-        }
-    });
-    const targetItem = items[targetIndex];
-    const targetItemRect = targetItem.getBoundingClientRect();
-    const targetItemCenterX = targetItemRect.left + targetItemRect.width / 2;
-    const scrollAmount = targetItemCenterX - centerX;
-    carousel.scrollLeft += scrollAmount;
-});
-
+*/
 function showSelectGenre() {
     var selectGenre = document.querySelector('.select-genre');
     selectGenre.style.display = (selectGenre.style.display === 'block') ? 'none' : 'block';
@@ -2349,4 +2351,47 @@ async function encontrarPaginaDesdeUrl(page,word) {
         
     }
     buscar(productos);
+}
+
+var carousel = document.getElementById('products-containerx');
+var prevBtnx = document.getElementById('prevBtnx');
+var nextBtnx = document.getElementById('nextBtnx');
+var mostrandoCarouselItem = 0;
+var caroulsexItems = document.getElementsByClassName('carouselxItem');
+
+async function hiddeNewProducts() {
+    if (prevBtnx != null && nextBtnx != null) {
+        if(caroulsexItems.length > 3) {
+            for (let index = 0; index < caroulsexItems.length; index++) {
+                if(index > 2) {
+                    const element = caroulsexItems[index];
+                    element.classList.add('hidden');
+                }
+            }
+        }
+
+        prevBtnx.addEventListener('click', () => {
+            if(mostrandoCarouselItem > 0) {
+                try {
+                    caroulsexItems[mostrandoCarouselItem - 1].classList.remove('hidden');
+                    caroulsexItems[mostrandoCarouselItem - 3].classList.add('hidden');
+                } catch (error) {
+                    
+                }
+                mostrandoCarouselItem--;
+            }
+        });
+        
+        nextBtnx.addEventListener('click', () => {
+            if(mostrandoCarouselItem + 3 < caroulsexItems.length) {
+                try {
+                    caroulsexItems[mostrandoCarouselItem + 3].classList.remove('hidden');
+                    caroulsexItems[mostrandoCarouselItem].classList.add('hidden');
+                } catch (error) {
+                    
+                }
+                mostrandoCarouselItem++;
+            }
+        });
+    }
 }
