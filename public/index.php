@@ -138,6 +138,8 @@ $router->post('/api/new-suscribe', [APIController::class,'addNewSuscribe']);
 $router->post('/api/delete-suscribe', [APIController::class,'deleteSuscriptor']);
 //$router->get('/date', [DateController::class,'index']);
 
+$router->get('/Y2hhbmdlUGFzc3dvcmQ', [LoginController::class,'changePassword']);
+$router->post('/Y2hhbmdlUGFzc3dvcmQ', [LoginController::class,'changePassword']);
 
 
 //service crud

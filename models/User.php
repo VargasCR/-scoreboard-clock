@@ -25,6 +25,9 @@ class User extends ActiveRecord {
     public $admin;
     public $salario;
 
+    public $old_password;
+    public $new_password_1;
+    public $new_password;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -81,7 +84,22 @@ public function validateDni() {
         }
         return self::$alerts;
     }
-
+    public function validateChangePass()
+    {
+        if(!$this->old_password) {
+            self::$alerts['error'][] = 'Digite su contraseña ACTUAL.';
+        }
+        if(!$this->new_password_1) {
+            self::$alerts['error'][] = 'Repita su contraseña NUEVA.';
+        }
+        if(!$this->new_password) {
+            self::$alerts['error'][] = 'Digite su contraseña NUEVA.';
+        }
+        if($this->new_password != $this->old_password) {
+            self::$alerts['error'][] = 'Contraseña NUEVA y Confirmacion deben ser IGUALES.';
+        }
+        return self::$alerts;
+    }
     //revisa si usuario existe
     public function userReadyExists() {
         $query = "SELECT * FROM " . self::$table . " WHERE dni = '" . $this->dni. "' LIMIT 1";
@@ -99,8 +117,8 @@ public function validateDni() {
         $result = password_verify($this->pass,$pass);
         //debuguear($result);
         if(!$result) {
-            return $result;
             self::$alerts['error'][] = 'Password Incorrecto o tu cuenta no ha sido confirmada';
+            return $result;
         } else {
             return true;
         }

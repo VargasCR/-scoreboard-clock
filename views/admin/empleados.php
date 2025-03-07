@@ -5,6 +5,7 @@
     <div style="display: flex;margin: 0 0 1rem 1rem;justify-center:center;align-items:center;  ">
         <a class="button" style="padding: 0.5rem 1.3rem !important;" href="/21232f297a57a5a743894a0e4a801fc3"><</a>
         <a class="button" style="margin-left:1rem;padding: 0.5rem 1.3rem !important;" href="/1ebd87f94f5b252983dc86d628d17e7a">+</a>
+        <a class="button" style="margin-left:1rem;padding: 0.5rem !important;" href="/Y2hhbmdlUGFzc3dvcmQ">Cambiar Contraseña</a>
         <a class="button" style="margin-left:1rem;padding: 0.5rem !important;" href="/4236a440a662cc8253d7536e5aa17942">Cerrar Sesion</a>
 
     </div>

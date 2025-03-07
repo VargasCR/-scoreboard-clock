@@ -7,7 +7,6 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Model\Registro;
 
 class LoginController {
-
     public static function login(Router $router) {
         $pageIndex = 7;
         $isClient = false;
@@ -121,7 +120,7 @@ class LoginController {
             'pageIndex' => $pageIndex,
         ]);
     }
-
+    
     public static function message(Router $router) {
         isAdmin();
         $pageIndex = 7;
@@ -132,6 +131,51 @@ class LoginController {
         ]);
     }
 
-    
+    public static function changePassword(Router $router) {
+        isAdmin();
+        $pageIndex = 7;
+        $isClient = false;
+        $user = null; // Initialize $users
+        $alerts = null; // Initialize $alerts
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user = new User($_POST);
+            $user->sync($_POST);
+            $alerts = $user->validateChangePass();
+            $alerts = $user->checkValidateUser($_POST['old_password']);
+            //debuguear($alerts);
+            if(empty($alerts)) {
+                $user = User::where('id', $_SESSION['id']);
+                $user->pass = $_POST['new_password'];
+                //$solved = $user;
+                $user->hashPassword();
+                $user->save();
+                if (!is_array($alerts)) {
+                    $alerts = [];
+                }
+                
+                if (!isset($alerts['success']) || !is_array($alerts['success'])) {
+                    $alerts['success'] = [];
+                }
+                
+                $alerts['success'][] = 'CONTRASEÑA CAMBIADA CORRECTAMENTE.';
+                
+                //debuguear($alerts);
+                $router->render('admin/cambiarPass', [
+                    'users' => $user,
+                    'alerts' => $alerts,
+                    'isClient' => $isClient,
+                    'pageIndex' => $pageIndex,
+                ]);
+                //header('Location: /Y2hhbmdlUGFzc3dvcmQ');
+                
+            }
+        }
+        $router->render('admin/cambiarPass', [
+            'users' => $user,
+            'alerts' => $alerts,
+            'isClient' => $isClient,
+            'pageIndex' => $pageIndex,
+        ]);
+    }
     
 }
