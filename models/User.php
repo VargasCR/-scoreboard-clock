@@ -95,7 +95,8 @@ public function validateDni() {
         if(!$this->new_password) {
             self::$alerts['error'][] = 'Digite su contraseña NUEVA.';
         }
-        if($this->new_password != $this->old_password) {
+        //debuguear($this->old_password);
+        if($this->new_password != $this->new_password_1) {
             self::$alerts['error'][] = 'Contraseña NUEVA y Confirmacion deben ser IGUALES.';
         }
         return self::$alerts;
@@ -116,13 +117,29 @@ public function validateDni() {
     public function checkValidateUser($pass) {
         $result = password_verify($this->pass,$pass);
         //debuguear($result);
+
         if(!$result) {
             self::$alerts['error'][] = 'Password Incorrecto o tu cuenta no ha sido confirmada';
+            
             return $result;
         } else {
             return true;
         }
     }
+    public function checkValidateUserNewPass($pass) {
+        //debuguear($this->$pass);
+        $result = password_verify($pass,$this->pass);
+        //debuguear($result);
+        if(!$result) {
+            self::$alerts['error'][] = 'Password Incorrecto o tu cuenta no ha sido confirmada';
+            
+            return self::$alerts;
+        } else {
+            return self::$alerts;
+            //return true;
+        }
+    }
+    
     public function validateNewPass() {
         
         if(!$this->pass) {

@@ -141,10 +141,12 @@ class LoginController {
             $user = new User($_POST);
             $user->sync($_POST);
             $alerts = $user->validateChangePass();
-            $alerts = $user->checkValidateUser($_POST['old_password']);
+            $user = User::where('id', $_SESSION['id']);
+            //debuguear($user);
+            $alerts = $user->checkValidateUserNewPass($_POST['old_password']);
             //debuguear($alerts);
+            
             if(empty($alerts)) {
-                $user = User::where('id', $_SESSION['id']);
                 $user->pass = $_POST['new_password'];
                 //$solved = $user;
                 $user->hashPassword();
