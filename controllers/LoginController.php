@@ -27,59 +27,44 @@ class LoginController {
                         session_start();
                         $user->updateSession();
                         $_SESSION['admin'] = $user->admin ?? null;
-                            //debuguear($user->admin);
-                            
-                            header('Location: /21232f297a57a5a743894a0e4a801fc3');
-                            //header('Location: /1ebd87f94f5b252983dc86d628d17e7a');
-                        } else {
-                            date_default_timezone_set('America/Costa_Rica');
-                            $registro = new Registro();
-                            $registro->idempleado = $user->id;
-                            //debuguear($_SESSION);
-                            $HoraActual = date("H:i:s");
-                            $fechaActual = date("Y-m-d");
-                            $fechasEncontradas = $registro->findDate($user->id,$fechaActual);
-                            $fechaEncontrada = $registro->findTodayDate($user->id,$fechaActual);
-                            //debuguear($fechaEncontrada);
-                            if($fechasEncontradas === null && $fechaEncontrada === null) {
-                                //  debuguear($fechasEncontradas);
-                                $registro->fechaEntrada = $fechaActual;
-                                $registro->fechaSalida = '2000-01-01';
-                                $registro->horaEntrada = $HoraActual;
-                                $registro->horaSalida = '00:00:00';
-                                $registro->horasExtra = 0;
-                                //$registro->horaSalida = null;
-                                $registro->save();
-                                //debuguear($user);
-                                header('Location: /login?2d5278b057566a696ccff8d31ae5895b=3547d44613ce711ad7e2bc1808012b23&07cc694b9b3fc636710fa08b6922c42b='.$HoraActual);
-                                //User::setAlert('success', 'Hora de Entrada REGISTRADA '.$registro->horaEntrada);
-                            } else {
-                                $registro->id = $fechasEncontradas->id;
-                                $registro->horaEntrada = $fechasEncontradas->horaEntrada;
-                                $registro->fechaEntrada = $fechasEncontradas->fechaEntrada;
-                                $registro->horaSalida = $HoraActual;
-                                $registro->fechaSalida = $fechaActual;
-                                if($fechasEncontradas->horaSalida == '00:00:00') {
-                                    //debuguear($registro);
-                                    $registro->save();
-                                    //User::setAlert('success', 'Usuario encontrado');
-                                    header('Location: /login?2d5278b057566a696ccff8d31ae5895b=cd5cedd385ce4e84e8405997c37a8e3d&07cc694b9b3fc636710fa08b6922c42b='.$HoraActual);
-                                    //User::setAlert('success', 'Hora de Salida REGISTRADA '.$registro->horaSalida);
-                                    //debuguear($fechasEncontradas->horaSalida);
-                                } else {
-                                    header('Location: /login?2d5278b057566a696ccff8d31ae5895b=4a0fa8dde5c48a5e6718f1068b0bfdf8');
-                                    //User::setAlert('error', 'Horario ya registrado, contacte al administrador');
-                                }
-                            }
-                            //debuguear($fechas);
-                            
-                            //$registro->fecha = $fechaYHoraActual;
-                            
-                            
-                            //User::setAlert('success', 'Usuario encontrado');
-                        }
-                        
+                        //debuguear($user);
+                        header('Location: /21232f297a57a5a743894a0e4a801fc3');
+                    } else if($user->admin === "2") {
+                        session_start();
+                        $user->updateSession();
+                        $_SESSION['admin'] = $user->admin ?? null;
+                        header('Location: /21232f297a57a5a743894a0e4a801fc7');
                     } else {
+                        date_default_timezone_set('America/Costa_Rica');
+                        $registro = new Registro();
+                        $registro->idempleado = $user->id;
+                        $HoraActual = date("H:i:s");
+                        $fechaActual = date("Y-m-d");
+                        $fechasEncontradas = $registro->findDate($user->id,$fechaActual);
+                        $fechaEncontrada = $registro->findTodayDate($user->id,$fechaActual);
+                        if($fechasEncontradas === null && $fechaEncontrada === null) {
+                            $registro->fechaEntrada = $fechaActual;
+                            $registro->fechaSalida = '2000-01-01';
+                            $registro->horaEntrada = $HoraActual;
+                            $registro->horaSalida = '00:00:00';
+                            $registro->horasExtra = 0;
+                            $registro->save();
+                            header('Location: /login?2d5278b057566a696ccff8d31ae5895b=3547d44613ce711ad7e2bc1808012b23&07cc694b9b3fc636710fa08b6922c42b='.$HoraActual);
+                        } else {
+                            $registro->id = $fechasEncontradas->id;
+                            $registro->horaEntrada = $fechasEncontradas->horaEntrada;
+                            $registro->fechaEntrada = $fechasEncontradas->fechaEntrada;
+                            $registro->horaSalida = $HoraActual;
+                            $registro->fechaSalida = $fechaActual;
+                            if($fechasEncontradas->horaSalida == '00:00:00') {
+                                $registro->save();
+                                header('Location: /login?2d5278b057566a696ccff8d31ae5895b=cd5cedd385ce4e84e8405997c37a8e3d&07cc694b9b3fc636710fa08b6922c42b='.$HoraActual);
+                            } else {
+                                header('Location: /login?2d5278b057566a696ccff8d31ae5895b=4a0fa8dde5c48a5e6718f1068b0bfdf8');
+                            }
+                        }
+                    }
+                } else {
                     header('Location: /login?2d5278b057566a696ccff8d31ae5895b=4a0fa8dde5c48a5e6718f1068b0bfdf7');
                     User::setAlert('error', 'Usuario no encontrado');
                 }
